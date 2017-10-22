@@ -44,7 +44,7 @@
   }
 
 	a:link { color: black; }
-	a:hover { color: white; }
+	a:hover { color: black; }
 	a:active { color: black; }
 	a:visited { color: black; }
 
