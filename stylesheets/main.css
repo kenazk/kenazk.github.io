@@ -1,0 +1,59 @@
+@font-face {
+  font-family: 'OpenSans-light';
+	src: url('../fonts/OpenSans-light.ttf');
+  src: local("â˜º"),
+		url('../fonts/regular.ttf') format('ttf'),
+		url('../fonts/regular.svg') format('svg'),
+		url('../fonts/regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+	font-stretch: normal;
+}
+
+@media screen {
+
+	html {
+    background: black;
+  }
+
+  body {
+		font-family: 'OpenSans-light';
+    background: white;
+    overflow: auto;
+    line-height: 1.6em;
+		font-size: 5vw;
+		color: black;
+    height: 100%;
+    margin-left: 1cm;
+	}
+
+  main {
+    padding: 6%;
+  }
+
+  main .introduction{
+    margin-bottom: 3em;
+  }
+
+  main .contact {
+    margin-bottom: 3em;
+  }
+
+	a {
+    text-decoration: none;
+    border-bottom: 0.06em solid black;
+  }
+
+	a:link { color: black; }
+	a:hover { color: white; }
+	a:active { color: black; }
+	a:visited { color: black; }
+
+  ul { list-style-type: none ;}
+
+	ul a:link { opacity: 1; }
+	ul a:hover { opacity: 1; }
+	ul a:active { opacity: 1; }
+	ul a:visited { opacity: 1; }
+
+}
