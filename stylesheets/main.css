@@ -1,11 +1,3 @@
-@font-face {
-  font-family: 'OpenSans-light';
-	src: url('../fonts/OpenSans-light.ttf');
-  font-weight: 400;
-	font-style: normal;
-	font-stretch: normal;
-}
-
 @media screen {
 
 	html {
@@ -13,11 +5,11 @@
   }
 
   body {
-		font-family: "OpenSans-light";
+		font-family: "Courier new";
     background: white;
     overflow: auto;
     line-height: 1.6em;
-		font-size: 5vw;
+		font-size: 3vw;
 		color: black;
     height: 100%;
 	}
