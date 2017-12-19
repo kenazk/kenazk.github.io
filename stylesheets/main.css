@@ -1,46 +1,55 @@
-@media screen {
+html {
+  background: white;
+}
 
-	html {
-    background: white;
-  }
+body {
+  font-family: "Courier new";
+  background: white;
+  overflow: auto;
+  line-height: 1.6em;
+  font-size: 5vw;
+  color: black;
+  height: 100%;
+}
 
+main {
+  padding: 6%;
+}
+
+main .introduction{
+  margin-bottom: 3em;
+}
+
+main .contact {
+  margin-bottom: 3em;
+}
+
+a {
+  text-decoration: none;
+  border-bottom: 0.06em solid black;
+}
+
+a:link { color: black; }
+a:hover { color: black; }
+a:active { color: black; }
+a:visited { color: black; }
+
+ul { list-style-type: none ;}
+
+ul a:link { opacity: 1; }
+ul a:hover { opacity: 1; }
+ul a:active { opacity: 1; }
+ul a:visited { opacity: 1; }
+
+
+@media screen and (min-width: 601px){
   body {
-		font-family: "Courier new";
+    font-family: "Courier new";
     background: white;
     overflow: auto;
     line-height: 1.6em;
-		font-size: 3vw;
-		color: black;
+    font-size: 3vw;
+    color: black;
     height: 100%;
-	}
-
-  main {
-    padding: 6%;
   }
-
-  main .introduction{
-    margin-bottom: 3em;
-  }
-
-  main .contact {
-    margin-bottom: 3em;
-  }
-
-	a {
-    text-decoration: none;
-    border-bottom: 0.06em solid black;
-  }
-
-	a:link { color: black; }
-	a:hover { color: black; }
-	a:active { color: black; }
-	a:visited { color: black; }
-
-  ul { list-style-type: none ;}
-
-	ul a:link { opacity: 1; }
-	ul a:hover { opacity: 1; }
-	ul a:active { opacity: 1; }
-	ul a:visited { opacity: 1; }
-
 }
