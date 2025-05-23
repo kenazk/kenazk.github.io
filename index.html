@@ -1,45 +1,54 @@
-
 <!doctype html>
-<html>
+<html lang="en">
   <head>
-
     <title>Kenaz Kwa</title>
-
+    
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="Kenaz is a product manager based in Portland." />
+    <meta name="description" content="Kenaz Kwa is a Product Manager and UX professional with expertise in AI/ML, fintech, and developer tools." />
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="author" content="Kenaz Kwa" />
 
     <meta property="og:title" content="Kenaz Kwa" />
     <meta property="og:site_name" content="Kenaz Kwa" />
-    <meta property="og:description" content="Kenaz is a product manager based in Portland." />
+    <meta property="og:description" content="Product Manager and UX professional with expertise in AI/ML, fintech, and developer tools." />
     <meta property="og:url" content="http://kenazkwa.com" />
 
     <link rel="shortcut icon" href="images/favicon.ico" />
     <link rel="stylesheet" href="stylesheets/reset.css" />
     <link rel="stylesheet" href="stylesheets/main.css" />
-    <link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>	  
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   </head>
 
-	<body>
+  <body>
+    <header>
+      <h1 class="name">KENAZ KWA</h1>
+    </header>
 
-		<main>
+    <div class="profile-container">
+      <div class="profile-image">
+        <img src="images/headshot.svg" alt="Kenaz Kwa" class="headshot">
+      </div>
 
-			<div class="introduction">
-        <p>
-          Kenaz Kwa<br />
-          Head of Product & UX @ <a href="http://fossa.com">FOSSA</a><br />
-          Based in Portland, Oregon
-				</p>
-			</div>
-			<div class="contact">
-				<ul>
-					<li><a href="https://www.linkedin.com/pub/kenaz-kwa/15/1b9/a94">Contact Me</a></li>
-				</ul>
-			</div>
-		</main>
-	</body>
+      <main>
+        <p class="bio">
+          <span class="intro-line">Hi 👋! I'm Kenaz <audio id="name-audio" style="display: none;">
+            <source src="audio/kenaz-audio.m4a" type="audio/mp4">
+            Your browser does not support the audio element.
+          </audio><span class="audio-trigger" onclick="playNameAudio()" data-tooltip="Pronounced 'KAY-nuss'">🔉</span> <a href="https://www.linkedin.com/in/kenaz-kwa-a941b915/" class="linkedin-link">VP of Product & UX</a> at <a href="https://fossa.com" class="fossa-link"><img src="images/logo.svg" alt="FOSSA" class="fossa-logo"></a>.</span><span class="experience-text">Product leader with 15 years in developer tools, cloud infrastructure, and leading great product teams at Microsoft, Puppet, and now FOSSA. Building small-batch, artisanal software in Portland, Oregon.</span>
+        </p>
+      </main>
+    </div>
+
+    <script>
+      function playNameAudio() {
+        const audio = document.getElementById('name-audio');
+        audio.currentTime = 0; // Reset to beginning
+        audio.play();
+      }
+    </script>
+  </body>
 </html>
