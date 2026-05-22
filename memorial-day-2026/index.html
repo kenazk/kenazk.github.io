@@ -34,6 +34,7 @@
       font-size: 16px;
     }
 
+    /* HERO */
     .hero {
       background: linear-gradient(135deg, #3b2a24 0%, #5c3d30 50%, #7a5244 100%);
       color: #fff;
@@ -48,58 +49,212 @@
       inset: 0;
       background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
-    .hero-eyebrow { font-family: 'Lora', serif; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 16px; }
-    .hero h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(38px, 8vw, 64px); font-weight: 400; line-height: 1.1; margin-bottom: 12px; letter-spacing: -0.01em; }
+    .hero-eyebrow {
+      font-family: 'Lora', serif;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(38px, 8vw, 64px);
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
     .hero h1 em { font-style: italic; color: #e8c9be; }
-    .hero-sub { font-size: 17px; color: rgba(255,255,255,0.75); font-style: italic; margin-bottom: 28px; }
+    .hero-sub {
+      font-size: 17px;
+      color: rgba(255,255,255,0.75);
+      font-style: italic;
+      margin-bottom: 28px;
+    }
     .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-    .hero-tag { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 5px 14px; font-size: 13px; color: rgba(255,255,255,0.85); }
+    .hero-tag {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+    }
 
-    nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 24px; position: sticky; top: 0; z-index: 100; display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    nav a { padding: 14px 18px; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: var(--muted); border-bottom: 2px solid transparent; white-space: nowrap; transition: color 0.2s, border-color 0.2s; }
+    /* NAV */
+    nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    nav a {
+      padding: 14px 18px;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+    }
     nav a:hover { color: var(--rose); border-color: var(--rose); }
 
+    /* MAIN */
     main { max-width: 800px; margin: 0 auto; padding: 48px 24px 80px; }
 
-    .section-label { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rose); margin-bottom: 8px; font-family: 'Lora', serif; }
-    .section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(28px, 5vw, 40px); font-weight: 400; line-height: 1.15; margin-bottom: 6px; }
+    /* SECTION HEADERS */
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 8px;
+      font-family: 'Lora', serif;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
     .section-subtitle { color: var(--muted); font-style: italic; font-size: 15px; margin-bottom: 36px; }
     .divider { border: none; border-top: 1px solid var(--border); margin: 52px 0; }
 
-    .warn-banner { background: var(--warn-bg); border: 1px solid #e8c0b2; border-radius: 10px; padding: 16px 20px; margin-bottom: 28px; font-size: 14px; }
+    /* WARNING BANNER */
+    .warn-banner {
+      background: var(--warn-bg);
+      border: 1px solid #e8c0b2;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      font-size: 14px;
+    }
     .warn-banner strong { color: var(--warn); }
     .warn-banner ul { margin: 6px 0 0 18px; }
     .warn-banner li { margin-bottom: 2px; color: var(--muted); }
 
+    /* DAY CARDS */
     .day-section { margin-bottom: 48px; }
-    .day-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 2px solid var(--rose-mid); }
-    .day-date { font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 400; color: var(--rose); line-height: 1; min-width: 52px; }
+    .day-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--rose-mid);
+    }
+    .day-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 44px;
+      font-weight: 400;
+      color: var(--rose);
+      line-height: 1;
+      min-width: 52px;
+    }
     .day-info h2 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; }
     .day-info p { font-size: 14px; color: var(--muted); font-style: italic; }
 
+    /* TIMELINE */
     .timeline { position: relative; padding-left: 28px; }
-    .timeline::before { content: ''; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 1px; background: var(--rose-mid); }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px; top: 6px; bottom: 6px;
+      width: 1px;
+      background: var(--rose-mid);
+    }
     .event { position: relative; margin-bottom: 24px; }
-    .event::before { content: ''; position: absolute; left: -24px; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--rose); border: 2px solid var(--white); box-shadow: 0 0 0 1px var(--rose); }
-    .event-time { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
-    .event-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; margin-bottom: 2px; }
+    .event::before {
+      content: '';
+      position: absolute;
+      left: -24px; top: 8px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--rose);
+      border: 2px solid var(--white);
+      box-shadow: 0 0 0 1px var(--rose);
+    }
+    .event-time {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+    .event-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
     .event-title a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rose-mid); }
     .event-title a:hover { color: var(--rose); border-color: var(--rose); }
     .event-note { font-size: 14px; color: var(--muted); font-style: italic; }
     .event-note a { color: var(--rose); }
-    .event-tag { display: inline-block; background: var(--rose-light); color: var(--rose); border-radius: 20px; padding: 2px 10px; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px; margin-right: 4px; }
+    .event-tag {
+      display: inline-block;
+      background: var(--rose-light);
+      color: var(--rose);
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 4px;
+      margin-right: 4px;
+    }
     .event-tag.gold { background: var(--gold-light); color: var(--gold); }
     .event-tag.sage { background: var(--sage-light); color: var(--sage); }
-    .event-warn { display: inline-block; background: var(--warn-bg); color: var(--warn); border-radius: 20px; padding: 2px 10px; font-size: 11px; margin-top: 4px; font-style: normal; }
+    .event-warn {
+      display: inline-block;
+      background: var(--warn-bg);
+      color: var(--warn);
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 11px;
+      margin-top: 4px;
+      font-style: normal;
+    }
 
-    .option-card { border-radius: 8px; padding: 12px 14px; margin-bottom: 0; }
+    /* INLINE OPTION CARDS */
+    .option-card {
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 0;
+    }
     .option-card strong a { color: var(--ink); text-decoration: none; }
     .option-card strong a:hover { color: var(--rose); }
 
-    .eats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-top: 4px; }
-    .eat-card { border: 1px solid var(--border); border-radius: 12px; padding: 20px; background: var(--white); transition: box-shadow 0.2s, border-color 0.2s; }
+    /* EATS GRID */
+    .eats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+      margin-top: 4px;
+    }
+    .eat-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      background: var(--white);
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
     .eat-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); border-color: var(--rose-mid); }
-    .eat-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .eat-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
     .eat-name { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600; line-height: 1.2; }
     .eat-name a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rose-mid); }
     .eat-name a:hover { color: var(--rose); }
@@ -109,23 +264,90 @@
     .eat-meta { font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 2px; margin-bottom: 10px; }
     .eat-hours-warn { color: var(--warn); font-weight: 500; }
 
-    .eat-menu { border-top: 1px solid var(--border); padding-top: 10px; margin-top: 4px; }
-    .eat-menu summary { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--rose); cursor: pointer; list-style: none; display: flex; align-items: center; gap: 6px; user-select: none; }
+    /* MENU EXPAND */
+    .eat-menu {
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+      margin-top: 4px;
+    }
+    .eat-menu summary {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--rose);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      user-select: none;
+    }
     .eat-menu summary::-webkit-details-marker { display: none; }
-    .eat-menu summary::before { content: '\25B8'; font-size: 10px; transition: transform 0.2s; display: inline-block; }
+    .eat-menu summary::before {
+      content: '▸';
+      font-size: 10px;
+      transition: transform 0.2s;
+      display: inline-block;
+    }
     .eat-menu[open] summary::before { transform: rotate(90deg); }
     .eat-menu summary:hover { color: var(--ink); }
-    .menu-items { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
-    .menu-item { display: flex; align-items: baseline; gap: 8px; font-size: 13px; }
-    .menu-item-name { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+    .menu-items {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .menu-item {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 13px;
+    }
+    .menu-item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      white-space: nowrap;
+    }
     .menu-item-desc { color: var(--muted); font-style: italic; }
-    .menu-item-badge { font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; background: var(--rose-light); color: var(--rose); border-radius: 10px; padding: 1px 7px; white-space: nowrap; }
+    .menu-item-badge {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--rose-light);
+      color: var(--rose);
+      border-radius: 10px;
+      padding: 1px 7px;
+      white-space: nowrap;
+    }
 
-    .hosts-note { background: linear-gradient(135deg, var(--rose-light), var(--gold-light)); border-radius: 14px; padding: 28px 32px; margin-bottom: 40px; border: 1px solid var(--rose-mid); }
-    .hosts-note h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; font-style: italic; margin-bottom: 10px; }
+    /* HOSTS NOTE */
+    .hosts-note {
+      background: linear-gradient(135deg, var(--rose-light), var(--gold-light));
+      border-radius: 14px;
+      padding: 28px 32px;
+      margin-bottom: 40px;
+      border: 1px solid var(--rose-mid);
+    }
+    .hosts-note h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 400;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
     .hosts-note p { font-size: 15px; line-height: 1.7; }
 
-    footer { text-align: center; padding: 32px 24px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); font-style: italic; }
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      font-style: italic;
+    }
 
     @media (max-width: 600px) {
       main { padding: 32px 16px 60px; }
@@ -138,6 +360,7 @@
 </head>
 <body>
 
+<!-- HERO -->
 <div class="hero">
   <div class="hero-eyebrow">May 23–25, 2026</div>
   <h1>Memorial Day<br><em>Weekend in Portland</em></h1>
@@ -151,6 +374,7 @@
   </div>
 </div>
 
+<!-- NAV -->
 <nav>
   <a href="#saturday">Saturday</a>
   <a href="#sunday">Sunday</a>
@@ -160,346 +384,650 @@
 
 <main>
 
+  <!-- HOST NOTE -->
   <div class="hosts-note">
     <h3>So glad you're here.</h3>
     <p>We've put together a loose plan — some things are on the schedule, some are just ideas. The best part of the weekend will probably be the stuff we make up on the fly. Don't stress the itinerary, just enjoy the ride. ❤️</p>
   </div>
 
+  <!-- HOURS WARNING -->
   <div class="warn-banner">
     <strong>Hours heads-up:</strong> A few favorites are only open on Saturday or have limited weekend hours.
     <ul>
-      <li><strong>Honey Butter Country Fare</strong> — Saturday 12–6pm only; CLOSED Sunday &amp; Monday</li>
-      <li><strong>Clive Coffee</strong> — Saturday only; CLOSED Sunday &amp; Monday</li>
+      <li><strong>Honey Butter Country Fare</strong> — Saturday 12–6pm only; CLOSED Sunday & Monday</li>
+      <li><strong>Clive Coffee</strong> — Saturday only; CLOSED Sunday & Monday</li>
       <li><strong>Berlu Bakery</strong> — Sat–Sun only; CLOSED Monday</li>
       <li><strong>Pinolo Gelato</strong> — CLOSED Monday; get it Saturday or Sunday</li>
     </ul>
   </div>
 
+  <!-- SATURDAY -->
   <div class="day-section" id="saturday">
     <div class="day-header">
       <div class="day-date">23</div>
-      <div class="day-info"><h2>Saturday</h2><p>North Portland crawl → SE Division dinner</p></div>
+      <div class="day-info">
+        <h2>Saturday</h2>
+        <p>North Portland crawl → SE Division dinner</p>
+      </div>
     </div>
+
     <div class="timeline">
+
       <div class="event">
         <div class="event-time">12:00 pm</div>
-        <div class="event-title"><a href="https://www.google.com/maps/search/?api=1&query=Honey+Butter+Country+Fare+Portland+OR" target="_blank">Honey Butter Country Fare</a></div>
-        <div class="event-note">6550 N Interstate Ave · ⭐ 4.8 · Farm-fresh brunch staple. Expect a wait — worth every minute.</div>
+        <div class="event-title">
+          <a href="https://www.google.com/maps/search/?api=1&query=Honey+Butter+Country+Fare+Portland+OR" target="_blank">Honey Butter Country Fare</a>
+        </div>
+        <div class="event-note">
+          6550 N Interstate Ave · ⭐ 4.8 · Farm-fresh brunch staple. Expect a wait — worth every minute.
+        </div>
         <span class="event-warn">⚠ Saturday only, 12–6pm</span>
       </div>
+
       <div class="event">
         <div class="event-time">1:00 pm</div>
-        <div class="event-title">Coffee &amp; Snack Tour — North Interstate</div>
+        <div class="event-title">Coffee & Snack Tour — North Interstate</div>
         <div class="event-note">Two excellent options a short walk apart on N Interstate Ave:</div>
         <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
           <div class="option-card" style="background: var(--rose-light);">
-            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;"><a href="https://www.google.com/maps/search/?api=1&query=La+Perlita+5610+N+Interstate+Ave+Portland+OR" target="_blank">La Perlita</a></strong>
+            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;">
+              <a href="https://www.google.com/maps/search/?api=1&query=La+Perlita+5610+N+Interstate+Ave+Portland+OR" target="_blank">La Perlita</a>
+            </strong>
             <span style="color: var(--gold); margin-left: 8px;">⭐ 4.7</span><br>
-            <span style="font-size: 13px; color: var(--muted);">5610 N Interstate Ave · Mexican breakfast &amp; coffee · Daily 8am–4pm</span>
+            <span style="font-size: 13px; color: var(--muted);">5610 N Interstate Ave · Mexican breakfast & coffee · Daily 8am–4pm</span>
           </div>
           <div class="option-card" style="background: var(--sage-light);">
-            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;"><a href="https://www.google.com/maps/search/?api=1&query=Project+Matcha+555+NE+Couch+St+Portland+OR" target="_blank">Project Matcha</a></strong>
+            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;">
+              <a href="https://www.google.com/maps/search/?api=1&query=Project+Matcha+555+NE+Couch+St+Portland+OR" target="_blank">Project Matcha</a>
+            </strong>
             <span style="color: var(--gold); margin-left: 8px;">⭐ 4.4</span><br>
-            <span style="font-size: 13px; color: var(--muted);">555 NE Couch St · Specialty matcha drinks &amp; pastries</span>
+            <span style="font-size: 13px; color: var(--muted);">555 NE Couch St · Specialty matcha drinks & pastries</span>
           </div>
         </div>
       </div>
+
       <div class="event">
         <div class="event-time">1:30 pm</div>
-        <div class="event-title"><a href="https://www.google.com/maps/search/?api=1&query=Clive+Coffee+801+SE+Hawthorne+Blvd+Portland+OR" target="_blank">Clive Coffee</a></div>
-        <div class="event-note">801 SE Hawthorne Blvd · ⭐ 4.8 · One of Portland's top specialty coffee shops. Stunning espresso equipment on display.</div>
+        <div class="event-title">
+          <a href="https://www.google.com/maps/search/?api=1&query=Clive+Coffee+801+SE+Hawthorne+Blvd+Portland+OR" target="_blank">Clive Coffee</a>
+        </div>
+        <div class="event-note">
+          801 SE Hawthorne Blvd · ⭐ 4.8 · One of Portland's top specialty coffee shops. Stunning espresso equipment on display — worth a visit even if you're not a coffee person.
+        </div>
         <span class="event-warn">⚠ Saturday only</span>
       </div>
+
       <div class="event">
         <div class="event-time">2:00 pm</div>
-        <div class="event-title"><a href="https://www.google.com/maps/search/?api=1&query=Berlu+Bakery+661+SE+Belmont+St+Portland+OR" target="_blank">Berlu Bakery</a></div>
-        <div class="event-note">661 SE Belmont St · ⭐ 4.7 · Vietnamese-inspired pastries and naturally leavened breads. Tiny, excellent, and gone by afternoon.</div>
+        <div class="event-title">
+          <a href="https://www.google.com/maps/search/?api=1&query=Berlu+Bakery+661+SE+Belmont+St+Portland+OR" target="_blank">Berlu Bakery</a>
+        </div>
+        <div class="event-note">
+          661 SE Belmont St · ⭐ 4.7 · Vietnamese-inspired pastries and naturally leavened breads. Tiny, excellent, and gone by afternoon — go early.
+        </div>
         <span class="event-warn">⚠ Sat–Sun 10am–3pm only, CLOSED Monday</span>
       </div>
+
       <div class="event">
         <div class="event-time">2:30 pm</div>
         <div class="event-title">Afternoon Chill</div>
-        <div class="event-note">Walk Hawthorne or Belmont, browse Powell's annex, hang at home.</div>
+        <div class="event-note">Walk Hawthorne or Belmont, browse Powell's annex, hang at home. Low-key is the vibe.</div>
         <span class="event-tag sage">Flexible</span>
       </div>
+
       <div class="event">
         <div class="event-time">3:30 pm</div>
         <div class="event-title">Costco / REI Run</div>
-        <div class="event-note">Supplies, returns, or just vibes.</div>
+        <div class="event-note">Supplies, returns, or just vibes. The perfect errand to do with a crowd.</div>
         <span class="event-tag">Errand</span>
       </div>
+
       <div class="event">
         <div class="event-time">5:00 pm · Dinner</div>
         <div class="event-title">SE Division Street Dinner</div>
         <div class="event-note">Two great options — or do both as a progressive dinner:</div>
         <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
           <div class="option-card" style="background: var(--rose-light);">
-            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;"><a href="https://www.google.com/maps/search/?api=1&query=Portland+Fish+Market+4404+SE+Woodstock+Blvd+Portland+OR" target="_blank">Portland Fish Market</a></strong>
+            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;">
+              <a href="https://www.google.com/maps/search/?api=1&query=Portland+Fish+Market+4404+SE+Woodstock+Blvd+Portland+OR" target="_blank">Portland Fish Market</a>
+            </strong>
             <span style="color: var(--gold); margin-left: 8px;">⭐ 4.6</span><br>
-            <span style="font-size: 13px; color: var(--muted);">4404 SE Woodstock Blvd · Fresh seafood, fish &amp; chips, chowder</span>
+            <span style="font-size: 13px; color: var(--muted);">4404 SE Woodstock Blvd · Fresh seafood, fish & chips, chowder</span>
           </div>
           <div class="option-card" style="background: var(--gold-light);">
-            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;"><a href="https://www.google.com/maps/search/?api=1&query=Matt%27s+BBQ+Tacos+2216+SE+50th+Ave+Portland+OR" target="_blank">Matt's BBQ Tacos</a></strong>
+            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;">
+              <a href="https://www.google.com/maps/search/?api=1&query=Matt%27s+BBQ+Tacos+2216+SE+50th+Ave+Portland+OR" target="_blank">Matt's BBQ Tacos</a>
+            </strong>
             <span style="color: var(--gold); margin-left: 8px;">⭐ 4.7</span><br>
-            <span style="font-size: 13px; color: var(--muted);">2216 SE 50th Ave · Texas BBQ meets Portland taco culture. Brisket tacos.</span>
+            <span style="font-size: 13px; color: var(--muted);">2216 SE 50th Ave · Texas BBQ meets Portland taco culture. Brisket tacos. Need I say more.</span>
           </div>
         </div>
       </div>
+
       <div class="event">
         <div class="event-time">10:10 pm</div>
         <div class="event-title">Girls' Movie Night</div>
-        <div class="event-note">The ladies head out. Boys hold down the fort.</div>
+        <div class="event-note">The ladies head out. Boys hold down the fort (or also leave — TBD).</div>
         <span class="event-tag">Girls only</span>
       </div>
+
     </div>
   </div>
 
   <hr class="divider" />
 
+  <!-- SUNDAY -->
   <div class="day-section" id="sunday">
     <div class="day-header">
       <div class="day-date">24</div>
-      <div class="day-info"><h2>Sunday</h2><p>Church → Westside adventure → Stars on Ice</p></div>
+      <div class="day-info">
+        <h2>Sunday</h2>
+        <p>Church → Westside adventure → Stars on Ice</p>
+      </div>
     </div>
+
     <div class="timeline">
+
       <div class="event">
         <div class="event-time">9:30 am</div>
-        <div class="event-title"><a href="https://www.google.com/maps/search/?api=1&query=Missio+Community+Church+3405+SW+Alice+St+Portland+OR" target="_blank">Missio Community Church</a></div>
-        <div class="event-note">3405 SW Alice St · ⭐ 5.0 · Sunday service. Casual, welcoming, and grounded.</div>
+        <div class="event-title">
+          <a href="https://www.google.com/maps/search/?api=1&query=Missio+Community+Church+3405+SW+Alice+St+Portland+OR" target="_blank">Missio Community Church</a>
+        </div>
+        <div class="event-note">
+          3405 SW Alice St · ⭐ 5.0 · Sunday service. Casual, welcoming, and grounded. Plan to arrive a few minutes early.
+        </div>
         <span class="event-tag sage">Church</span>
       </div>
+
       <div class="event">
         <div class="event-time">11:30 am</div>
         <div class="event-title">Apple Store — Washington Square</div>
-        <div class="event-note"><a href="https://www.google.com/maps/search/?api=1&query=Apple+Store+Washington+Square+Tigard+OR" target="_blank" style="color: var(--rose);">Washington Square Mall, Tigard</a> · Quick stop.</div>
+        <div class="event-note">
+          <a href="https://www.google.com/maps/search/?api=1&query=Apple+Store+Washington+Square+Tigard+OR" target="_blank" style="color: var(--rose);">Washington Square Mall, Tigard</a> · Quick stop. Genius Bar or just a browse.
+        </div>
         <span class="event-tag">Optional</span>
       </div>
+
       <div class="event">
         <div class="event-time">12:00 pm · Lunch</div>
         <div class="event-title">Westside Lunch</div>
-        <div class="event-note">A few ideas near Washington Square:</div>
+        <div class="event-note">Flexible — hit something near Washington Square or Beaverton. A few ideas:</div>
         <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
           <div class="option-card" style="background: var(--rose-light);">
-            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;"><a href="https://www.google.com/maps/search/?api=1&query=Nong%27s+Khao+Man+Gai+609+SE+Ankeny+St+Portland+OR" target="_blank">Nong's Khao Man Gai</a></strong>
+            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;">
+              <a href="https://www.google.com/maps/search/?api=1&query=Nong%27s+Khao+Man+Gai+609+SE+Ankeny+St+Portland+OR" target="_blank">Nong's Khao Man Gai</a>
+            </strong>
             <span style="color: var(--gold); margin-left: 8px;">⭐ 4.6</span><br>
-            <span style="font-size: 13px; color: var(--muted);">609 SE Ankeny St · Portland icon. Poached chicken rice, simple &amp; transcendent.</span>
+            <span style="font-size: 13px; color: var(--muted);">609 SE Ankeny St · Portland icon. Poached chicken rice, simple & transcendent.</span>
           </div>
           <div class="option-card" style="background: var(--sage-light);">
-            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;"><a href="https://www.google.com/maps/search/?api=1&query=Khao+Moo+Dang+3145+SE+Hawthorne+Blvd+Portland+OR" target="_blank">Khao Moo Dang</a></strong>
+            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;">
+              <a href="https://www.google.com/maps/search/?api=1&query=Khao+Moo+Dang+3145+SE+Hawthorne+Blvd+Portland+OR" target="_blank">Khao Moo Dang</a>
+            </strong>
             <span style="color: var(--gold); margin-left: 8px;">⭐ 4.6</span><br>
-            <span style="font-size: 13px; color: var(--muted);">3145 SE Hawthorne Blvd · &quot;Absolutely incredible Thai food. The khao moo dang is a must-order.&quot;</span>
+            <span style="font-size: 13px; color: var(--muted);">3145 SE Hawthorne Blvd · "Absolutely incredible Thai food. The khao moo dang is a must-order."</span>
           </div>
         </div>
       </div>
+
       <div class="event">
         <div class="event-time">4:00 – 6:30 pm</div>
-        <div class="event-title"><a href="https://www.google.com/maps/search/?api=1&query=Memorial+Coliseum+300+N+Winning+Way+Portland+OR" target="_blank">Stars on Ice</a></div>
-        <div class="event-note"><a href="https://www.google.com/maps/search/?api=1&query=Memorial+Coliseum+300+N+Winning+Way+Portland+OR" target="_blank">Memorial Coliseum</a>, 300 N Winning Way · World-class figure skating showcase. <a href="https://www.ticketmaster.com/stars-on-ice-portland-oregon/event" target="_blank">Tickets on Ticketmaster</a>.</div>
+        <div class="event-title">
+          <a href="https://www.google.com/maps/search/?api=1&query=Memorial+Coliseum+300+N+Winning+Way+Portland+OR" target="_blank">Stars on Ice</a>
+        </div>
+        <div class="event-note">
+          <a href="https://www.google.com/maps/search/?api=1&query=Memorial+Coliseum+300+N+Winning+Way+Portland+OR" target="_blank">Memorial Coliseum</a>, 300 N Winning Way · World-class figure skating showcase.
+          <a href="https://www.ticketmaster.com/stars-on-ice-portland-oregon/event" target="_blank">Tickets on Ticketmaster</a>.
+        </div>
         <span class="event-tag gold">Ticketed event</span>
       </div>
+
       <div class="event">
         <div class="event-time">Evening</div>
         <div class="event-title">Dinner — SE Division</div>
-        <div class="event-note">Post-ice-show hunger is real. DesiPDX and Khao Moo Dang are both open Sunday.</div>
+        <div class="event-note">Post-ice-show hunger is real. Pick from the eats guide below — DesiPDX and Khao Moo Dang are both open Sunday.</div>
       </div>
+
     </div>
   </div>
 
   <hr class="divider" />
 
+  <!-- MONDAY -->
   <div class="day-section" id="monday">
     <div class="day-header">
       <div class="day-date">25</div>
-      <div class="day-info"><h2>Monday</h2><p>Memorial Day · Open / TBD</p></div>
+      <div class="day-info">
+        <h2>Monday</h2>
+        <p>Memorial Day · Open / TBD</p>
+      </div>
     </div>
+
     <div class="timeline">
+
       <div class="event">
         <div class="event-time">Morning</div>
         <div class="event-title">Slow Start</div>
-        <div class="event-note">Pancakes at home, coffee, no agenda.</div>
+        <div class="event-note">Pancakes at home, coffee, no agenda. This is what weekends are for.</div>
         <span class="event-tag sage">Low-key</span>
       </div>
+
       <div class="event">
         <div class="event-time">Afternoon</div>
-        <div class="event-title">Ideas &amp; Options</div>
-        <div class="event-note">Whatever sounds good in the moment:</div>
+        <div class="event-title">Ideas & Options</div>
+        <div class="event-note">Whatever sounds good in the moment. A few ideas:</div>
         <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
           <div class="option-card" style="background: var(--rose-light);">
-            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;"><a href="https://www.google.com/maps/search/?api=1&query=Matt%27s+BBQ+Tacos+2216+SE+50th+Ave+Portland+OR" target="_blank">Matt's BBQ Tacos</a></strong>
+            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;">
+              <a href="https://www.google.com/maps/search/?api=1&query=Matt%27s+BBQ+Tacos+2216+SE+50th+Ave+Portland+OR" target="_blank">Matt's BBQ Tacos</a>
+            </strong>
             <span style="color: var(--gold); margin-left: 8px;">⭐ 4.7</span><br>
             <span style="font-size: 13px; color: var(--muted);">Open Monday 11am–8:30pm ✓</span>
           </div>
           <div class="option-card" style="background: var(--sage-light);">
-            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;"><a href="https://www.google.com/maps/search/?api=1&query=DesiPDX+3829+SE+Division+St+Portland+OR" target="_blank">DesiPDX</a></strong>
+            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;">
+              <a href="https://www.google.com/maps/search/?api=1&query=DesiPDX+3829+SE+Division+St+Portland+OR" target="_blank">DesiPDX</a>
+            </strong>
             <span style="color: var(--gold); margin-left: 8px;">⭐ 4.7</span><br>
             <span style="font-size: 13px; color: var(--muted);">3829 SE Division St · Indian street food · Open Mon 11:30am–8pm ✓</span>
           </div>
           <div class="option-card" style="background: var(--gold-light);">
-            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;"><a href="https://www.google.com/maps/search/?api=1&query=Cloud+City+Ice+Cream+4525+SE+Woodstock+Blvd+Portland+OR" target="_blank">Cloud City Ice Cream</a></strong>
+            <strong style="font-family: 'Cormorant Garamond', serif; font-size: 17px;">
+              <a href="https://www.google.com/maps/search/?api=1&query=Cloud+City+Ice+Cream+4525+SE+Woodstock+Blvd+Portland+OR" target="_blank">Cloud City Ice Cream</a>
+            </strong>
             <span style="color: var(--gold); margin-left: 8px;">⭐ 4.7</span><br>
             <span style="font-size: 13px; color: var(--muted);">4525 SE Woodstock Blvd · Check hours before going</span>
           </div>
         </div>
       </div>
+
       <div class="event">
         <div class="event-time">⚠ Note</div>
         <div class="event-title">CLOSED Monday</div>
         <div class="event-note">Berlu Bakery, Clive Coffee, and Pinolo Gelato are all closed on Memorial Day.</div>
         <span class="event-warn">Plan accordingly</span>
       </div>
+
     </div>
   </div>
 
   <hr class="divider" />
 
+  <!-- EATS GUIDE -->
   <div id="eats">
-    <div class="section-label">Food &amp; Drink</div>
+    <div class="section-label">Food & Drink</div>
     <div class="section-title">The Eats Guide</div>
     <div class="section-subtitle">Google Maps picks — all ⭐ 4.4 or higher, reviewed by real humans</div>
+
     <div class="eats-grid">
 
       <div class="eat-card">
-        <div class="eat-card-top"><div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Honey+Butter+Country+Fare+6550+N+Interstate+Ave+Portland+OR" target="_blank">Honey Butter Country Fare</a></div><div class="eat-stars">⭐ 4.8</div></div>
+        <div class="eat-card-top">
+          <div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Honey+Butter+Country+Fare+6550+N+Interstate+Ave+Portland+OR" target="_blank">Honey Butter Country Fare</a></div>
+          <div class="eat-stars">⭐ 4.8</div>
+        </div>
         <div class="eat-type">Farm-to-table brunch · North Portland</div>
-        <div class="eat-review">&ldquo;Incredible farm-fresh food with a warm, welcoming atmosphere. Everything on the menu is made with love.&rdquo;</div>
-        <div class="eat-meta"><span>📍 6550 N Interstate Ave</span><span class="eat-hours-warn">⚠ Saturday 12–6pm only · CLOSED Sun &amp; Mon</span></div>
-        <details class="eat-menu"><summary>Menu highlights</summary><div class="menu-items">
-          <div class="menu-item"><span class="menu-item-name">Seasonal egg plate</span><span class="menu-item-desc">farm-fresh eggs, rotating veg, house toast</span><span class="menu-item-badge">must try</span></div>
-          <div class="menu-item"><span class="menu-item-name">Biscuits &amp; honey butter</span><span class="menu-item-desc">house-made, the reason for the name</span></div>
-          <div class="menu-item"><span class="menu-item-name">Morning grain bowl</span><span class="menu-item-desc">hearty, vegetable-forward, crowd favorite</span></div>
-        </div></details>
+        <div class="eat-review">"Incredible farm-fresh food with a warm, welcoming atmosphere. Everything on the menu is made with love and top-quality ingredients."</div>
+        <div class="eat-meta">
+          <span>📍 6550 N Interstate Ave</span>
+          <span class="eat-hours-warn">⚠ Saturday 12–6pm only · CLOSED Sun & Mon</span>
+        </div>
+        <details class="eat-menu">
+          <summary>Menu highlights</summary>
+          <div class="menu-items">
+            <div class="menu-item">
+              <span class="menu-item-name">Seasonal egg plate</span>
+              <span class="menu-item-desc">farm-fresh eggs, rotating veg, house toast</span>
+              <span class="menu-item-badge">must try</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Biscuits & honey butter</span>
+              <span class="menu-item-desc">house-made, the reason for the name</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Morning grain bowl</span>
+              <span class="menu-item-desc">hearty, vegetable-forward, crowd favorite</span>
+            </div>
+          </div>
+        </details>
       </div>
 
       <div class="eat-card">
-        <div class="eat-card-top"><div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=La+Perlita+5610+N+Interstate+Ave+Portland+OR" target="_blank">La Perlita</a></div><div class="eat-stars">⭐ 4.7</div></div>
-        <div class="eat-type">Mexican breakfast &amp; coffee · North Portland</div>
-        <div class="eat-review">&ldquo;Authentic Mexican food in a cozy spot. The breakfast burritos are loaded and satisfying — great coffee too.&rdquo;</div>
-        <div class="eat-meta"><span>📍 5610 N Interstate Ave</span><span>🕐 Daily 8am–4pm</span></div>
-        <details class="eat-menu"><summary>Menu highlights</summary><div class="menu-items">
-          <div class="menu-item"><span class="menu-item-name">Breakfast burrito</span><span class="menu-item-desc">chorizo, egg, potato, cheese — stuffed</span><span class="menu-item-badge">must try</span></div>
-          <div class="menu-item"><span class="menu-item-name">Huevos rancheros</span><span class="menu-item-desc">house salsa, refried beans, tortillas</span></div>
-          <div class="menu-item"><span class="menu-item-name">Café de olla</span><span class="menu-item-desc">traditional Mexican spiced coffee</span></div>
-        </div></details>
+        <div class="eat-card-top">
+          <div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=La+Perlita+5610+N+Interstate+Ave+Portland+OR" target="_blank">La Perlita</a></div>
+          <div class="eat-stars">⭐ 4.7</div>
+        </div>
+        <div class="eat-type">Mexican breakfast & coffee · North Portland</div>
+        <div class="eat-review">"Authentic Mexican food in a cozy spot. The breakfast burritos are loaded and satisfying — great coffee too."</div>
+        <div class="eat-meta">
+          <span>📍 5610 N Interstate Ave</span>
+          <span>🕐 Daily 8am–4pm</span>
+        </div>
+        <details class="eat-menu">
+          <summary>Menu highlights</summary>
+          <div class="menu-items">
+            <div class="menu-item">
+              <span class="menu-item-name">Breakfast burrito</span>
+              <span class="menu-item-desc">chorizo, egg, potato, cheese — stuffed</span>
+              <span class="menu-item-badge">must try</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Huevos rancheros</span>
+              <span class="menu-item-desc">house salsa, refried beans, tortillas</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Café de olla</span>
+              <span class="menu-item-desc">traditional Mexican spiced coffee</span>
+            </div>
+          </div>
+        </details>
       </div>
 
       <div class="eat-card">
-        <div class="eat-card-top"><div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Berlu+Bakery+661+SE+Belmont+St+Portland+OR" target="_blank">Berlu Bakery</a></div><div class="eat-stars">⭐ 4.7</div></div>
-        <div class="eat-type">Vietnamese-inspired pastry · SE Belmont</div>
-        <div class="eat-review">&ldquo;A tiny gem. The bánh mì croissant is unlike anything else in Portland. Go early — they sell out fast.&rdquo;</div>
-        <div class="eat-meta"><span>📍 661 SE Belmont St</span><span class="eat-hours-warn">⚠ Sat–Sun 10am–3pm · CLOSED Monday</span></div>
-        <details class="eat-menu"><summary>Menu highlights</summary><div class="menu-items">
-          <div class="menu-item"><span class="menu-item-name">Bánh mì croissant</span><span class="menu-item-desc">pâté, pickled daikon, jalapeño, cilantro</span><span class="menu-item-badge">iconic</span></div>
-          <div class="menu-item"><span class="menu-item-name">Miso morning bun</span><span class="menu-item-desc">flaky, lightly sweet, deeply savory</span></div>
-          <div class="menu-item"><span class="menu-item-name">Seasonal fruit tart</span><span class="menu-item-desc">naturally leavened crust, pastry cream</span></div>
-        </div></details>
+        <div class="eat-card-top">
+          <div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Berlu+Bakery+661+SE+Belmont+St+Portland+OR" target="_blank">Berlu Bakery</a></div>
+          <div class="eat-stars">⭐ 4.7</div>
+        </div>
+        <div class="eat-type">Vietnamese-inspired fusion bakery · SE Belmont</div>
+        <div class="eat-review">"Creative desserts with Vietnamese-inspired names — but not authentic Vietnamese pastries. Go in knowing that and you'll love it." — Vy Nguyen</div>
+        <div class="eat-meta">
+          <span>📍 661 SE Belmont St</span>
+          <span class="eat-hours-warn">⚠ Thu–Sun 10am–3pm · Thu also 5–8pm · CLOSED Mon–Wed</span>
+        </div>
+        <details class="eat-menu">
+          <summary>Menu highlights</summary>
+          <div class="menu-items">
+            <div class="menu-item">
+              <span class="menu-item-name">Mango roll cake</span>
+              <span class="menu-item-desc">repeatedly called out by regulars — get this</span>
+              <span class="menu-item-badge">order this</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Pistachio/Pandan jasmine tea latte</span>
+              <span class="menu-item-desc">the drink pairing — don't skip it</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Roasted coconut water</span>
+              <span class="menu-item-desc">go-to with the sweets, mentioned by multiple regulars</span>
+            </div>
+          </div>
+        </details>
       </div>
 
       <div class="eat-card">
-        <div class="eat-card-top"><div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Matt%27s+BBQ+Tacos+2216+SE+50th+Ave+Portland+OR" target="_blank">Matt's BBQ Tacos</a></div><div class="eat-stars">⭐ 4.7</div></div>
+        <div class="eat-card-top">
+          <div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Matt%27s+BBQ+Tacos+2216+SE+50th+Ave+Portland+OR" target="_blank">Matt's BBQ Tacos</a></div>
+          <div class="eat-stars">⭐ 4.7</div>
+        </div>
         <div class="eat-type">BBQ tacos · SE Portland</div>
-        <div class="eat-review">&ldquo;Brisket tacos that would make Texas jealous. Smoky, tender, perfectly seasoned. The breakfast taco is also elite.&rdquo;</div>
-        <div class="eat-meta"><span>📍 2216 SE 50th Ave</span><span>🕐 Sat 8am–9pm · Sun 8am–8:30pm · Mon 11am–8:30pm ✓</span></div>
-        <details class="eat-menu"><summary>Menu highlights</summary><div class="menu-items">
-          <div class="menu-item"><span class="menu-item-name">Brisket taco</span><span class="menu-item-desc">12-hour smoked, onion, cilantro, salsa roja</span><span class="menu-item-badge">must try</span></div>
-          <div class="menu-item"><span class="menu-item-name">Smoked chicken taco</span><span class="menu-item-desc">avocado crema, pickled jalapeño</span></div>
-          <div class="menu-item"><span class="menu-item-name">Breakfast taco</span><span class="menu-item-desc">egg, brisket, cheese — Sat/Sun AM only</span></div>
-        </div></details>
+        <div class="eat-review">"Brisket tacos that would make Texas jealous. Smoky, tender, perfectly seasoned. The breakfast taco is also elite."</div>
+        <div class="eat-meta">
+          <span>📍 2216 SE 50th Ave</span>
+          <span>🕐 Sat 8am–9pm · Sun 8am–8:30pm · Mon 11am–8:30pm ✓</span>
+        </div>
+        <details class="eat-menu">
+          <summary>Menu highlights</summary>
+          <div class="menu-items">
+            <div class="menu-item">
+              <span class="menu-item-name">Brisket taco</span>
+              <span class="menu-item-desc">12-hour smoked, onion, cilantro, salsa roja</span>
+              <span class="menu-item-badge">must try</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Smoked chicken taco</span>
+              <span class="menu-item-desc">avocado crema, pickled jalapeño</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Breakfast taco</span>
+              <span class="menu-item-desc">egg, brisket, cheese, morning salsa — Sat/Sun AM only</span>
+            </div>
+          </div>
+        </details>
       </div>
 
       <div class="eat-card">
-        <div class="eat-card-top"><div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=DesiPDX+3829+SE+Division+St+Portland+OR" target="_blank">DesiPDX</a></div><div class="eat-stars">⭐ 4.7</div></div>
+        <div class="eat-card-top">
+          <div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=DesiPDX+3829+SE+Division+St+Portland+OR" target="_blank">DesiPDX</a></div>
+          <div class="eat-stars">⭐ 4.7</div>
+        </div>
         <div class="eat-type">Indian street food · SE Division</div>
-        <div class="eat-review">&ldquo;Outstanding desi street food — the chaat and kati rolls are exceptional. One of the best Indian spots in the city.&rdquo;</div>
-        <div class="eat-meta"><span>📍 3829 SE Division St</span><span>🕐 Mon 11:30am–8pm ✓</span></div>
-        <details class="eat-menu"><summary>Menu highlights</summary><div class="menu-items">
-          <div class="menu-item"><span class="menu-item-name">Pani puri</span><span class="menu-item-desc">crispy spheres, tamarind water, chutneys</span><span class="menu-item-badge">must try</span></div>
-          <div class="menu-item"><span class="menu-item-name">Kati roll</span><span class="menu-item-desc">paneer or chicken, paratha wrap, mint chutney</span></div>
-          <div class="menu-item"><span class="menu-item-name">Samosa chaat</span><span class="menu-item-desc">crushed samosa, chickpeas, yogurt, two chutneys</span></div>
-        </div></details>
+        <div class="eat-review">"Been eating here since I moved to PDX over 5 years ago. The seasonal pickle always tickles my taste buds. Ground lamb is the move." — Charley Traylor</div>
+        <div class="eat-meta">
+          <span>📍 3829 SE Division St</span>
+          <span class="eat-hours-warn">⚠ CLOSED Tue & Wed · Mon/Thu–Sun 11:30am–8pm ✓</span>
+        </div>
+        <details class="eat-menu">
+          <summary>Menu highlights</summary>
+          <div class="menu-items">
+            <div class="menu-item">
+              <span class="menu-item-name">Ground lamb plate</span>
+              <span class="menu-item-desc">basmati rice, seasonal chutney, slaw — 5-year regular's pick</span>
+              <span class="menu-item-badge">order this</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Kalonji kale keema</span>
+              <span class="menu-item-desc">desi fusion — the dish that surprises people</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Seasonal pickle</span>
+              <span class="menu-item-desc">rotating, always worth getting — ask what's on</span>
+            </div>
+          </div>
+        </details>
       </div>
 
       <div class="eat-card">
-        <div class="eat-card-top"><div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Pinolo+Gelato+3707+SE+Division+St+Portland+OR" target="_blank">Pinolo Gelato</a></div><div class="eat-stars">⭐ 4.8</div></div>
+        <div class="eat-card-top">
+          <div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Pinolo+Gelato+3707+SE+Division+St+Portland+OR" target="_blank">Pinolo Gelato</a></div>
+          <div class="eat-stars">⭐ 4.8</div>
+        </div>
         <div class="eat-type">Artisan gelato · SE Division</div>
-        <div class="eat-review">&ldquo;The best gelato I've had outside of Italy. Rich, creamy, intensely flavored. The pistachio is non-negotiable.&rdquo;</div>
-        <div class="eat-meta"><span>📍 3707 SE Division St</span><span class="eat-hours-warn">⚠ CLOSED Monday · Sun 12–9pm</span></div>
-        <details class="eat-menu"><summary>Menu highlights</summary><div class="menu-items">
-          <div class="menu-item"><span class="menu-item-name">Pistachio</span><span class="menu-item-desc">Bronte pistachio, intensely nutty — reviewers' consensus #1</span><span class="menu-item-badge">iconic</span></div>
-          <div class="menu-item"><span class="menu-item-name">Stracciatella</span><span class="menu-item-desc">fresh cream base, shaved dark chocolate ribbons</span></div>
-          <div class="menu-item"><span class="menu-item-name">Seasonal sorbetto</span><span class="menu-item-desc">rotating fruit, dairy-free, bright and clean</span></div>
-        </div></details>
+        <div class="eat-review">"The best gelato I've had outside of Italy. Rich, creamy, intensely flavored. The pistachio is non-negotiable."</div>
+        <div class="eat-meta">
+          <span>📍 3707 SE Division St</span>
+          <span class="eat-hours-warn">⚠ CLOSED Monday · Sun 12–9pm</span>
+        </div>
+        <details class="eat-menu">
+          <summary>Menu highlights</summary>
+          <div class="menu-items">
+            <div class="menu-item">
+              <span class="menu-item-name">Pistachio</span>
+              <span class="menu-item-desc">Bronte pistachio, intensely nutty — reviewers' consensus #1</span>
+              <span class="menu-item-badge">iconic</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Stracciatella</span>
+              <span class="menu-item-desc">fresh cream base, shaved dark chocolate ribbons</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Seasonal sorbetto</span>
+              <span class="menu-item-desc">rotating fruit, dairy-free, bright and clean</span>
+            </div>
+          </div>
+        </details>
       </div>
 
       <div class="eat-card">
-        <div class="eat-card-top"><div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Khao+Moo+Dang+3145+SE+Hawthorne+Blvd+Portland+OR" target="_blank">Khao Moo Dang</a></div><div class="eat-stars">⭐ 4.6</div></div>
+        <div class="eat-card-top">
+          <div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Khao+Moo+Dang+3145+SE+Hawthorne+Blvd+Portland+OR" target="_blank">Khao Moo Dang</a></div>
+          <div class="eat-stars">⭐ 4.6</div>
+        </div>
         <div class="eat-type">Thai · SE Hawthorne</div>
-        <div class="eat-review">&ldquo;Absolutely incredible Thai food. The khao moo dang is deeply savory and comforting. Portions are generous.&rdquo;</div>
-        <div class="eat-meta"><span>📍 3145 SE Hawthorne Blvd</span><span>🕐 Daily 11am–9pm</span></div>
-        <details class="eat-menu"><summary>Menu highlights</summary><div class="menu-items">
-          <div class="menu-item"><span class="menu-item-name">Khao moo dang</span><span class="menu-item-desc">red-glazed pork over jasmine rice, five-spice broth</span><span class="menu-item-badge">must try</span></div>
-          <div class="menu-item"><span class="menu-item-name">Pad see ew</span><span class="menu-item-desc">wide rice noodles, wok-charred, egg, Chinese broccoli</span></div>
-          <div class="menu-item"><span class="menu-item-name">Pork belly fried rice</span><span class="menu-item-desc">crispy pork belly, jasmine rice, Thai basil</span></div>
-        </div></details>
+        <div class="eat-review">"I have never had ginger incorporated as a flavor in a broth — mixed with the coconut milk it created such a unique taste. They really mean it when they say pork belly is crispy." — John Smith</div>
+        <div class="eat-meta">
+          <span>📍 3145 SE Hawthorne Blvd</span>
+          <span>🕐 Daily 11am–9pm (Fri–Sat til 9:30pm)</span>
+        </div>
+        <details class="eat-menu">
+          <summary>Menu highlights</summary>
+          <div class="menu-items">
+            <div class="menu-item">
+              <span class="menu-item-name">Ba-Mhee Tom-Kha (#12)</span>
+              <span class="menu-item-desc">ginger-coconut broth, noodles, crispy pork belly — the one</span>
+              <span class="menu-item-badge">order this</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Curry noodles (#8)</span>
+              <span class="menu-item-desc">bold, spicier than expected — flagged by multiple regulars</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Cha Ma-Nao</span>
+              <span class="menu-item-desc">Thai limeade — the drink to order</span>
+            </div>
+          </div>
+        </details>
       </div>
 
       <div class="eat-card">
-        <div class="eat-card-top"><div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Nong%27s+Khao+Man+Gai+609+SE+Ankeny+St+Portland+OR" target="_blank">Nong's Khao Man Gai</a></div><div class="eat-stars">⭐ 4.6</div></div>
+        <div class="eat-card-top">
+          <div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Nong%27s+Khao+Man+Gai+609+SE+Ankeny+St+Portland+OR" target="_blank">Nong's Khao Man Gai</a></div>
+          <div class="eat-stars">⭐ 4.6</div>
+        </div>
         <div class="eat-type">Thai · SE Ankeny</div>
-        <div class="eat-review">&ldquo;Portland's most famous street food. Impossibly simple, impossibly good. Poached chicken over rice with Nong's sauce.&rdquo;</div>
-        <div class="eat-meta"><span>📍 609 SE Ankeny St</span></div>
-        <details class="eat-menu"><summary>Menu highlights</summary><div class="menu-items">
-          <div class="menu-item"><span class="menu-item-name">Khao man gai</span><span class="menu-item-desc">poached chicken, ginger rice, broth, Nong's sauce</span><span class="menu-item-badge">iconic</span></div>
-          <div class="menu-item"><span class="menu-item-name">Nong's sauce (bottle)</span><span class="menu-item-desc">take one home — ginger, fermented soybean, house blend</span></div>
-          <div class="menu-item"><span class="menu-item-name">Crispy pork add-on</span><span class="menu-item-desc">crunchy contrast to the silky chicken</span></div>
-        </div></details>
+        <div class="eat-review">"White meat was a bit dry, dark meat tasted much better. The pork knuckle was very tender and well braised, and the rice was soaked with the sauce — really flavorful." — Z Z</div>
+        <div class="eat-meta">
+          <span>📍 609 SE Ankeny St</span>
+          <span>🕐 Daily 9am–9pm</span>
+        </div>
+        <details class="eat-menu">
+          <summary>Menu highlights</summary>
+          <div class="menu-items">
+            <div class="menu-item">
+              <span class="menu-item-name">Pork knuckle rice (#4)</span>
+              <span class="menu-item-desc">well-braised, rice soaked in sauce — edges out the chicken</span>
+              <span class="menu-item-badge">order this</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Khao man gai (#1)</span>
+              <span class="menu-item-desc">get dark meat, not white — and load the fermented sauce</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Bitter melon soup + fermented sauce</span>
+              <span class="menu-item-desc">off-menu knowledge — ask for it, worth it</span>
+            </div>
+          </div>
+        </details>
       </div>
 
       <div class="eat-card">
-        <div class="eat-card-top"><div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Portland+Fish+Market+4404+SE+Woodstock+Blvd+Portland+OR" target="_blank">Portland Fish Market</a></div><div class="eat-stars">⭐ 4.6</div></div>
+        <div class="eat-card-top">
+          <div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Portland+Fish+Market+4404+SE+Woodstock+Blvd+Portland+OR" target="_blank">Portland Fish Market</a></div>
+          <div class="eat-stars">⭐ 4.6</div>
+        </div>
         <div class="eat-type">Seafood · SE Woodstock</div>
-        <div class="eat-review">&ldquo;Freshest fish in town. The fish &amp; chips are crispy, the chowder is rich, and you can't go wrong with whatever's in season.&rdquo;</div>
-        <div class="eat-meta"><span>📍 4404 SE Woodstock Blvd</span></div>
-        <details class="eat-menu"><summary>Menu highlights</summary><div class="menu-items">
-          <div class="menu-item"><span class="menu-item-name">Fish &amp; chips</span><span class="menu-item-desc">fresh Pacific cod, light batter, house tartar</span><span class="menu-item-badge">must try</span></div>
-          <div class="menu-item"><span class="menu-item-name">Clam chowder</span><span class="menu-item-desc">New England style, thick, smoky bacon</span></div>
-          <div class="menu-item"><span class="menu-item-name">Dungeness crab roll</span><span class="menu-item-desc">when in season — local, cold, perfect</span></div>
-        </div></details>
+        <div class="eat-review">"Freshest fish in town. The fish & chips are crispy, the chowder is rich, and you can't go wrong with whatever's in season."</div>
+        <div class="eat-meta">
+          <span>📍 4404 SE Woodstock Blvd</span>
+        </div>
+        <details class="eat-menu">
+          <summary>Menu highlights</summary>
+          <div class="menu-items">
+            <div class="menu-item">
+              <span class="menu-item-name">Fish & chips</span>
+              <span class="menu-item-desc">fresh Pacific cod, light batter, house tartar</span>
+              <span class="menu-item-badge">must try</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Clam chowder</span>
+              <span class="menu-item-desc">New England style, thick, smoky bacon</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Dungeness crab roll</span>
+              <span class="menu-item-desc">when in season — local, cold, perfect</span>
+            </div>
+          </div>
+        </details>
       </div>
 
       <div class="eat-card">
-        <div class="eat-card-top"><div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Clive+Coffee+801+SE+Hawthorne+Blvd+Portland+OR" target="_blank">Clive Coffee</a></div><div class="eat-stars">⭐ 4.8</div></div>
+        <div class="eat-card-top">
+          <div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Clive+Coffee+801+SE+Hawthorne+Blvd+Portland+OR" target="_blank">Clive Coffee</a></div>
+          <div class="eat-stars">⭐ 4.8</div>
+        </div>
         <div class="eat-type">Specialty coffee · SE Hawthorne</div>
-        <div class="eat-review">&ldquo;A coffee lover's dream. Impeccably pulled espresso, stunning vintage La Marzocco machines, genuinely knowledgeable baristas.&rdquo;</div>
-        <div class="eat-meta"><span>📍 801 SE Hawthorne Blvd</span><span class="eat-hours-warn">⚠ Saturday only · CLOSED Sun &amp; Mon</span></div>
-        <details class="eat-menu"><summary>Menu highlights</summary><div class="menu-items">
-          <div class="menu-item"><span class="menu-item-name">Single-origin espresso</span><span class="menu-item-desc">rotating origins, bright and complex</span><span class="menu-item-badge">must try</span></div>
-          <div class="menu-item"><span class="menu-item-name">Cortado</span><span class="menu-item-desc">espresso + equal parts milk, clean and balanced</span></div>
-          <div class="menu-item"><span class="menu-item-name">Pour-over</span><span class="menu-item-desc">ask the barista what's on rotation</span></div>
-        </div></details>
+        <div class="eat-review">"A coffee lover's dream. Impeccably pulled espresso, stunning vintage La Marzocco machines, and genuinely knowledgeable baristas."</div>
+        <div class="eat-meta">
+          <span>📍 801 SE Hawthorne Blvd</span>
+          <span class="eat-hours-warn">⚠ Saturday only · CLOSED Sun & Mon</span>
+        </div>
+        <details class="eat-menu">
+          <summary>Menu highlights</summary>
+          <div class="menu-items">
+            <div class="menu-item">
+              <span class="menu-item-name">Single-origin espresso</span>
+              <span class="menu-item-desc">rotating origins, bright and complex</span>
+              <span class="menu-item-badge">must try</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Cortado</span>
+              <span class="menu-item-desc">espresso + equal parts milk, clean and balanced</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Pour-over</span>
+              <span class="menu-item-desc">ask the barista what's on rotation — never a bad answer</span>
+            </div>
+          </div>
+        </details>
       </div>
 
       <div class="eat-card">
-        <div class="eat-card-top"><div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Cloud+City+Ice+Cream+4525+SE+Woodstock+Blvd+Portland+OR" target="_blank">Cloud City Ice Cream</a></div><div class="eat-stars">⭐ 4.7</div></div>
+        <div class="eat-card-top">
+          <div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Cloud+City+Ice+Cream+4525+SE+Woodstock+Blvd+Portland+OR" target="_blank">Cloud City Ice Cream</a></div>
+          <div class="eat-stars">⭐ 4.7</div>
+        </div>
         <div class="eat-type">Ice cream · SE Woodstock</div>
-        <div class="eat-review">&ldquo;Creative, rotating flavors with quality ingredients. The soft serve is excellent and the small-batch scoops are even better.&rdquo;</div>
-        <div class="eat-meta"><span>📍 4525 SE Woodstock Blvd</span></div>
-        <details class="eat-menu"><summary>Menu highlights</summary><div class="menu-items">
-          <div class="menu-item"><span class="menu-item-name">Small-batch seasonal scoops</span><span class="menu-item-desc">rotating — ask what's new</span><span class="menu-item-badge">must try</span></div>
-          <div class="menu-item"><span class="menu-item-name">Soft serve</span><span class="menu-item-desc">creamy, with creative topping combos</span></div>
-          <div class="menu-item"><span class="menu-item-name">House waffle cone</span><span class="menu-item-desc">made fresh, adds real crunch</span></div>
-        </div></details>
+        <div class="eat-review">"Creative, rotating flavors with quality ingredients. The soft serve is excellent and the small-batch scoops are even better."</div>
+        <div class="eat-meta">
+          <span>📍 4525 SE Woodstock Blvd</span>
+        </div>
+        <details class="eat-menu">
+          <summary>Menu highlights</summary>
+          <div class="menu-items">
+            <div class="menu-item">
+              <span class="menu-item-name">Small-batch seasonal scoops</span>
+              <span class="menu-item-desc">rotating — ask what's new, it's always interesting</span>
+              <span class="menu-item-badge">must try</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Soft serve</span>
+              <span class="menu-item-desc">creamy, with creative topping combos</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">House waffle cone</span>
+              <span class="menu-item-desc">made fresh, adds real crunch</span>
+            </div>
+          </div>
+        </details>
       </div>
 
       <div class="eat-card">
-        <div class="eat-card-top"><div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Project+Matcha+555+NE+Couch+St+Portland+OR" target="_blank">Project Matcha</a></div><div class="eat-stars">⭐ 4.4</div></div>
+        <div class="eat-card-top">
+          <div class="eat-name"><a href="https://www.google.com/maps/search/?api=1&query=Project+Matcha+555+NE+Couch+St+Portland+OR" target="_blank">Project Matcha</a></div>
+          <div class="eat-stars">⭐ 4.4</div>
+        </div>
         <div class="eat-type">Matcha café · NE Couch</div>
-        <div class="eat-review">&ldquo;Great matcha drinks with interesting seasonal flavors. Clean, minimal space with good energy.&rdquo;</div>
-        <div class="eat-meta"><span>📍 555 NE Couch St</span></div>
-        <details class="eat-menu"><summary>Menu highlights</summary><div class="menu-items">
-          <div class="menu-item"><span class="menu-item-name">Ceremonial matcha latte</span><span class="menu-item-desc">whisked ceremonial grade, oat or whole milk</span><span class="menu-item-badge">must try</span></div>
-          <div class="menu-item"><span class="menu-item-name">Hojicha latte</span><span class="menu-item-desc">roasted green tea, lower caffeine, toasty and smooth</span></div>
-          <div class="menu-item"><span class="menu-item-name">Seasonal special</span><span class="menu-item-desc">rotating house creation — worth asking about</span></div>
-        </div></details>
+        <div class="eat-review">"Great matcha drinks with interesting seasonal flavors. Clean, minimal space with good energy. A nice alternative to coffee."</div>
+        <div class="eat-meta">
+          <span>📍 555 NE Couch St</span>
+        </div>
+        <details class="eat-menu">
+          <summary>Menu highlights</summary>
+          <div class="menu-items">
+            <div class="menu-item">
+              <span class="menu-item-name">Ceremonial matcha latte</span>
+              <span class="menu-item-desc">whisked ceremonial grade, oat or whole milk</span>
+              <span class="menu-item-badge">must try</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Hojicha latte</span>
+              <span class="menu-item-desc">roasted green tea, lower caffeine, toasty and smooth</span>
+            </div>
+            <div class="menu-item">
+              <span class="menu-item-name">Seasonal special</span>
+              <span class="menu-item-desc">rotating house creation — worth asking about</span>
+            </div>
+          </div>
+        </details>
       </div>
 
     </div>
