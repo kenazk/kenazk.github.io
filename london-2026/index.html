@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>London Trip — Aug 2026</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #1a2744;
+      --gold: #c9a84c;
+      --cream: #f8f5ef;
+      --white: #ffffff;
+      --light: #f0eee8;
+      --muted: #6b7280;
+      --red: #c0392b;
+      --green: #2e7d32;
+      --blue: #1565c0;
+      --serif-display: 'Cormorant Garamond', Georgia, serif;
+      --serif-body: 'Lora', Georgia, serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--serif-body); background: var(--cream); color: #222; font-weight: 400; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 1000;
+      background: var(--navy); color: white;
+      display: flex; align-items: center;
+      padding: 0 1rem; height: 50px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    }
+    nav::-webkit-scrollbar { display: none; }
+    nav .brand { font-size: 1rem; font-weight: 500; font-family: var(--serif-display); letter-spacing: 0.03em; color: var(--gold); margin-right: 1.5rem; white-space: nowrap; flex-shrink: 0; }
+    nav a {
+      color: rgba(255,255,255,0.8); text-decoration: none;
+      padding: 0 0.85rem; height: 50px; display: flex; align-items: center;
+      font-family: sans-serif; font-size: 0.8rem; letter-spacing: 0.04em;
+      border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; flex-shrink: 0;
+    }
+    nav a:hover { color: white; border-bottom-color: var(--gold); }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #2a3f6f 60%, #1a2744 100%);
+      color: white; padding: 3rem 1.25rem 2.5rem; text-align: center;
+    }
+    .hero h1 { font-size: 2.6rem; font-family: var(--serif-display); font-weight: 300; letter-spacing: 0.04em; color: var(--gold); margin-bottom: 0.4rem; }
+    .hero .subtitle { font-size: 1rem; font-family: var(--serif-body); font-weight: 400; font-style: italic; opacity: 0.8; margin-bottom: 1.5rem; }
+    .hero .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+    .pill {
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px; padding: 0.35rem 0.85rem; font-family: sans-serif; font-size: 0.8rem;
+    }
+
+    /* SECTIONS */
+    .section { max-width: 1000px; margin: 0 auto; padding: 2rem 1rem; }
+    .section-title {
+      font-size: 1.7rem; font-family: var(--serif-display); font-weight: 400; letter-spacing: 0.02em;
+      color: var(--navy); margin-bottom: 1.25rem;
+      padding-bottom: 0.4rem; border-bottom: 1px solid var(--gold);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .section-bg { background: white; }
+
+    /* FLIGHTS */
+    .flights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .flight-card {
+      background: var(--navy); color: white; border-radius: 12px;
+      padding: 1.25rem; position: relative; overflow: hidden;
+    }
+    .flight-card::before {
+      content: '✈'; position: absolute; right: 1rem; top: 1rem;
+      font-size: 2.5rem; opacity: 0.1;
+    }
+    .flight-card .route { font-size: 1.3rem; font-family: var(--serif-display); font-weight: 400; letter-spacing: 0.03em; color: var(--gold); margin-bottom: 0.25rem; }
+    .flight-card .flight-num { font-family: monospace; font-size: 0.85rem; opacity: 0.7; margin-bottom: 0.85rem; }
+    .flight-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+    .flight-col { text-align: center; }
+    .flight-col .time { font-size: 1.4rem; font-family: var(--serif-display); font-weight: 400; }
+    .flight-col .airport { font-family: monospace; font-size: 0.75rem; opacity: 0.7; }
+    .flight-col .date { font-size: 0.75rem; opacity: 0.8; }
+    .flight-arrow { color: var(--gold); font-size: 1rem; padding-top: 0.5rem; }
+    .flight-meta { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.2); }
+    .flight-meta span { font-family: sans-serif; font-size: 0.78rem; opacity: 0.8; }
+    .flight-note { margin-top: 0.75rem; font-family: sans-serif; font-size: 0.76rem; background: rgba(201,168,76,0.2); border-left: 3px solid var(--gold); padding: 0.5rem 0.75rem; border-radius: 0 4px 4px 0; line-height: 1.4; }
+
+    /* TRANSPORT */
+    .transport-day { margin-bottom: 1.25rem; }
+    .transport-day h3 { font-size: 0.95rem; color: var(--navy); font-family: sans-serif; margin-bottom: 0.4rem; font-weight: 600; }
+    .transport-leg {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      background: white; border-radius: 8px; padding: 0.65rem 0.85rem;
+      margin-bottom: 0.4rem; border-left: 4px solid var(--gold);
+      font-family: sans-serif; font-size: 0.85rem; line-height: 1.4;
+    }
+    .transport-badge {
+      font-size: 0.68rem; font-weight: 500; padding: 0.2rem 0.45rem;
+      border-radius: 4px; white-space: nowrap; font-family: monospace; flex-shrink: 0; margin-top: 0.1rem;
+    }
+    .badge-tube { background: #e32017; color: white; }
+    .badge-train { background: #1e3a5f; color: white; }
+    .badge-walk { background: #2e7d32; color: white; }
+    .badge-car { background: #6b7280; color: white; }
+    .badge-express { background: #9b59b6; color: white; }
+
+    /* ACCOMMODATION */
+    .accom-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+    .accom-card {
+      background: white; border-radius: 10px; overflow: hidden;
+      border: 1px solid #e5e7eb; transition: box-shadow 0.2s;
+    }
+    .accom-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .accom-header { background: var(--navy); color: white; padding: 0.9rem 1.1rem; }
+    .accom-header .name { font-family: var(--serif-display); font-weight: 400; font-size: 1.1rem; letter-spacing: 0.02em; }
+    .accom-header .location { font-family: sans-serif; font-size: 0.78rem; opacity: 0.75; }
+    .accom-body { padding: 0.9rem 1.1rem; }
+    .accom-row { display: flex; justify-content: space-between; font-family: sans-serif; font-size: 0.83rem; margin-bottom: 0.35rem; }
+    .accom-row .label { color: var(--muted); }
+    .accom-row .val { font-weight: 500; color: var(--navy); }
+    .accom-link {
+      display: block; text-align: center; margin-top: 0.75rem;
+      background: var(--navy); color: white; text-decoration: none;
+      padding: 0.6rem; border-radius: 6px; font-family: sans-serif; font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    .accom-link:hover { background: var(--gold); }
+    .accom-rec { border: 2px solid var(--gold); }
+    .accom-rec .accom-header { background: linear-gradient(135deg, var(--navy), #2a3f6f); }
+    .rec-badge {
+      display: inline-block; background: var(--gold); color: var(--navy);
+      font-size: 0.68rem; font-weight: 500; padding: 0.15rem 0.5rem;
+      border-radius: 10px; font-family: sans-serif; margin-top: 0.25rem;
+    }
+
+    /* ITINERARY */
+    .day-card {
+      background: white; border-radius: 10px; margin-bottom: 1rem;
+      border: 1px solid #e5e7eb; overflow: hidden;
+    }
+    .day-header {
+      display: flex; align-items: center; gap: 0.75rem;
+      background: var(--navy); color: white; padding: 0.9rem 1rem; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .day-header:hover { background: #243260; }
+    .day-num { background: var(--gold); color: var(--navy); font-weight: 500; font-family: sans-serif; font-size: 0.7rem; letter-spacing: 0.05em; padding: 0.2rem 0.5rem; border-radius: 4px; white-space: nowrap; flex-shrink: 0; }
+    .day-title { font-size: 1rem; font-family: var(--serif-display); font-weight: 400; letter-spacing: 0.02em; flex: 1; line-height: 1.3; }
+    .day-special { font-family: sans-serif; font-size: 0.68rem; background: rgba(201,168,76,0.25); color: var(--gold); padding: 0.2rem 0.5rem; border-radius: 10px; white-space: nowrap; flex-shrink: 0; }
+    .day-toggle { font-size: 0.85rem; opacity: 0.6; flex-shrink: 0; }
+    .day-body { padding: 1rem; display: none; }
+    .day-body.open { display: block; }
+    .day-activity { display: flex; gap: 0.75rem; margin-bottom: 1rem; }
+    .day-activity .icon { font-size: 1.2rem; width: 1.75rem; text-align: center; flex-shrink: 0; margin-top: 0.1rem; }
+    .day-activity .content h4 { font-size: 0.95rem; font-family: var(--serif-display); font-weight: 400; letter-spacing: 0.02em; color: var(--navy); margin-bottom: 0.2rem; }
+    .day-activity .content p { font-family: sans-serif; font-size: 0.83rem; color: #444; line-height: 1.5; }
+    .day-activity .content a { color: var(--blue); }
+    .book-btn {
+      display: inline-block; background: var(--red); color: white; text-decoration: none;
+      font-family: sans-serif; font-size: 0.75rem; font-weight: 500;
+      padding: 0.4rem 0.75rem; border-radius: 4px; margin-top: 0.4rem;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .book-btn:hover { background: #96281b; }
+    .food-suggestion {
+      margin-top: 0.75rem; padding: 0.65rem 0.85rem;
+      background: var(--light); border-radius: 6px; border-left: 3px solid var(--gold);
+      font-family: sans-serif; font-size: 0.83rem;
+    }
+    .food-suggestion strong { display: block; margin-bottom: 0.3rem; color: var(--navy); font-weight: 500; }
+    .food-item { margin-bottom: 0.25rem; line-height: 1.4; }
+    .food-item a { color: var(--blue); text-decoration: none; }
+    .food-item a:hover { text-decoration: underline; }
+
+    /* MAP */
+    #map-wrap { background: white; }
+    #map { height: 420px; width: 100%; }
+    .map-legend {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      padding: 0.85rem 1rem; background: white; border-top: 1px solid #e5e7eb;
+    }
+    .legend-item { display: flex; align-items: center; gap: 0.35rem; font-family: sans-serif; font-size: 0.75rem; }
+    .legend-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+
+    /* FOOD */
+    .food-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+    .food-cat { background: white; border-radius: 10px; border: 1px solid #e5e7eb; overflow: hidden; }
+    .food-cat-header {
+      padding: 0.65rem 1rem; font-weight: 400; font-family: var(--serif-display); font-size: 1rem; letter-spacing: 0.02em;
+      background: var(--light); border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .food-cat-body { padding: 0.65rem 1rem; }
+    .food-entry { padding: 0.45rem 0; border-bottom: 1px solid #f0eee8; font-family: sans-serif; font-size: 0.83rem; line-height: 1.4; }
+    .food-entry:last-child { border-bottom: none; }
+    .food-entry a { color: var(--blue); font-weight: 500; text-decoration: none; }
+    .food-entry a:hover { text-decoration: underline; }
+    .food-entry .meta { font-size: 0.76rem; color: var(--muted); }
+    .star { color: var(--gold); }
+
+    /* CHECKLIST */
+    .checklist { list-style: none; }
+    .checklist li {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      padding: 0.65rem 0; border-bottom: 1px solid #e5e7eb;
+      font-family: sans-serif; font-size: 0.85rem; line-height: 1.4;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist .cb {
+      width: 22px; height: 22px; min-width: 22px;
+      border: 2px solid var(--navy); border-radius: 4px; flex-shrink: 0;
+      margin-top: 1px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .checklist .cb.done { background: var(--green); border-color: var(--green); color: white; font-size: 0.8rem; }
+    .checklist .urgent { color: var(--red); font-weight: 600; }
+    .checklist a { color: var(--blue); }
+
+    footer { background: var(--navy); color: rgba(255,255,255,0.6); text-align: center; padding: 1.25rem 1rem; font-family: sans-serif; font-size: 0.78rem; }
+
+    /* MOBILE OVERRIDES */
+    @media (max-width: 600px) {
+      .hero { padding: 2rem 1rem 2rem; }
+      .hero h1 { font-size: 2rem; }
+      .hero .subtitle { font-size: 0.9rem; }
+      .pill { font-size: 0.75rem; padding: 0.3rem 0.7rem; }
+
+      .section { padding: 1.5rem 0.9rem; }
+      .section-title { font-size: 1.45rem; }
+
+      .flights-grid { grid-template-columns: 1fr; }
+      .flight-col .time { font-size: 1.2rem; }
+
+      .accom-grid { grid-template-columns: 1fr; }
+      .food-grid { grid-template-columns: 1fr; }
+
+      .day-title { font-size: 0.9rem; }
+      .day-special { display: none; }
+
+      #map { height: 340px; }
+
+      .transport-leg { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">✈ London Aug 2026</div>
+  <a href="#flights">Flights</a>
+  <a href="#transport">Getting Around</a>
+  <a href="#accommodation">Stay</a>
+  <a href="#itinerary">Itinerary</a>
+  <a href="#map">Map</a>
+  <a href="#food">Food</a>
+  <a href="#checklist">Book Now</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>London &amp; Kent</h1>
+  <div class="subtitle">August 10–18, 2026 · 2 adults · 2 kids (7 &amp; 9)</div>
+  <div class="pills">
+    <span class="pill">🎶 LA Phil Proms — Aug 12</span>
+    <span class="pill">💍 Leeds Castle Wedding — Aug 15–16</span>
+    <span class="pill">🧱 LEGOLAND Windsor — Aug 11</span>
+    <span class="pill">🏰 Tower of London — Aug 13</span>
+    <span class="pill">🏖 Whitstable — Aug 14</span>
+  </div>
+</div>
+
+<!-- FLIGHTS -->
+<div id="flights" class="section-bg">
+<div class="section">
+  <h2 class="section-title">✈️ Flights</h2>
+  <div class="flights-grid">
+    <div class="flight-card">
+      <div class="route">Portland → London</div>
+      <div class="flight-num">BA266 · British Airways</div>
+      <div class="flight-row">
+        <div class="flight-col">
+          <div class="time">19:30</div>
+          <div class="airport">PDX</div>
+          <div class="date">Sun 9 Aug</div>
+        </div>
+        <div class="flight-arrow">────✈────▶</div>
+        <div class="flight-col">
+          <div class="time">13:00</div>
+          <div class="airport">LHR T5</div>
+          <div class="date">Mon 10 Aug +1</div>
+        </div>
+      </div>
+      <div class="flight-meta">
+        <span>⏱ 9h 30m</span>
+        <span>💺 World Traveller (Economy)</span>
+      </div>
+      <div class="flight-note">⚠️ Economy Basic — check BA baggage policy. Typically carry-on only; add checked bags at booking.</div>
+    </div>
+    <div class="flight-card">
+      <div class="route">London → Portland</div>
+      <div class="flight-num">BA267 · British Airways</div>
+      <div class="flight-row">
+        <div class="flight-col">
+          <div class="time">15:40</div>
+          <div class="airport">LHR T5</div>
+          <div class="date">Tue 18 Aug</div>
+        </div>
+        <div class="flight-arrow">────✈────▶</div>
+        <div class="flight-col">
+          <div class="time">17:40</div>
+          <div class="airport">PDX</div>
+          <div class="date">Tue 18 Aug</div>
+        </div>
+      </div>
+      <div class="flight-meta">
+        <span>⏱ 10h 00m</span>
+        <span>💺 World Traveller (Economy)</span>
+      </div>
+      <div class="flight-note">Leave Canterbury by 12:30pm. Heathrow T5 is ~1hr from Canterbury. Allow extra time for T5 security.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- TRANSPORT -->
+<div id="transport">
+<div class="section">
+  <h2 class="section-title">🚇 Getting Around</h2>
+
+  <div class="transport-day">
+    <h3>Mon Aug 10 — Heathrow → London</h3>
+    <div class="transport-leg"><span class="transport-badge badge-express">EXPRESS</span> Heathrow Express: T5 → Paddington · 15 min · £22–37 (book at heathrowexpress.com)</div>
+    <div class="transport-leg"><span class="transport-badge badge-tube">TUBE</span> Alternatively: Piccadilly Line direct to central London · ~50 min · £6 with Oyster</div>
+    <div class="transport-leg"><span class="transport-badge badge-walk">WALK</span> South Bank walk along Thames from Waterloo · free · views of Big Ben, Houses of Parliament</div>
+  </div>
+
+  <div class="transport-day">
+    <h3>Tue Aug 11 — LEGOLAND Windsor</h3>
+    <div class="transport-leg"><span class="transport-badge badge-tube">TUBE</span> Kensington → Paddington: Circle line · ~15 min</div>
+    <div class="transport-leg"><span class="transport-badge badge-train">TRAIN</span> Paddington → Windsor &amp; Eton Central: GWR via Slough · ~35 min · ~£12 return</div>
+    <div class="transport-leg"><span class="transport-badge badge-train">SHUTTLE</span> Windsor station → LEGOLAND: taxi (~10 min, ~£10) or seasonal shuttle bus</div>
+    <div class="transport-leg"><span class="transport-badge badge-train">ALT</span> Or Uber direct from apartment ~40 min · ~£40–50 · easier with kids on the return</div>
+  </div>
+
+  <div class="transport-day">
+    <h3>Wed Aug 12 — NHM, Hyde Park, Proms</h3>
+    <div class="transport-leg"><span class="transport-badge badge-tube">TUBE</span> → South Kensington station (Circle/District/Piccadilly lines)</div>
+    <div class="transport-leg"><span class="transport-badge badge-walk">WALK</span> Natural History Museum → Hyde Park (Diana Playground) → Royal Albert Hall · all walking distance (10 min each)</div>
+  </div>
+
+  <div class="transport-day">
+    <h3>Thu Aug 13 — Tower of London + Shoreditch</h3>
+    <div class="transport-leg"><span class="transport-badge badge-tube">TUBE</span> → Tower Hill (Circle/District line)</div>
+    <div class="transport-leg"><span class="transport-badge badge-walk">WALK</span> Tower Bridge is steps from Tower of London · free to walk across</div>
+    <div class="transport-leg"><span class="transport-badge badge-walk">WALK</span> SEH Kelly (Shoreditch) · ~15 min north on foot from Tower area</div>
+  </div>
+
+  <div class="transport-day">
+    <h3>Fri Aug 14 — London → Canterbury</h3>
+    <div class="transport-leg"><span class="transport-badge badge-tube">TUBE</span> Kensington → St Pancras International: Circle line → King's Cross · ~20 min</div>
+    <div class="transport-leg"><span class="transport-badge badge-train">TRAIN</span> St Pancras → Canterbury West: Southeastern High Speed · ~1h 15 min · book at southeasternrailway.co.uk</div>
+    <div class="transport-leg"><span class="transport-badge badge-train">TAXI</span> Optional: Canterbury → Whitstable for beach afternoon · ~15 min · ~£15 · no car seat needed in licensed taxi</div>
+  </div>
+
+  <div class="transport-day">
+    <h3>Sat Aug 15 — Canterbury → Leeds Castle</h3>
+    <div class="transport-leg"><span class="transport-badge badge-train">TAXI</span> Canterbury → Leeds Castle · ~35 min · ~£35 · no car seat needed in licensed taxi or Uber</div>
+  </div>
+
+  <div class="transport-day">
+    <h3>Mon Aug 17 — Leeds Castle → Canterbury</h3>
+    <div class="transport-leg"><span class="transport-badge badge-train">TAXI</span> Leeds Castle → Canterbury · ~35 min · ~£35</div>
+  </div>
+
+  <div class="transport-day">
+    <h3>Tue Aug 18 — Canterbury → Heathrow</h3>
+    <div class="transport-leg"><span class="transport-badge badge-train">TRAIN</span> Canterbury West → St Pancras: High Speed · ~1h 2 min · <strong>depart by 12:00pm latest</strong></div>
+    <div class="transport-leg"><span class="transport-badge badge-tube">TUBE</span> King's Cross → Heathrow T5: Piccadilly line · ~50 min</div>
+    <div class="transport-leg"><span class="transport-badge badge-walk">NOTE</span> Total journey ~2h 15 min. Flight 3:40pm — be at T5 by 1:30pm minimum.</div>
+  </div>
+
+  <p style="font-family:sans-serif;font-size:0.85rem;color:var(--muted);margin-top:1rem;">
+    💡 Get an <strong>Oyster card</strong> or use contactless at Heathrow — tap in/out on all tubes and some trains. Unlimited daily cap ~£8.10 (Zone 1–2). Kids under 11 travel free with a paying adult on TfL.
+  </p>
+</div>
+</div>
+
+<!-- ACCOMMODATION -->
+<div id="accommodation" class="section-bg">
+<div class="section">
+  <h2 class="section-title">🏠 Accommodation</h2>
+  <p style="font-family:sans-serif;font-size:0.9rem;color:var(--muted);margin-bottom:1.25rem;">London: Mon Aug 10 – Fri Aug 14 (4 nights check-out). Kent: Fri Aug 14 – Tue Aug 18 (TBD near Leeds Castle).</p>
+
+  <h3 style="font-family:sans-serif;font-size:1rem;color:var(--navy);margin-bottom:1rem;">London Options (entire home, 4 nights)</h3>
+  <div class="accom-grid">
+
+    <div class="accom-card accom-rec">
+      <div class="accom-header">
+        <div class="name">Charming Victorian</div>
+        <div class="location">Notting Hill</div>
+        <div class="rec-badge">⭐ RECOMMENDED</div>
+      </div>
+      <div class="accom-body">
+        <div class="accom-row"><span class="label">Price</span><span class="val">$1,356 / 4 nights</span></div>
+        <div class="accom-row"><span class="label">Rooms</span><span class="val">3 bed · 4 beds · 2 bath</span></div>
+        <div class="accom-row"><span class="label">Rating</span><span class="val">⭐ 5.0 (17 reviews)</span></div>
+        <div class="accom-row"><span class="label">Badge</span><span class="val">Guest Favorite</span></div>
+        <p style="font-family:sans-serif;font-size:0.8rem;color:var(--muted);margin-top:0.5rem;">Kids get own room. Walkable to Hyde Park, NHM, and Royal Albert Hall — ideal for the Proms.</p>
+        <a href="https://www.airbnb.com/rooms/777972865352926916" target="_blank" class="accom-link">View on Airbnb →</a>
+      </div>
+    </div>
+
+    <div class="accom-card">
+      <div class="accom-header">
+        <div class="name">The Tachbrook 193</div>
+        <div class="location">Victoria</div>
+      </div>
+      <div class="accom-body">
+        <div class="accom-row"><span class="label">Price</span><span class="val">$1,256 / 4 nights</span></div>
+        <div class="accom-row"><span class="label">Rooms</span><span class="val">2 bed · 2 double · 2 bath</span></div>
+        <div class="accom-row"><span class="label">Rating</span><span class="val">⭐ 4.89 (27 reviews)</span></div>
+        <div class="accom-row"><span class="label">Badge</span><span class="val">Guest Favorite</span></div>
+        <p style="font-family:sans-serif;font-size:0.8rem;color:var(--muted);margin-top:0.5rem;">Best value. Ground floor flat. Victoria has excellent tube connections. Note: verify fully private kitchen/bath before booking.</p>
+        <a href="https://www.airbnb.com/rooms/1118762468163863085" target="_blank" class="accom-link">View on Airbnb →</a>
+      </div>
+    </div>
+
+    <div class="accom-card">
+      <div class="accom-header">
+        <div class="name">3-Bed House</div>
+        <div class="location">Near Hyde Park</div>
+      </div>
+      <div class="accom-body">
+        <div class="accom-row"><span class="label">Price</span><span class="val">$1,453 / 4 nights</span></div>
+        <div class="accom-row"><span class="label">Rooms</span><span class="val">3 bed · 4 beds · 1 bath</span></div>
+        <div class="accom-row"><span class="label">Rating</span><span class="val">⭐ 4.8 (20 reviews)</span></div>
+        <p style="font-family:sans-serif;font-size:0.8rem;color:var(--muted);margin-top:0.5rem;">Space for everyone. Only 1 bath — worth checking for a family of 4. 7 min from Hyde Park.</p>
+        <a href="https://www.airbnb.com/rooms/1275308723797930141" target="_blank" class="accom-link">View on Airbnb →</a>
+      </div>
+    </div>
+
+    <div class="accom-card">
+      <div class="accom-header">
+        <div class="name">Perfect Small Townhouse</div>
+        <div class="location">Angel / Islington</div>
+      </div>
+      <div class="accom-body">
+        <div class="accom-row"><span class="label">Price</span><span class="val">$1,859 / 4 nights</span></div>
+        <div class="accom-row"><span class="label">Rooms</span><span class="val">3 bed · 4 beds · 1.5 bath</span></div>
+        <div class="accom-row"><span class="label">Rating</span><span class="val">⭐ 4.99 (85 reviews)</span></div>
+        <div class="accom-row"><span class="label">Badge</span><span class="val">Guest Favorite</span></div>
+        <p style="font-family:sans-serif;font-size:0.8rem;color:var(--muted);margin-top:0.5rem;">Highest rated with most reviews. Zone 1. Good for Tower/Shoreditch days but further from NHM/RAH.</p>
+        <a href="https://www.airbnb.com/rooms/3517033" target="_blank" class="accom-link">View on Airbnb →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <h3 style="font-family:sans-serif;font-size:1rem;color:var(--navy);margin-top:2rem;margin-bottom:0.75rem;">Kent (Aug 14–18)</h3>
+  <p style="font-family:sans-serif;font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem;"><strong>Leeds Castle (Sat–Sun Aug 15–16):</strong> Booked · £760</p>
+  <p style="font-family:sans-serif;font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem;"><strong>Canterbury (Fri Aug 14 + Mon Aug 17):</strong> 2 nights · TBD. Central base — train from London, taxis to Leeds Castle (35 min) and Whitstable (15 min). Search Airbnb for "Canterbury city centre."</p>
+</div>
+</div>
+
+<!-- ITINERARY -->
+<div id="itinerary">
+<div class="section">
+  <h2 class="section-title">📅 Day-by-Day Itinerary</h2>
+  <p style="font-family:sans-serif;font-size:0.85rem;color:var(--muted);margin-bottom:1.25rem;">Click any day to expand.</p>
+
+  <!-- Day 1 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <span class="day-num">MON AUG 10</span>
+      <span class="day-title">Arrive London · South Bank</span>
+      <span class="day-toggle">▼</span>
+    </div>
+    <div class="day-body open">
+      <div class="day-activity">
+        <div class="icon">✈️</div>
+        <div class="content">
+          <h4>Arrive Heathrow T5 — 1:00 PM</h4>
+          <p>BA266 lands 1pm. Allow 60–90 min for immigration and bags. Heathrow Express to Paddington (15 min) or Piccadilly line direct (~50 min). Check in to accommodation.</p>
+        </div>
+      </div>
+      <div class="day-activity">
+        <div class="icon">🌊</div>
+        <div class="content">
+          <h4>South Bank Walk</h4>
+          <p>Easy arrival evening. Walk along the Thames — views of Big Ben, Houses of Parliament, Millennium Bridge. Free, open, great for jet-lagged kids.</p>
+        </div>
+      </div>
+      <div class="day-activity">
+        <div class="icon">⛵</div>
+        <div class="content">
+          <h4>Option: City Cruises 24hr Thames River Pass <span style="font-size:0.78rem;background:#2e7d32;color:white;padding:2px 7px;border-radius:10px;margin-left:6px;font-family:sans-serif;">Explorer Pass</span></h4>
+          <p>Hop-on hop-off river service between Westminster, Bankside, Tower, and Greenwich piers. Relaxing way to see London from the water — perfect for jet-lagged kids who need to stay awake until bedtime. Departs Westminster Pier every 30 min.</p>
+        </div>
+      </div>
+      <div class="day-activity">
+        <div class="icon">🚢</div>
+        <div class="content">
+          <h4>Option: Golden Hinde <span style="font-size:0.78rem;background:#2e7d32;color:white;padding:2px 7px;border-radius:10px;margin-left:6px;font-family:sans-serif;">Explorer Pass</span></h4>
+          <p>Full-scale replica of Sir Francis Drake's Tudor warship, moored near Borough Market. Kids can explore the decks. 45 min, easy walk from South Bank. ~£8/adult, £6/child individually.</p>
+          <a href="https://goldenhinde.com" target="_blank" class="book-btn">Golden Hinde →</a>
+        </div>
+      </div>
+      <div class="food-suggestion">
+        <strong>🍽 Dinner options nearby:</strong>
+        <div class="food-item"><a href="https://boroughmarket.org.uk" target="_blank">Borough Market</a> — street food stalls (closes early, check hours)</div>
+        <div class="food-item"><a href="https://www.josepizarro.com/pizarro-restaurant/" target="_blank">Pizarro</a> — Spanish, Bermondsey</div>
+        <div class="food-item">Pieminister / Leon — casual, family-friendly</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 2 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <span class="day-num">TUE AUG 11</span>
+      <span class="day-title">LEGOLAND Windsor</span>
+      <span class="day-special" style="background:rgba(220,38,38,0.2);color:#dc2626;">🧱 Explorer Pass</span>
+      <span class="day-toggle">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="day-activity">
+        <div class="icon">🧱</div>
+        <div class="content">
+          <h4>LEGOLAND Windsor — Full Day <span style="font-size:0.78rem;background:#2e7d32;color:white;padding:2px 7px;border-radius:10px;margin-left:6px;font-family:sans-serif;">Explorer Pass</span></h4>
+          <p>Full theme park in Windsor, ~1 hr from central London. Peak age for your kids (7 and 9). Plan to arrive by 10am, leave by 5–6pm. Book timed entry in advance — sells out in August. Individual tickets ~£55–65/person in summer; covered by the Explorer Pass.</p>
+          <a href="https://www.legoland.co.uk/tickets-passes/day-tickets/" target="_blank" class="book-btn">📌 Book LEGOLAND Tickets</a>
+        </div>
+      </div>
+      <div class="day-activity">
+        <div class="icon">🚂</div>
+        <div class="content">
+          <h4>Getting There</h4>
+          <p>From Kensington: Circle line to Paddington → GWR train to Windsor &amp; Eton Central (~35 min, change at Slough) → short taxi or shuttle to park. Allow 60–75 min door to park. Alternatively, Uber direct (~40 min, ~£40–50) to avoid tube transfers with tired kids on the way home.</p>
+        </div>
+      </div>
+      <div class="food-suggestion">
+        <strong>🍽 Food:</strong>
+        <div class="food-item">Eat inside the park — budget it in, no shame. Kids won't want to leave for lunch.</div>
+        <div class="food-item">Windsor town centre has good options for a post-park wind-down dinner if you have energy.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 3 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <span class="day-num">WED AUG 12</span>
+      <span class="day-title">Natural History Museum · Hyde Park · LA Philharmonic Proms 🎶</span>
+      <span class="day-special">🎶 LOCKED</span>
+      <span class="day-toggle">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="day-activity">
+        <div class="icon">🦕</div>
+        <div class="content">
+          <h4>Natural History Museum — Opens 10am</h4>
+          <p>Free entry. Hit the dinosaur hall and blue whale. Allow 2–3 hrs. South Kensington tube station is right outside.</p>
+        </div>
+      </div>
+      <div class="day-activity">
+        <div class="icon">🏴‍☠️</div>
+        <div class="content">
+          <h4>Diana Memorial Playground, Hyde Park</h4>
+          <p>10-min walk from NHM. Massive pirate ship — kids will love it. Free, but timed entry may be needed in summer peak.</p>
+        </div>
+      </div>
+      <div class="day-activity">
+        <div class="icon">🎶</div>
+        <div class="content">
+          <h4>LA Philharmonic / Gustavo Dudamel — BBC Proms, 7:00 PM</h4>
+          <p>Royal Albert Hall. Programme: Beethoven + Gabriela Ortiz. RAH is a 5-minute walk from Hyde Park / NHM. Standing (Promenade) tickets £8 — reserved seats £14–71. Note: "restricted view" seats near columns — check seat map carefully.</p>
+          <a href="https://www.royalalberthall.com/tickets/proms/" target="_blank" class="book-btn">📌 Book Proms Tickets — DO THIS NOW</a>
+        </div>
+      </div>
+      <div class="food-suggestion">
+        <strong>🍽 Pre-Proms dinner (South Kensington):</strong>
+        <div class="food-item"><a href="https://ottolenghi.co.uk" target="_blank">Ottolenghi</a> — Mediterranean, excellent</div>
+        <div class="food-item"><a href="https://zumarestaurant.com/zuma/london/" target="_blank">Zuma</a> — Japanese, upscale</div>
+        <div class="food-item"><a href="https://www.corebyclaresmyth.com" target="_blank">Core by Clare Smyth</a> ⭐ — Michelin lunch, book months ahead</div>
+        <div class="food-item">Beirut Express — Lebanese, casual and quick before the show</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 4 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <span class="day-num">THU AUG 13</span>
+      <span class="day-title">Tower of London · Tower Bridge · SEH Kelly</span>
+      <span class="day-special">📌 BOOK AHEAD</span>
+      <span class="day-toggle">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="day-activity">
+        <div class="icon">👑</div>
+        <div class="content">
+          <h4>Tower of London — Morning</h4>
+          <p>Book in advance — sells out in August. Crown Jewels, Beefeater tours, medieval towers. Allow 2.5–3 hrs minimum. Tube: Tower Hill (Circle/District line).</p>
+          <a href="https://www.hrp.org.uk/tower-of-london/visit/tickets/" target="_blank" class="book-btn">📌 Book Tower of London</a>
+        </div>
+      </div>
+      <div class="day-activity">
+        <div class="icon">🌉</div>
+        <div class="content">
+          <h4>Tower Bridge Glass Walkway</h4>
+          <p>Steps from Tower of London. If time allows — see London from the glass floor, 42m up. Book separately if adding.</p>
+          <a href="https://www.towerbridge.org.uk" target="_blank" class="book-btn">Book Tower Bridge</a>
+        </div>
+      </div>
+      <div class="day-activity">
+        <div class="icon">🧵</div>
+        <div class="content">
+          <h4>SEH Kelly — Shoreditch (Afternoon)</h4>
+          <p>1 Cleve Workshops, Boundary Street, E2 7JD. ~15-min walk north from Tower. British menswear, made entirely in the British Isles. Workshop normally Sat–Sun only — <strong>email ahead for weekday visit</strong>.</p>
+          <a href="mailto:info@sehkelly.com" class="book-btn">📧 Email info@sehkelly.com</a>
+        </div>
+      </div>
+      <div class="food-suggestion">
+        <strong>🍽 Shoreditch / East London:</strong>
+        <div class="food-item"><a href="https://www.dishoom.com/shoreditch/" target="_blank">Dishoom</a> ⭐ — Indian, Shoreditch. Queue or book ahead.</div>
+        <div class="food-item"><a href="https://smokinggoatbar.com" target="_blank">Smoking Goat</a> — Thai BBQ, excellent</div>
+        <div class="food-item"><a href="https://www.andinalondon.com" target="_blank">Andina</a> — Peruvian, Shoreditch</div>
+        <div class="food-item">Kingsland Road (10 min north) — London's best Vietnamese strip 🍜</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 5 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <span class="day-num">FRI AUG 14</span>
+      <span class="day-title">London → Canterbury · Whitstable 🏖</span>
+      <span class="day-toggle">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="day-activity">
+        <div class="icon">🚂</div>
+        <div class="content">
+          <h4>Train to Canterbury — Morning</h4>
+          <p>Check out of London apartment. Tube to St Pancras (~20 min), then Southeastern High Speed to Canterbury West (~1h 15 min). Check in to Canterbury accommodation.</p>
+        </div>
+      </div>
+      <div class="day-activity">
+        <div class="icon">🏖</div>
+        <div class="content">
+          <h4>Option: Whitstable Afternoon</h4>
+          <p>Charming seaside town 8 miles from Canterbury — 15 min taxi (~£15). Famous for oysters, fish &amp; chips, and a pebble beach with a real fishing harbour. Old Neptune pub is right on the beach. No car needed.</p>
+        </div>
+      </div>
+      <div class="food-suggestion">
+        <strong>🍽 Whitstable:</strong>
+        <div class="food-item">Pearson's Fish &amp; Chips ⭐ — Whitstable institution</div>
+        <div class="food-item">Old Neptune — seafood pub on the beach</div>
+        <div class="food-item">The Goods Shed, Canterbury — farmers' market + restaurant for dinner back in the city</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 6 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <span class="day-num">SAT AUG 15</span>
+      <span class="day-title">Leeds Castle Arrival 🏰</span>
+      <span class="day-toggle">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="day-activity">
+        <div class="icon">🚕</div>
+        <div class="content">
+          <h4>Taxi Canterbury → Leeds Castle</h4>
+          <p>~35 min, ~£35. No car seat required in licensed taxi. Arrive mid-morning before wedding events begin.</p>
+        </div>
+      </div>
+      <div class="day-activity">
+        <div class="icon">🏰</div>
+        <div class="content">
+          <h4>Leeds Castle — Opens 10:30am</h4>
+          <p>Maze, falconry show, adventure playground, and vast grounds on the lake. Plan a full morning — the estate is enormous. Annual admission ticket valid for 1 full year from purchase.</p>
+          <a href="https://www.leeds-castle.com/visit/tickets/" target="_blank" class="book-btn">📌 Leeds Castle Tickets</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 7 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <span class="day-num">SUN AUG 16</span>
+      <span class="day-title">Wedding at Leeds Castle 💍</span>
+      <span class="day-special">💍 WEDDING</span>
+      <span class="day-toggle">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="day-activity">
+        <div class="icon">🏰</div>
+        <div class="content">
+          <h4>Leeds Castle, Maidstone, Kent</h4>
+          <p>One of England's most celebrated castles, set on two islands in a natural lake. The castle dates to the 9th century and has been a royal palace, fortress, and private home.</p>
+          <a href="https://www.leeds-castle.com" target="_blank" class="book-btn">Leeds Castle</a>
+        </div>
+      </div>
+      <div class="day-activity">
+        <div class="icon">💍</div>
+        <div class="content">
+          <h4>Wedding Ceremony &amp; Reception</h4>
+          <p>Enjoy the day!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 8 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <span class="day-num">MON AUG 17</span>
+      <span class="day-title">Canterbury</span>
+      <span class="day-toggle">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="day-activity">
+        <div class="icon">⛪</div>
+        <div class="content">
+          <h4>Canterbury Cathedral</h4>
+          <p>35 min from Leeds Castle. UNESCO World Heritage Site. Medieval stained glass, site of Thomas Becket's assassination. Book entry in advance in summer.</p>
+          <a href="https://www.canterbury-cathedral.org/visit/" target="_blank" class="book-btn">Canterbury Cathedral</a>
+        </div>
+      </div>
+      <div class="day-activity">
+        <div class="icon">🚣</div>
+        <div class="content">
+          <h4>River Stour Punt Tours</h4>
+          <p>Punting along the Stour through the city — great for kids. Passes through the medieval city walls.</p>
+        </div>
+      </div>
+      <div class="day-activity">
+        <div class="icon">🏛</div>
+        <div class="content">
+          <h4>Roman Walls Walk</h4>
+          <p>Westgate Towers and city walls — free to walk, good views.</p>
+        </div>
+      </div>
+      <div class="food-suggestion">
+        <strong>🍽 Canterbury:</strong>
+        <div class="food-item"><a href="https://www.deesons.co.uk" target="_blank">Deeson's</a> — seasonal British, local produce. Recommended.</div>
+        <div class="food-item">The Goods Shed — farmers' market + restaurant, excellent</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 9 -->
+  <div class="day-card">
+    <div class="day-header" onclick="toggleDay(this)">
+      <span class="day-num">TUE AUG 18</span>
+      <span class="day-title">Depart — Heathrow ✈️</span>
+      <span class="day-toggle">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="day-activity">
+        <div class="icon">🚂</div>
+        <div class="content">
+          <h4>Train Canterbury → Heathrow T5</h4>
+          <p>Canterbury West → St Pancras (High Speed, ~1h 2 min) → King's Cross → Piccadilly line → Heathrow T5 (~50 min). Total ~2h 15 min. Flight departs 3:40 PM — <strong>leave Canterbury by 12:00pm at the latest.</strong> T5 security can be lengthy.</p>
+        </div>
+      </div>
+      <div class="day-activity">
+        <div class="icon">✈️</div>
+        <div class="content">
+          <h4>BA267 departs 15:40 — Arrives Portland 17:40</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- MAP -->
+<div id="map-wrap" class="section-bg">
+  <div class="section" style="padding-bottom:0;">
+    <h2 class="section-title">🗺 Interactive Map</h2>
+  </div>
+  <div id="map"></div>
+  <div class="map-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#e32017"></div> London Attractions</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1565c0"></div> Food / Restaurants</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#9b59b6"></div> Event / Concert</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2e7d32"></div> Kent / Countryside</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#c9a84c"></div> Transport Hub</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#6b7280"></div> Accommodation</div>
+  </div>
+</div>
+
+<!-- FOOD -->
+<div id="food">
+<div class="section">
+  <h2 class="section-title">🍽 Food Guide</h2>
+  <div class="food-grid">
+
+    <div class="food-cat">
+      <div class="food-cat-header">🐟 Fish &amp; Chips</div>
+      <div class="food-cat-body">
+        <div class="food-entry">
+          <a href="https://boroughmarket.org.uk" target="_blank">Borough Market Stalls</a>
+          <div class="meta">South Bank · Mon arrival</div>
+        </div>
+        <div class="food-entry">
+          Pearson's <span class="star">⭐</span>
+          <div class="meta">Whitstable · Kent coast days</div>
+        </div>
+        <div class="food-entry">
+          Fish House Restaurant
+          <div class="meta">Broadstairs · Kent coast</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food-cat">
+      <div class="food-cat-header">🍛 Indian</div>
+      <div class="food-cat-body">
+        <div class="food-entry">
+          <a href="https://www.dishoom.com/shoreditch/" target="_blank">Dishoom Shoreditch</a> <span class="star">⭐</span>
+          <div class="meta">Thu Aug 13 · East London · Book ahead or expect a queue</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food-cat">
+      <div class="food-cat-header">🍜 Vietnamese</div>
+      <div class="food-cat-body">
+        <div class="food-entry">
+          Kingsland Road Strip
+          <div class="meta">Shoreditch · "Pho Mile" · Multiple spots including Viet Hoa, Song Que</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food-cat">
+      <div class="food-cat-header">🥙 Turkish / Kebab</div>
+      <div class="food-cat-body">
+        <div class="food-entry">
+          Fez Mangal
+          <div class="meta">East London</div>
+        </div>
+        <div class="food-entry">
+          Ali's Berlin Doner
+          <div class="meta">East London</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food-cat">
+      <div class="food-cat-header">🍣 Japanese / Asian</div>
+      <div class="food-cat-body">
+        <div class="food-entry">
+          <a href="https://zumarestaurant.com/zuma/london/" target="_blank">Zuma</a>
+          <div class="meta">South Kensington · Upscale · Wed dinner before Proms</div>
+        </div>
+        <div class="food-entry">
+          <a href="https://smokinggoatbar.com" target="_blank">Smoking Goat</a>
+          <div class="meta">Shoreditch · Thai BBQ · Thu dinner</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food-cat">
+      <div class="food-cat-header">?ae Mediterranean / Middle Eastern</div>
+      <div class="food-cat-body">
+        <div class="food-entry">
+          <a href="https://ottolenghi.co.uk" target="_blank">Ottolenghi</a> <span class="star">⭐</span>
+          <div class="meta">South Kensington · Wed before Proms</div>
+        </div>
+        <div class="food-entry">
+          Beirut Express
+          <div class="meta">South Kensington · Quick, casual, great value</div>
+        </div>
+        <div class="food-entry">
+          <a href="https://www.josepizarro.com/pizarro-restaurant/" target="_blank">Pizarro</a>
+          <div class="meta">Bermondsey · Spanish · Mon arrival dinner</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food-cat">
+      <div class="food-cat-header">🇵🇪 Latin American</div>
+      <div class="food-cat-body">
+        <div class="food-entry">
+          <a href="https://www.andinalondon.com" target="_blank">Andina</a>
+          <div class="meta">Shoreditch · Peruvian · Thu dinner</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food-cat">
+      <div class="food-cat-header">⭐ Michelin / Special</div>
+      <div class="food-cat-body">
+        <div class="food-entry">
+          <a href="https://www.corebyclaresmyth.com" target="_blank">Core by Clare Smyth</a>
+          <div class="meta">South Kensington · 3 Michelin stars · Lunch before Proms · Book months ahead</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food-cat">
+      <div class="food-cat-header">🦞 Kent Coast Seafood</div>
+      <div class="food-cat-body">
+        <div class="food-entry">
+          Old Neptune <span class="star">⭐</span>
+          <div class="meta">Whitstable · Seafood pub on the beach</div>
+        </div>
+        <div class="food-entry">
+          Pearson's
+          <div class="meta">Whitstable · Classic chippy</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food-cat">
+      <div class="food-cat-header">🌿 Canterbury</div>
+      <div class="food-cat-body">
+        <div class="food-entry">
+          <a href="https://www.deesons.co.uk" target="_blank">Deeson's</a> <span class="star">⭐</span>
+          <div class="meta">Seasonal British · Local produce</div>
+        </div>
+        <div class="food-entry">
+          The Goods Shed
+          <div class="meta">Farmers market + restaurant · Mon lunch</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- BOOKING CHECKLIST -->
+<div id="checklist" class="section-bg">
+<div class="section">
+  <h2 class="section-title">📋 Booking Checklist</h2>
+  <ul class="checklist" id="cl">
+    <li><div class="cb" onclick="tick(this)"></div><div><span class="urgent">🔴 URGENT: </span> <a href="https://www.royalalberthall.com/tickets/proms/" target="_blank">LA Philharmonic Proms tickets</a> — Royal Albert Hall, Aug 12, 7pm. Sells out fast.</div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div><span class="urgent">🔴 URGENT: </span> <a href="https://www.legoland.co.uk/tickets-passes/day-tickets/" target="_blank">LEGOLAND Windsor tickets</a> — Tue Aug 11. Sells out in August. Covered by Explorer Pass.</div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div><span class="urgent">🔴 URGENT: </span> <a href="https://www.hrp.org.uk/tower-of-london/visit/tickets/" target="_blank">Tower of London tickets</a> — Aug 13. Sells out in August. Covered by Explorer Pass.</div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div><span class="urgent">🔴 URGENT: </span> <a href="https://gocity.com/en/london/passes/explorer?choices=7&days=5&adults=2&children=2" target="_blank">Go City Explorer Pass</a> — 7 choices, 2 adults + 2 children. Covers LEGOLAND, Tower of London, Tower Bridge, London Eye, City Cruises, Golden Hinde + more.</div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div>Book London Airbnb — 4 nights Aug 10–14. <a href="https://www.airbnb.com/rooms/1686317506930831912" target="_blank">Kensington 2-bed/2-bath (rec) · $1,412</a></div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div>Book Canterbury Airbnb/hotel — 2 nights (Fri Aug 14 + Mon Aug 17) · Central location, near Cathedral</div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div>Book train — St Pancras → Canterbury West, Fri Aug 14 morning · <a href="https://www.southeasternrailway.co.uk" target="_blank">southeasternrailway.co.uk</a></div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div>Book train — Canterbury West → St Pancras, Tue Aug 18 by 12pm · same site</div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div>Email <a href="mailto:info@sehkelly.com">info@sehkelly.com</a> to arrange weekday workshop visit — Thu Aug 13 afternoon</div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div><a href="https://www.corebyclaresmyth.com" target="_blank">Core by Clare Smyth</a> reservation — Michelin lunch before Proms (Wed Aug 12). Book ASAP, months-out demand.</div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div>Add checked baggage to BA266 / BA267 (Economy Basic = carry-on only by default)</div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div><a href="https://www.heathrowexpress.com" target="_blank">Heathrow Express</a> — book in advance for cheaper rate (£22 vs £37 at gate)</div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div>Get Oyster cards or load contactless cards for London tube. Kids under 11 travel free with paying adult.</div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div><a href="https://www.leeds-castle.com/visit/tickets/" target="_blank">Leeds Castle tickets</a> — Sat Aug 15 morning. Annual pass valid 1 year.</div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div>Book <a href="https://www.dishoom.com/shoreditch/" target="_blank">Dishoom Shoreditch</a> reservation for Thu Aug 13 dinner</div></li>
+  </ul>
+</div>
+</div>
+
+<footer>London Aug 2026 · 2 adults + 2 kids · BA266/BA267</footer>
+
+<script>
+  // Day accordion
+  function toggleDay(header) {
+    const body = header.nextElementSibling;
+    const arrow = header.querySelector('.day-toggle');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    arrow.textContent = isOpen ? '▼' : '▲';
+  }
+
+  // Checkbox tick
+  function tick(el) {
+    el.classList.toggle('done');
+    el.textContent = el.classList.contains('done') ? '✓' : '';
+    saveCL();
+  }
+
+  function saveCL() {
+    const states = Array.from(document.querySelectorAll('.cb')).map(cb => cb.classList.contains('done'));
+    localStorage.setItem('london2026cl', JSON.stringify(states));
+  }
+
+  function loadCL() {
+    const saved = localStorage.getItem('london2026cl');
+    if (!saved) return;
+    JSON.parse(saved).forEach((done, i) => {
+      const cb = document.querySelectorAll('.cb')[i];
+      if (cb && done) { cb.classList.add('done'); cb.textContent = '✓'; }
+    });
+  }
+  loadCL();
+
+  // MAP
+  const map = L.map('map').setView([51.45, 0.2], 9);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19
+  }).addTo(map);
+
+  function marker(lat, lng, color, title, desc, url) {
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="background:${color};width:14px;height:14px;border-radius:50%;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.4)"></div>`,
+      iconSize: [14, 14], iconAnchor: [7, 7]
+    });
+    const popup = url
+      ? `<strong>${title}</strong><br>${desc}<br><a href="${url}" target="_blank">More info →</a>`
+      : `<strong>${title}</strong><br>${desc}`;
+    L.marker([lat, lng], { icon }).addTo(map).bindPopup(popup);
+  }
+
+  // London attractions (red)
+  marker(51.4967, -0.1764, '#e32017', 'Natural History Museum', 'Wed Aug 12 · Free · Opens 10am', 'https://www.nhm.ac.uk');
+  marker(51.5076, -0.1781, '#e32017', 'Diana Memorial Playground', 'Wed Aug 12 · Hyde Park · Free', null);
+  marker(51.5081, -0.0759, '#e32017', 'Tower of London', 'Thu Aug 13 · Book in advance', 'https://www.hrp.org.uk/tower-of-london/');
+  marker(51.5055, -0.0754, '#e32017', 'Tower Bridge', 'Thu Aug 13', 'https://www.towerbridge.org.uk');
+  marker(51.5072, -0.1153, '#e32017', 'South Bank', 'Mon Aug 10 · Arrival walk', null);
+  marker(51.5073, -0.0896, '#e32017', 'Golden Hinde', 'Mon Aug 10 option · Tudor warship · Explorer Pass', 'https://goldenhinde.com');
+  marker(51.5246, -0.0757, '#e32017', 'SEH Kelly', 'Thu Aug 13 · Boundary St, Shoreditch · Email ahead', 'mailto:info@sehkelly.com');
+
+  // Events (purple)
+  marker(51.5009, -0.1774, '#9b59b6', 'Royal Albert Hall', 'Wed Aug 12 · LA Phil Proms 7pm', 'https://www.royalalberthall.com/tickets/proms/');
+
+  // Transport (gold)
+  marker(51.5154, -0.1755, '#c9a84c', 'Paddington Station', 'Heathrow Express terminus · Circle line to Windsor train', null);
+  marker(51.5014, -0.1247, '#c9a84c', 'Westminster Pier', 'Mon Aug 10 · City Cruises Thames River Pass · Explorer Pass', null);
+
+  // LEGOLAND (teal)
+  marker(51.4533, -0.6248, '#0891b2', 'LEGOLAND Windsor', 'Tue Aug 11 · Full day · Explorer Pass', 'https://www.legoland.co.uk/tickets-passes/day-tickets/');
+
+  // Food (blue)
+  marker(51.5055, -0.0909, '#1565c0', 'Borough Market', 'Mon Aug 10 · Street food · South Bank', 'https://boroughmarket.org.uk');
+  marker(51.5200, -0.0750, '#1565c0', 'Dishoom Shoreditch', 'Thu Aug 13 dinner · Book ahead', 'https://www.dishoom.com/shoreditch/');
+  marker(51.4930, -0.1820, '#1565c0', 'Ottolenghi / Beirut Express', 'Wed pre-Proms dinner · South Kensington', null);
+  marker(51.4972, -0.1820, '#1565c0', 'Core by Clare Smyth', 'Wed lunch before Proms · Michelin · Book now!', 'https://www.corebyclaresmyth.com');
+  marker(51.5237, -0.0720, '#1565c0', 'Kingsland Road Vietnamese', 'Thu dinner option · Shoreditch', null);
+
+  // Accommodation options (grey)
+  marker(51.5135, -0.2030, '#6b7280', 'Notting Hill (Airbnb option)', '3 bed · Guest Fave · ⭐5.0 · $1,356/4n', 'https://www.airbnb.com/rooms/777972865352926916');
+  marker(51.4920, -0.1394, '#6b7280', 'Victoria (Airbnb option)', '2 bed · Guest Fave · ⭐4.89 · $1,256/4n', 'https://www.airbnb.com/rooms/1118762468163863085');
+  marker(51.5360, -0.1020, '#6b7280', 'Angel (Airbnb option)', '3 bed · Guest Fave · ⭐4.99 · $1,859/4n', 'https://www.airbnb.com/rooms/3517033');
+
+  // Kent (green) — zoom out to see these
+  marker(51.2468, 0.6299, '#2e7d32', 'Leeds Castle — Sat Aug 15', 'Morning visit · Maze, falconry, adventure playground · Wedding eve arrival', 'https://www.leeds-castle.com/visit/tickets/');
+  marker(51.2475, 0.6308, '#9b59b6', 'Leeds Castle — Sun Aug 16 💍', 'Wedding Day · Ceremony &amp; Reception', 'https://www.leeds-castle.com');
+  marker(51.3620, 1.0280, '#2e7d32', 'Whitstable', 'Fri Aug 14 option · Oysters · Old Neptune pub · 15 min taxi from Canterbury', null);
+  marker(51.2802, 1.0789, '#2e7d32', 'Canterbury', 'Mon Aug 17 · Cathedral · Punt tours', 'https://www.canterbury-cathedral.org/visit/');
+  marker(51.3620, 1.0280, '#2e7d32', 'Whitstable', 'Kent coast · Pearson\'s Fish & Chips · Old Neptune', null);
+
+  // Heathrow
+  marker(51.4776, -0.4614, '#c9a84c', 'Heathrow T5', 'Arrive Mon Aug 10 1pm · Depart Tue Aug 18 3:40pm', null);
+</script>
+
+</body>
+</html>
