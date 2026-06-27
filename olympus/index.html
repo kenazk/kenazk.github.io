@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaleb's 10th Birthday — Which Greek God Are You?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#c9a227;
+    --gold-dark:#8a6d1b;
+    --ink:#1c2230;
+    --parch:#f5eede;
+    --parch-dark:#e8dcc0;
+    --stone:#2b3245;
+    --accent:#5b76b8;
+    --font-head:'Cinzel',Georgia,serif;
+    --font-body:'EB Garamond',Georgia,'Times New Roman',serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    font-family:var(--font-body);
+    font-size:17px;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(91,118,184,.12), transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(201,162,39,.12), transparent 40%),
+      var(--ink);
+    color:var(--parch);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  }
+  .app{width:100%;max-width:480px;min-height:100vh;display:flex;flex-direction:column;padding:24px 20px 40px;}
+
+  .laurel{font-family:var(--font-head);font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px;color:var(--gold);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;}
+  .laurel:before,.laurel:after{content:"";height:1px;width:40px;background:linear-gradient(90deg,transparent,var(--gold));}
+  .laurel:after{background:linear-gradient(90deg,var(--gold),transparent);}
+
+  h1{font-family:var(--font-head);font-weight:900;font-size:27px;line-height:1.2;text-align:center;color:#fff;margin-bottom:6px;letter-spacing:1px;}
+  h1 .sub{display:block;font-family:var(--font-body);font-weight:400;font-size:19px;color:var(--gold);font-style:italic;margin-top:8px;letter-spacing:.5px;}
+  .tagline{text-align:center;color:#b9c1d4;font-size:15px;line-height:1.5;margin:14px 4px 26px;}
+
+  .col-temple{font-size:46px;text-align:center;margin:8px 0 18px;letter-spacing:6px;}
+
+  button{font-family:inherit;cursor:pointer;border:none;}
+  .btn-primary{
+    font-family:var(--font-head);font-weight:700;
+    width:100%;background:linear-gradient(180deg,var(--gold),var(--gold-dark));
+    color:#241c05;font-size:16px;letter-spacing:1px;
+    padding:16px;border-radius:14px;box-shadow:0 6px 0 #5e4912,0 8px 14px rgba(0,0,0,.4);
+    transition:transform .08s,box-shadow .08s;
+  }
+  .btn-primary:active{transform:translateY(4px);box-shadow:0 2px 0 #5e4912,0 4px 8px rgba(0,0,0,.4);}
+
+  .progress-wrap{margin-bottom:20px;}
+  .progress-track{height:8px;background:var(--stone);border-radius:99px;overflow:hidden;}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .3s ease;}
+  .progress-label{font-size:13px;color:#9aa3bb;text-align:center;margin-top:8px;letter-spacing:1px;}
+
+  .qcard{flex:1;display:flex;flex-direction:column;}
+  .qnum{font-family:var(--font-head);font-weight:700;color:var(--gold);font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+  .qtext{font-family:var(--font-head);font-weight:500;font-size:22px;line-height:1.35;color:#fff;margin-bottom:24px;}
+
+  .options{display:flex;flex-direction:column;gap:12px;}
+  .option{
+    text-align:left;width:100%;background:var(--stone);color:var(--parch);
+    font-size:17px;line-height:1.4;padding:16px 18px;border-radius:14px;
+    border:2px solid transparent;transition:transform .08s,border-color .15s,background .15s;
+    display:flex;align-items:center;gap:12px;
+  }
+  .option:active{transform:scale(.98);}
+  .option .dot{flex:0 0 26px;height:26px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:14px;font-weight:bold;}
+  .option.sel{border-color:var(--gold);background:#39415a;}
+  .option.sel .dot{background:var(--gold);color:#241c05;}
+
+  .nav{display:flex;gap:12px;margin-top:24px;}
+  .btn-back{flex:0 0 auto;background:transparent;color:#9aa3bb;border:2px solid var(--stone);border-radius:14px;padding:14px 20px;font-size:16px;}
+  .btn-next{flex:1;}
+  .btn-next:disabled{opacity:.4;filter:grayscale(.5);}
+
+  /* name capture */
+  .namecard{flex:1;display:flex;flex-direction:column;}
+  .name-prompt{font-family:var(--font-head);font-weight:500;font-size:22px;line-height:1.35;color:#fff;text-align:center;margin-bottom:8px;}
+  .name-help{text-align:center;color:#b9c1d4;font-size:15px;line-height:1.5;margin-bottom:22px;}
+  .field{margin-bottom:8px;}
+  .field input{
+    width:100%;font-family:var(--font-body);font-size:20px;text-align:center;
+    color:var(--parch);background:var(--stone);
+    border:2px solid var(--gold-dark);border-radius:14px;padding:16px 18px;
+    outline:none;transition:border-color .15s,background .15s;letter-spacing:.5px;
+  }
+  .field input:focus{border-color:var(--gold);background:#39415a;}
+  .field input::placeholder{color:#7e879d;font-style:italic;}
+  .name-err{min-height:20px;color:#e9b949;font-size:14px;text-align:center;margin:6px 0 16px;}
+
+  /* result */
+  .result{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;}
+  .result .crown{font-size:54px;margin:6px 0 4px;}
+  .result .youare{font-family:var(--font-head);font-weight:700;color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-size:13px;margin-bottom:4px;}
+  .result h2{font-family:var(--font-head);font-weight:900;font-size:38px;color:#fff;margin-bottom:2px;letter-spacing:1px;}
+  .result .title{font-style:italic;color:#b9c1d4;font-size:18px;margin-bottom:18px;}
+  .result .blurb{font-size:17px;line-height:1.6;color:var(--parch);background:var(--stone);padding:18px 20px;border-radius:16px;border:1px solid rgba(201,162,39,.3);margin-bottom:16px;}
+  .traits{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px;}
+  .trait{background:rgba(91,118,184,.25);border:1px solid var(--accent);color:#cdd6ef;font-size:13px;padding:6px 12px;border-radius:99px;letter-spacing:.5px;}
+  .domain{font-size:15px;color:#9aa3bb;margin-bottom:18px;}
+  .domain b{color:var(--gold);}
+  .board-status{font-family:var(--font-head);font-weight:700;font-size:14px;letter-spacing:1px;color:var(--gold);background:rgba(201,162,39,.1);border:1px solid rgba(201,162,39,.35);border-radius:99px;padding:10px 16px;margin-bottom:18px;}
+  .board-status.muted{color:#9aa3bb;border-color:var(--stone);background:transparent;font-family:var(--font-body);font-weight:400;letter-spacing:0;font-style:italic;}
+  .result .btn-primary{margin-bottom:10px;}
+  .share-note{font-size:13px;color:#828ba6;line-height:1.5;}
+
+  .fade{animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script type="module">
+/* ============================================================
+   FIREBASE — modular v9+ SDK loaded straight from the CDN.
+   No build step, works on GitHub Pages.
+   ============================================================ */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+/* ╔══════════════════════════════════════════════════════════╗
+   ║  >>> PASTE YOUR FIREBASE CONFIG HERE <<<                  ║
+   ║  Firebase console → Project settings → "Your apps" →     ║
+   ║  the web app → "Config". Copy the firebaseConfig object   ║
+   ║  and replace the placeholder values below.                ║
+   ║  IMPORTANT: paste the SAME config into board.html too.    ║
+   ╚══════════════════════════════════════════════════════════╝ */
+const firebaseConfig = {
+  apiKey: "AIzaSyBE5xxKiGCr1GBpFFVFhZB0TnopD98J4ds",
+  authDomain: "kaleb-10th-party.firebaseapp.com",
+  databaseURL: "https://kaleb-10th-party-default-rtdb.firebaseio.com",
+  projectId: "kaleb-10th-party",
+  storageBucket: "kaleb-10th-party.firebasestorage.app",
+  messagingSenderId: "330099024543",
+  appId: "1:330099024543:web:723ace34d14f1aa1dc78aa"
+};
+/* ─────────────  end of config — nothing else to edit  ───────────── */
+
+let db = null, firebaseReady = false;
+try {
+  if (firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith("PASTE")) {
+    db = getDatabase(initializeApp(firebaseConfig));
+    firebaseReady = true;
+  }
+} catch (e) { console.warn("Firebase not configured yet:", e); }
+
+/* ---------- Quiz data ---------- */
+const GODS = {
+  zeus:{name:"Zeus",crown:"⚡",title:"King of the Gods",domain:"sky, thunder & leadership",
+    traits:["Bold","Natural leader","Confident"],
+    blurb:"You take charge without thinking twice. People look to you to make the call, and you're happy to make it. Just remember even the king listens sometimes!"},
+  poseidon:{name:"Poseidon",crown:"🔱",title:"God of the Sea",domain:"oceans, storms & horses",
+    traits:["Powerful","Moody","Adventurous"],
+    blurb:"Calm one minute, a roaring wave the next. You feel things deeply and love a big adventure. Nobody rides a storm quite like you."},
+  athena:{name:"Athena",crown:"🦉",title:"Goddess of Wisdom",domain:"wisdom, strategy & crafts",
+    traits:["Clever","Strategic","Fair"],
+    blurb:"You'd rather out-think a problem than charge at it. Smart, level-headed, and always three moves ahead. The owl is on your team for a reason."},
+  apollo:{name:"Apollo",crown:"🎵",title:"God of the Sun & Music",domain:"music, art & light",
+    traits:["Creative","Sunny","Talented"],
+    blurb:"You light up the room and probably have a song stuck in your head right now. Art, music, fun — you bring the good vibes wherever you go."},
+  artemis:{name:"Artemis",crown:"🏹",title:"Goddess of the Hunt",domain:"the wild, moon & animals",
+    traits:["Independent","Brave","Wild-hearted"],
+    blurb:"Give you the great outdoors and you're happy. You're independent, fearless, and fiercely loyal to your pack — and to every animal you meet."},
+  hermes:{name:"Hermes",crown:"👟",title:"Messenger of the Gods",domain:"speed, travel & mischief",
+    traits:["Quick","Funny","Clever trickster"],
+    blurb:"Fast on your feet and faster with a joke. You're always up to something and somehow talk your way out of anything. Never a dull moment with you around."},
+  dionysus:{name:"Dionysus",crown:"🍇",title:"God of Celebration",domain:"festivals, joy & fun",
+    traits:["Fun-loving","Generous","Life of the party"],
+    blurb:"If there's a party, you're the reason it's a good one. Warm, generous, and always making sure everyone's having a great time."},
+  hephaestus:{name:"Hephaestus",crown:"🔨",title:"God of the Forge",domain:"making, building & fire",
+    traits:["Maker","Patient","Inventive"],
+    blurb:"You love figuring out how things work and building stuff with your own two hands. Quiet genius energy — you let your creations do the talking."}
+};
+
+const QUESTIONS = [
+  {q:"It's party time! Where do we find you?",
+   a:[["Running the games and bossing everyone around (nicely)","zeus"],
+      ["On the dance floor or playing music","apollo"],
+      ["Cracking jokes and pulling pranks","hermes"],
+      ["Making sure EVERYONE is having fun","dionysus"]]},
+  {q:"Pick a superpower:",
+   a:[["Control the weather","poseidon"],
+      ["Super speed","hermes"],
+      ["Always know the smartest move","athena"],
+      ["Talk to animals","artemis"]]},
+  {q:"Your friends would say you're the most...",
+   a:[["Clever","athena"],
+      ["Brave","artemis"],
+      ["Funny","hermes"],
+      ["Creative","apollo"]]},
+  {q:"What sounds like the BEST day ever?",
+   a:[["Exploring the woods or the beach","artemis"],
+      ["Building something awesome","hephaestus"],
+      ["A big celebration with everyone you love","dionysus"],
+      ["Leading your team to a win","zeus"]]},
+  {q:"There's a tricky problem. What do you do?",
+   a:[["Make a smart plan first","athena"],
+      ["Charge straight in, full power","poseidon"],
+      ["Build a gadget to fix it","hephaestus"],
+      ["Find a sneaky shortcut","hermes"]]},
+  {q:"Pick a pet companion:",
+   a:[["A mighty eagle","zeus"],
+      ["A wise owl","athena"],
+      ["A loyal hunting dog","artemis"],
+      ["A galloping horse","poseidon"]]},
+  {q:"Which sounds most like you?",
+   a:[["I love being the center of attention","apollo"],
+      ["I'd rather do my own thing","hephaestus"],
+      ["I keep my friends laughing","hermes"],
+      ["I take care of everybody","dionysus"]]},
+  {q:"Choose your weapon... I mean, your style:",
+   a:[["A bow and arrow","artemis"],
+      ["A lightning bolt","zeus"],
+      ["A trusty hammer","hephaestus"],
+      ["A magic lyre (mini harp)","apollo"]]}
+];
+
+/* ---------- State ---------- */
+let qIndex=0;
+let guestName='';
+let posted=false;
+const answers=new Array(QUESTIONS.length).fill(null);
+const app=document.getElementById('app');
+
+/* ---------- Helpers ---------- */
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function normName(n){return n.trim().toLowerCase();}
+function submittedList(){try{return JSON.parse(localStorage.getItem('olympus_names')||'[]');}catch(e){return [];}}
+function alreadySubmitted(n){return submittedList().includes(normName(n));}
+function recordSubmitted(n){const a=submittedList();a.push(normName(n));localStorage.setItem('olympus_names',JSON.stringify(a));}
+
+/* ---------- Screens ---------- */
+function renderStart(){
+  app.innerHTML=`
+    <div class="fade">
+      <div class="laurel">Kaleb is 10! · Mount Olympus</div>
+      <div class="col-temple">⛪</div>
+      <h1>Which Greek God<span class="sub">are you?</span></h1>
+      <p class="tagline">Welcome to Kaleb's 10th birthday! Answer 8 quick questions and discover which Olympian matches you best. Then grab your laurel crown!</p>
+      <button class="btn-primary" onclick="goName()">Begin the Quest →</button>
+    </div>`;
+  app.querySelector('.col-temple').textContent='🏛️';
+}
+
+function renderNameForm(){
+  app.innerHTML=`
+    <div class="namecard fade">
+      <div class="laurel">Step to the Altar</div>
+      <div class="col-temple">📜</div>
+      <div class="name-prompt">Who seeks the favor of the gods?</div>
+      <div class="name-help">Enter your first name so Olympus can record your fate on the Hall board.</div>
+      <div class="field">
+        <input id="nameInput" type="text" inputmode="text" autocomplete="given-name"
+               maxlength="20" placeholder="Your first name"
+               value="${esc(guestName)}" />
+      </div>
+      <div class="name-err" id="nameErr"></div>
+      <button class="btn-primary" onclick="submitName()">Enter the Temple →</button>
+    </div>`;
+  const inp=document.getElementById('nameInput');
+  inp.focus();
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter')submitName();});
+}
+
+function renderQuestion(){
+  const item=QUESTIONS[qIndex];
+  const pct=Math.round((qIndex/QUESTIONS.length)*100);
+  const opts=item.a.map((o,i)=>{
+    const sel=answers[qIndex]===o[1]?' sel':'';
+    const letter=String.fromCharCode(65+i);
+    return `<button class="option${sel}" onclick="choose('${o[1]}')">
+      <span class="dot">${letter}</span><span>${o[0]}</span></button>`;
+  }).join('');
+  app.innerHTML=`
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-label">Question ${qIndex+1} of ${QUESTIONS.length}</div>
+    </div>
+    <div class="qcard fade">
+      <div class="qnum">⚡ Olympian Trial ${qIndex+1}</div>
+      <div class="qtext">${item.q}</div>
+      <div class="options">${opts}</div>
+      <div class="nav">
+        ${qIndex>0?'<button class="btn-back" onclick="back()">‹ Back</button>':''}
+        <button class="btn-primary btn-next" id="nextBtn" onclick="next()" ${answers[qIndex]?'':'disabled'}>
+          ${qIndex===QUESTIONS.length-1?'See My God ✦':'Next →'}
+        </button>
+      </div>
+    </div>`;
+}
+
+function choose(godKey){
+  answers[qIndex]=godKey;
+  renderQuestion();
+}
+function next(){
+  if(!answers[qIndex])return;
+  if(qIndex<QUESTIONS.length-1){qIndex++;renderQuestion();}
+  else renderResult();
+}
+function back(){if(qIndex>0){qIndex--;renderQuestion();}}
+
+function goName(){renderNameForm();}
+function submitName(){
+  const inp=document.getElementById('nameInput');
+  const err=document.getElementById('nameErr');
+  const v=(inp.value||'').trim().slice(0,20);
+  if(!v){err.textContent='Please enter your name to continue.';inp.focus();return;}
+  guestName=v;
+  startQuiz();
+}
+function startQuiz(){qIndex=0;answers.fill(null);posted=false;renderQuestion();}
+function playAgain(){guestName='';renderNameForm();}
+
+function tally(){
+  const count={};
+  answers.forEach(g=>{if(g)count[g]=(count[g]||0)+1;});
+  let best=null,max=-1;
+  // preserve question order for tie-breaks (first reached wins, feels fair)
+  answers.forEach(g=>{
+    if(g&&count[g]>max){max=count[g];best=g;}
+  });
+  return best;
+}
+
+/* ---------- Post the result to the live board ---------- */
+async function postToBoard(name,godKey){
+  if(!firebaseReady||posted)return false;
+  try{
+    await push(ref(db,'inductions'),{name:name.slice(0,20),god:godKey,ts:Date.now()});
+    posted=true;
+    recordSubmitted(name);
+    return true;
+  }catch(e){console.warn('Could not post to board:',e);return false;}
+}
+
+function renderResult(){
+  const key=tally();
+  const g=GODS[key];
+  const traitTags=g.traits.map(t=>`<span class="trait">${t}</span>`).join('');
+
+  // figure out the board status message
+  let statusHtml='';
+  if(!firebaseReady){
+    statusHtml=`<div class="board-status muted">(Live board not connected yet — add Firebase keys to enable it.)</div>`;
+  }else if(alreadySubmitted(guestName)){
+    statusHtml=`<div class="board-status">✓ ${esc(guestName)} is already in the Hall of Olympians</div>`;
+  }else{
+    statusHtml=`<div class="board-status" id="boardStatus">⏳ Sending ${esc(guestName)} to the Hall…</div>`;
+  }
+
+  app.innerHTML=`
+    <div class="result fade">
+      <div class="laurel">By decree of Olympus</div>
+      <div class="crown">${g.crown}</div>
+      <div class="youare">You are</div>
+      <h2>${g.name}</h2>
+      <div class="title">${g.title}</div>
+      <div class="blurb">${g.blurb}</div>
+      <div class="traits">${traitTags}</div>
+      <div class="domain">Domain: <b>${g.domain}</b></div>
+      ${statusHtml}
+      <button class="btn-primary" onclick="playAgain()">↺ Pass to Next Guest</button>
+      <p class="share-note">Hand the phone to the next guest<br>and watch the Hall of Olympians fill up! 🏛️</p>
+    </div>`;
+
+  // post (only if connected and this name hasn't posted from this device)
+  if(firebaseReady && !alreadySubmitted(guestName)){
+    postToBoard(guestName,key).then(ok=>{
+      const el=document.getElementById('boardStatus');
+      if(el) el.innerHTML = ok
+        ? `✓ ${esc(guestName)} joined House ${esc(g.name)}!`
+        : `(Couldn't reach the board — check your connection.)`;
+      if(el && !ok) el.classList.add('muted');
+    });
+  }
+}
+
+/* expose handlers for the inline onclick attributes (module scope isn't global) */
+window.goName=goName;
+window.submitName=submitName;
+window.startQuiz=startQuiz;
+window.playAgain=playAgain;
+window.choose=choose;
+window.next=next;
+window.back=back;
+
+renderStart();
+</script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hall of Olympians — Kaleb's 10th Birthday</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#c9a227;
+    --gold-bright:#f0cf57;
+    --gold-dark:#8a6d1b;
+    --ink:#1c2230;
+    --parch:#f5eede;
+    --stone:#2b3245;
+    --accent:#5b76b8;
+    --font-head:'Cinzel',Georgia,serif;
+    --font-body:'EB Garamond',Georgia,'Times New Roman',serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:var(--font-body);
+    background:
+      radial-gradient(circle at 15% 0%, rgba(91,118,184,.14), transparent 45%),
+      radial-gradient(circle at 85% 100%, rgba(201,162,39,.14), transparent 45%),
+      var(--ink);
+    color:var(--parch);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  #confetti{position:fixed;inset:0;pointer-events:none;z-index:50;}
+
+  .wrap{max-width:1600px;margin:0 auto;padding:26px 32px 40px;}
+
+  /* header */
+  header{text-align:center;margin-bottom:22px;}
+  .laurel{font-family:var(--font-head);font-weight:700;display:flex;align-items:center;justify-content:center;gap:14px;color:var(--gold);font-size:15px;letter-spacing:4px;text-transform:uppercase;margin-bottom:12px;}
+  .laurel:before,.laurel:after{content:"";height:1px;width:70px;background:linear-gradient(90deg,transparent,var(--gold));}
+  .laurel:after{background:linear-gradient(90deg,var(--gold),transparent);}
+  h1{font-family:var(--font-head);font-weight:900;font-size:clamp(34px,5vw,64px);line-height:1.05;color:#fff;letter-spacing:2px;text-shadow:0 2px 30px rgba(201,162,39,.25);}
+  h1 .em{color:var(--gold);}
+  .census{margin-top:14px;display:flex;align-items:center;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--font-head);font-weight:500;letter-spacing:1px;color:#b9c1d4;font-size:clamp(15px,1.5vw,20px);}
+  .census b{color:var(--gold-bright);font-weight:700;}
+  .census .lead-now{color:#fff;}
+  .census .lead-now b{color:var(--gold-bright);}
+
+  /* grid of houses */
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  @media (max-width:1200px){.grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:640px){.grid{grid-template-columns:1fr;}}
+
+  .house{
+    position:relative;background:linear-gradient(180deg,#262d40,#20283a);
+    border:2px solid var(--stone);border-radius:18px;padding:20px 18px 18px;
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+    transition:border-color .3s,box-shadow .3s,transform .3s;overflow:hidden;
+  }
+  .house .crown{font-size:clamp(40px,4vw,56px);line-height:1;filter:drop-shadow(0 3px 8px rgba(0,0,0,.5));}
+  .house .hname{font-family:var(--font-head);font-weight:900;font-size:clamp(22px,2.2vw,30px);color:#fff;letter-spacing:1px;margin-top:6px;}
+  .house .htitle{font-family:var(--font-head);font-weight:700;font-size:clamp(13px,1.2vw,16px);color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+  .house .motto{font-style:italic;color:#9aa3bb;font-size:clamp(13px,1.1vw,15px);margin-top:5px;line-height:1.35;min-height:2.5em;}
+  .house .count{font-family:var(--font-head);font-weight:900;font-size:clamp(38px,4.5vw,58px);color:var(--gold-bright);line-height:1;margin:8px 0 2px;text-shadow:0 2px 16px rgba(240,207,87,.3);}
+  .house .count-label{font-family:var(--font-head);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#7e879d;margin-bottom:12px;}
+  .members{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;align-content:flex-start;}
+  .member{
+    background:rgba(91,118,184,.22);border:1px solid var(--accent);color:#dde4f5;
+    font-size:clamp(14px,1.3vw,18px);padding:5px 12px;border-radius:99px;letter-spacing:.4px;
+  }
+  .members:empty:after{content:"awaiting mortals…";color:#646e88;font-style:italic;font-size:14px;}
+
+  /* leading house highlight */
+  .house.leading{
+    border-color:var(--gold);
+    box-shadow:0 0 0 1px var(--gold),0 0 34px rgba(201,162,39,.4);
+    transform:translateY(-3px);
+  }
+  .house.leading::before{
+    content:"👑 Leading Olympus";
+    position:absolute;top:0;left:50%;transform:translateX(-50%);
+    background:linear-gradient(180deg,var(--gold-bright),var(--gold-dark));
+    color:#241c05;font-family:var(--font-head);font-weight:700;
+    font-size:11px;letter-spacing:1.5px;padding:4px 16px;border-radius:0 0 10px 10px;white-space:nowrap;
+  }
+  .house.leading .crown{animation:bob 2.2s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+  /* new member pop-in */
+  .member.pop{animation:pop .7s cubic-bezier(.2,1.4,.5,1);}
+  @keyframes pop{0%{transform:scale(0) rotate(-8deg);opacity:0;}60%{transform:scale(1.18);}100%{transform:scale(1);opacity:1;}}
+
+  /* heraldic announcement banner */
+  #herald{
+    position:fixed;left:50%;top:30px;transform:translateX(-50%) translateY(-140%);
+    z-index:60;max-width:92vw;
+    background:linear-gradient(180deg,#33405e,#222c42);
+    border:2px solid var(--gold);border-radius:16px;
+    box-shadow:0 12px 40px rgba(0,0,0,.55),0 0 30px rgba(201,162,39,.35);
+    padding:18px 34px;font-family:var(--font-head);font-weight:700;
+    font-size:clamp(20px,2.6vw,34px);color:#fff;letter-spacing:1px;white-space:nowrap;
+    text-align:center;transition:transform .5s cubic-bezier(.2,1.3,.4,1),opacity .4s;opacity:0;
+  }
+  #herald.show{transform:translateX(-50%) translateY(0);opacity:1;}
+  #herald .hl{color:var(--gold-bright);}
+
+  .footer{text-align:center;margin-top:26px;color:#646e88;font-size:14px;letter-spacing:1px;}
+  .setup-warn{max-width:680px;margin:60px auto;text-align:center;background:var(--stone);border:1px solid var(--gold-dark);border-radius:16px;padding:30px;color:#e8dcc0;line-height:1.6;}
+  .setup-warn h2{font-family:var(--font-head);color:var(--gold);margin-bottom:10px;}
+  .setup-warn code{background:#1a1f2c;padding:2px 6px;border-radius:5px;color:#f0cf57;}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div id="herald"></div>
+
+<div class="wrap">
+  <header>
+    <div class="laurel">Kaleb is 10 · Mount Olympus</div>
+    <h1>Hall of <span class="em">Olympians</span></h1>
+    <div class="census">
+      <span><b id="totalCount">0</b> guests inducted</span>
+      <span class="lead-now" id="leadNow"></span>
+    </div>
+  </header>
+  <div class="grid" id="grid"></div>
+  <div class="footer">Take the quiz on your phone — your god appears here the moment you finish ✦</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+/* ╔══════════════════════════════════════════════════════════╗
+   ║  >>> PASTE THE SAME FIREBASE CONFIG AS index.html <<<     ║
+   ╚══════════════════════════════════════════════════════════╝ */
+const firebaseConfig = {
+  apiKey: "AIzaSyBE5xxKiGCr1GBpFFVFhZB0TnopD98J4ds",
+  authDomain: "kaleb-10th-party.firebaseapp.com",
+  databaseURL: "https://kaleb-10th-party-default-rtdb.firebaseio.com",
+  projectId: "kaleb-10th-party",
+  storageBucket: "kaleb-10th-party.firebasestorage.app",
+  messagingSenderId: "330099024543",
+  appId: "1:330099024543:web:723ace34d14f1aa1dc78aa"
+};
+/* ─────────────  end of config  ───────────── */
+
+/* ---------- House lore: name, crown, faction title, motto ---------- */
+const HOUSES = {
+  zeus:      {name:"Zeus",      crown:"⚡", house:"the House of Thunder",  title:"House of Thunder",  motto:"Rulers of the storm-bright sky"},
+  poseidon:  {name:"Poseidon",  crown:"🔱", house:"the House of Tides",    title:"House of Tides",    motto:"Masters of the restless sea"},
+  athena:    {name:"Athena",    crown:"🦉", house:"the Wise Council",      title:"The Wise Council",  motto:"Keepers of strategy and craft"},
+  apollo:    {name:"Apollo",    crown:"🎵", house:"the House of Radiance", title:"House of Radiance", motto:"Bearers of light and music"},
+  artemis:   {name:"Artemis",   crown:"🏹", house:"the Wild Hunt",         title:"The Wild Hunt",     motto:"Free hearts of moon and wood"},
+  hermes:    {name:"Hermes",    crown:"👟", house:"the Swift Order",       title:"The Swift Order",   motto:"Tricksters fleet of foot and wit"},
+  dionysus:  {name:"Dionysus",  crown:"🍇", house:"the House of Revels",   title:"House of Revels",   motto:"Keepers of the endless feast"},
+  hephaestus:{name:"Hephaestus",crown:"🔨", house:"the Forge Guild",       title:"The Forge Guild",   motto:"Makers of wonders in fire"}
+};
+const ORDER=["zeus","poseidon","athena","apollo","artemis","hermes","dionysus","hephaestus"];
+const VERBS=["has ascended to","joins","is claimed by","answers the call of","is crowned into","rises to","is welcomed into","is sworn into"];
+
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+/* ---------- Firebase ---------- */
+let db=null, ready=false;
+try{
+  if(firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith("PASTE")){
+    db=getDatabase(initializeApp(firebaseConfig));
+    ready=true;
+  }
+}catch(e){console.warn(e);}
+
+const grid=document.getElementById('grid');
+const totalEl=document.getElementById('totalCount');
+const leadEl=document.getElementById('leadNow');
+
+if(!ready){
+  document.querySelector('.wrap').innerHTML=`
+    <div class="setup-warn">
+      <h2>⚙️ Almost there</h2>
+      <p>This board isn't connected to Firebase yet. Paste your <code>firebaseConfig</code>
+      into <code>board.html</code> (the same one you put in <code>index.html</code>), then reload.</p>
+    </div>`;
+}
+
+let seen=new Set();
+let firstLoad=true;
+
+/* ---------- Build the 8 house cards ---------- */
+function render(entries){
+  // group by god, preserve arrival order
+  const byGod={}; ORDER.forEach(k=>byGod[k]=[]);
+  entries.forEach(e=>{ if(byGod[e.god]) byGod[e.god].push(e); });
+
+  // leading house = most members (tie → earliest to reach that count, i.e. ORDER first)
+  let leadKey=null,leadMax=0;
+  ORDER.forEach(k=>{ if(byGod[k].length>leadMax){leadMax=byGod[k].length;leadKey=k;} });
+
+  grid.innerHTML=ORDER.map(k=>{
+    const h=HOUSES[k], list=byGod[k];
+    const leading=(k===leadKey && leadMax>0)?' leading':'';
+    const members=list.map(e=>{
+      const isNew=!seen.has(e.k);
+      return `<span class="member${isNew?' pop':''}">${esc(e.name)}</span>`;
+    }).join('');
+    return `
+      <div class="house${leading}" data-god="${k}">
+        <div class="crown">${h.crown}</div>
+        <div class="hname">${h.name}</div>
+        <div class="htitle">${h.title}</div>
+        <div class="motto">${h.motto}</div>
+        <div class="count">${list.length}</div>
+        <div class="count-label">Members</div>
+        <div class="members">${members}</div>
+      </div>`;
+  }).join('');
+
+  totalEl.textContent=entries.length;
+  if(leadKey && leadMax>0){
+    leadEl.innerHTML=`· ${HOUSES[leadKey].crown} <b>${HOUSES[leadKey].title}</b> leads Olympus`;
+  }else{
+    leadEl.innerHTML='';
+  }
+}
+
+/* ---------- Heraldic announcements ---------- */
+const herald=document.getElementById('herald');
+let queue=[],showing=false;
+function enqueue(entry){queue.push(entry);if(!showing)playNext();}
+function playNext(){
+  if(!queue.length){showing=false;return;}
+  showing=true;
+  const e=queue.shift();
+  const h=HOUSES[e.god]||{crown:"✦",house:"Olympus"};
+  const verb=VERBS[Math.floor(Math.random()*VERBS.length)];
+  herald.innerHTML=`${h.crown} <span class="hl">${esc(e.name)}</span> ${verb} ${esc(h.house)}!`;
+  herald.classList.add('show');
+  burstConfetti();
+  setTimeout(()=>{
+    herald.classList.remove('show');
+    setTimeout(playNext,500);
+  },3600);
+}
+
+/* ---------- Live subscription ---------- */
+if(ready){
+  onValue(ref(db,'inductions'),snap=>{
+    const data=snap.val()||{};
+    const entries=Object.entries(data)
+      .map(([k,v])=>({k,name:(v&&v.name)?String(v.name).slice(0,20):'?',god:v&&v.god,ts:(v&&v.ts)||0}))
+      .filter(e=>HOUSES[e.god])
+      .sort((a,b)=>a.ts-b.ts);
+
+    const newOnes=entries.filter(e=>!seen.has(e.k));
+    render(entries);                 // render marks .pop using current `seen`
+    entries.forEach(e=>seen.add(e.k));
+
+    if(firstLoad){ firstLoad=false; } // don't announce the backlog on first load
+    else { newOnes.forEach(enqueue); }
+  });
+}
+
+/* ---------- Lightweight confetti (gold + olympian blue) ---------- */
+const cv=document.getElementById('confetti'),ctx=cv.getContext('2d');
+let parts=[],raf=null;
+function size(){cv.width=innerWidth;cv.height=innerHeight;}
+size();addEventListener('resize',size);
+const COLORS=['#c9a227','#f0cf57','#5b76b8','#dde4f5','#8a6d1b'];
+function burstConfetti(){
+  for(let i=0;i<90;i++){
+    parts.push({
+      x:innerWidth/2+(Math.random()-0.5)*240, y:90,
+      vx:(Math.random()-0.5)*9, vy:Math.random()*-9-3,
+      g:0.22+Math.random()*0.12, s:5+Math.random()*7,
+      rot:Math.random()*6.28, vr:(Math.random()-0.5)*0.4,
+      color:COLORS[Math.floor(Math.random()*COLORS.length)], life:0
+    });
+  }
+  if(!raf)raf=requestAnimationFrame(tick);
+}
+function tick(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  parts=parts.filter(p=>p.life<260 && p.y<cv.height+40);
+  parts.forEach(p=>{
+    p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;p.life++;
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);
+    ctx.globalAlpha=Math.max(0,1-p.life/260);ctx.fillStyle=p.color;
+    ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.6);
+    ctx.restore();
+  });
+  if(parts.length)raf=requestAnimationFrame(tick);
+  else{ctx.clearRect(0,0,cv.width,cv.height);raf=null;}
+}
+</script>
+</body>
+</html>
