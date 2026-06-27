@@ -234,10 +234,6 @@ const app=document.getElementById('app');
 
 /* ---------- Helpers ---------- */
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function normName(n){return n.trim().toLowerCase();}
-function submittedList(){try{return JSON.parse(localStorage.getItem('olympus_names')||'[]');}catch(e){return [];}}
-function alreadySubmitted(n){return submittedList().includes(normName(n));}
-function recordSubmitted(n){const a=submittedList();a.push(normName(n));localStorage.setItem('olympus_names',JSON.stringify(a));}
 
 /* ---------- Screens ---------- */
 function renderStart(){
@@ -339,7 +335,6 @@ async function postToBoard(name,godKey){
   try{
     await push(ref(db,'inductions'),{name:name.slice(0,20),god:godKey,ts:Date.now()});
     posted=true;
-    recordSubmitted(name);
     return true;
   }catch(e){console.warn('Could not post to board:',e);return false;}
 }
@@ -349,12 +344,10 @@ function renderResult(){
   const g=GODS[key];
   const traitTags=g.traits.map(t=>`<span class="trait">${t}</span>`).join('');
 
-  // figure out the board status message
+  // board status message
   let statusHtml='';
   if(!firebaseReady){
-    statusHtml=`<div class="board-status muted">(Live board not connected yet — add Firebase keys to enable it.)</div>`;
-  }else if(alreadySubmitted(guestName)){
-    statusHtml=`<div class="board-status">✓ ${esc(guestName)} is already in the Hall of Olympians</div>`;
+    statusHtml=`<div class="board-status muted">(Live board not connected.)</div>`;
   }else{
     statusHtml=`<div class="board-status" id="boardStatus">⏳ Sending ${esc(guestName)} to the Hall…</div>`;
   }
@@ -374,14 +367,15 @@ function renderResult(){
       <p class="share-note">Hand the phone to the next guest<br>and watch the Hall of Olympians fill up! 🏛️</p>
     </div>`;
 
-  // post (only if connected and this name hasn't posted from this device)
-  if(firebaseReady && !alreadySubmitted(guestName)){
+  // post the result to the live board (posted-flag prevents an accidental double-tap)
+  if(firebaseReady){
     postToBoard(guestName,key).then(ok=>{
       const el=document.getElementById('boardStatus');
-      if(el) el.innerHTML = ok
-        ? `✓ ${esc(guestName)} joined House ${esc(g.name)}!`
-        : `(Couldn't reach the board — check your connection.)`;
-      if(el && !ok) el.classList.add('muted');
+      if(el){
+        el.innerHTML = ok ? `✓ ${esc(guestName)} joined House ${esc(g.name)}!`
+                          : `(Couldn't reach the board — check your connection.)`;
+        if(!ok) el.classList.add('muted');
+      }
     });
   }
 }
