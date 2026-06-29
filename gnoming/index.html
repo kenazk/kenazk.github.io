@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gnoming Around — Clubhouse Leaderboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#2f7d4f; --green-dk:#1e5236; --green-lt:#5bbb7b;
+    --cream:#f6f1e3; --cream-dk:#ece3cd;
+    --red:#c0392b; --wood:#8a5a2b; --ink:#243027;
+    --gold:#e2a93b;
+    --card:#ffffff; --line:#e4ddc8;
+    --font-head:'Fredoka',system-ui,sans-serif;
+    --font-body:'Nunito',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{min-height:100%;}
+  body{
+    font-family:var(--font-body);font-size:16px;color:var(--ink);
+    background:
+      radial-gradient(circle at 12% 0%, rgba(91,187,123,.18), transparent 42%),
+      radial-gradient(circle at 90% 8%, rgba(226,169,59,.16), transparent 40%),
+      var(--cream);
+    min-height:100vh;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:22px 16px 60px;}
+
+  /* header */
+  header{text-align:center;margin-bottom:18px;}
+  .eyebrow{font-family:var(--font-head);font-weight:600;color:var(--green);letter-spacing:2px;text-transform:uppercase;font-size:12px;}
+  h1{font-family:var(--font-head);font-weight:700;font-size:clamp(30px,7vw,46px);color:var(--green-dk);line-height:1.05;margin:4px 0 2px;}
+  h1 .emoji{filter:drop-shadow(0 2px 2px rgba(0,0,0,.15));}
+  .sub{color:#6b7568;font-size:15px;}
+
+  /* tabs */
+  .tabs{display:flex;gap:8px;background:var(--cream-dk);padding:5px;border-radius:14px;margin:18px auto 22px;max-width:380px;}
+  .tab{flex:1;font-family:var(--font-head);font-weight:600;font-size:15px;color:#6b7568;background:transparent;border:none;padding:11px;border-radius:10px;cursor:pointer;transition:all .15s;}
+  .tab.active{background:var(--green);color:#fff;box-shadow:0 3px 8px rgba(47,125,79,.35);}
+
+  .view{display:none;}
+  .view.active{display:block;animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;}
+  @media (max-width:560px){.stats{grid-template-columns:repeat(2,1fr);}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 12px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.04);}
+  .stat .ico{font-size:22px;line-height:1;}
+  .stat .lbl{font-family:var(--font-head);font-weight:600;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#8a937f;margin:6px 0 3px;}
+  .stat .val{font-family:var(--font-head);font-weight:700;font-size:19px;color:var(--green-dk);line-height:1.15;word-break:break-word;}
+  .stat .val small{display:block;font-family:var(--font-body);font-weight:600;font-size:12px;color:#9aa08f;margin-top:2px;}
+
+  .section-title{font-family:var(--font-head);font-weight:600;font-size:16px;color:var(--green-dk);margin:0 2px 12px;display:flex;align-items:center;gap:8px;}
+
+  /* game cards */
+  .game{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.04);}
+  .game-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .game-date{font-family:var(--font-head);font-weight:600;color:var(--wood);font-size:14px;}
+  .game-del{background:transparent;border:none;color:#c9c2ad;font-size:16px;cursor:pointer;padding:2px 6px;border-radius:6px;transition:color .15s;}
+  .game-del:hover{color:var(--red);}
+  .row{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px dashed var(--line);}
+  .row:first-of-type{border-top:none;}
+  .row .rank{flex:0 0 26px;font-family:var(--font-head);font-weight:700;color:#b9bfa9;font-size:14px;text-align:center;}
+  .row .pname{flex:1;font-weight:600;}
+  .row .pscore{font-family:var(--font-head);font-weight:700;font-size:18px;color:var(--ink);}
+  .row.winner{background:linear-gradient(90deg,rgba(226,169,59,.16),transparent);border-radius:8px;margin:0 -6px;padding-left:6px;padding-right:6px;}
+  .row.winner .rank{color:var(--gold);}
+  .row.winner .pname:after{content:" 🏆";}
+
+  .empty{text-align:center;color:#9aa08f;padding:40px 20px;font-style:italic;}
+  .empty .big{font-size:40px;margin-bottom:10px;font-style:normal;}
+
+  /* form */
+  .form-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+  .field{margin-bottom:18px;}
+  .field > label{display:block;font-family:var(--font-head);font-weight:600;font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:#8a937f;margin-bottom:8px;}
+  .stepper{display:flex;align-items:center;gap:14px;}
+  .stepper button{width:42px;height:42px;border-radius:11px;border:none;background:var(--green);color:#fff;font-size:24px;font-family:var(--font-head);cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;transition:transform .08s,background .15s;}
+  .stepper button:active{transform:scale(.92);}
+  .stepper button:disabled{background:#cfd6c7;cursor:not-allowed;}
+  .stepper .count{font-family:var(--font-head);font-weight:700;font-size:26px;color:var(--green-dk);min-width:34px;text-align:center;}
+  input[type=date]{font-family:var(--font-body);font-size:16px;padding:12px 14px;border:2px solid var(--line);border-radius:11px;background:#fcfaf3;color:var(--ink);width:100%;}
+  input:focus{outline:none;border-color:var(--green-lt);}
+
+  .players{display:flex;flex-direction:column;gap:10px;}
+  .prow{display:flex;gap:10px;align-items:center;}
+  .prow .pn{flex:0 0 30px;text-align:center;font-size:20px;}
+  .prow input.name{flex:1;font-family:var(--font-body);font-size:16px;padding:12px 14px;border:2px solid var(--line);border-radius:11px;background:#fcfaf3;color:var(--ink);min-width:0;}
+  .prow input.score{flex:0 0 92px;font-family:var(--font-head);font-weight:700;font-size:18px;text-align:center;padding:12px 8px;border:2px solid var(--line);border-radius:11px;background:#fcfaf3;color:var(--ink);}
+  .hint{font-size:13px;color:#9aa08f;margin-top:7px;}
+  .err{color:var(--red);font-size:14px;font-weight:600;min-height:20px;margin:10px 0 4px;text-align:center;}
+  .btn{width:100%;font-family:var(--font-head);font-weight:700;font-size:17px;color:#fff;background:linear-gradient(180deg,var(--green-lt),var(--green));border:none;border-radius:13px;padding:15px;cursor:pointer;box-shadow:0 5px 0 var(--green-dk);transition:transform .08s,box-shadow .08s;letter-spacing:.5px;}
+  .btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--green-dk);}
+
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(140%);background:var(--green-dk);color:#fff;font-family:var(--font-head);font-weight:600;padding:13px 22px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.3);transition:transform .4s cubic-bezier(.2,1.3,.4,1);z-index:50;}
+  .toast.show{transform:translateX(-50%) translateY(0);}
+
+  .setup-warn{background:#fff;border:1px solid var(--gold);border-radius:14px;padding:22px;text-align:center;color:#7a6a3a;line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Grandpa Beck's · Gnome Mini-Golf</div>
+    <h1><span class="emoji">🧙‍♂️</span> Gnoming Around <span class="emoji">⛳</span></h1>
+    <div class="sub">Clubhouse Leaderboard — lowest score wins!</div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-view="board">🏆 Leaderboard</button>
+    <button class="tab" data-view="new">➕ New Game</button>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <section class="view active" id="view-board">
+    <div class="stats" id="stats"></div>
+    <div class="section-title">📋 Past Rounds</div>
+    <div id="games"></div>
+  </section>
+
+  <!-- NEW GAME -->
+  <section class="view" id="view-new">
+    <div class="form-card">
+      <div class="field">
+        <label>Number of players</label>
+        <div class="stepper">
+          <button type="button" id="minus">−</button>
+          <span class="count" id="pcount">4</span>
+          <button type="button" id="plus">＋</button>
+        </div>
+        <div class="hint">2–7 players. Tip: name your gnomes so they show up on the leaderboard stats.</div>
+      </div>
+      <div class="field">
+        <label>Date played</label>
+        <input type="date" id="gdate">
+      </div>
+      <div class="field">
+        <label>Scores <span style="text-transform:none;font-weight:400;color:#b3b8a6;">(lowest wins — negatives allowed)</span></label>
+        <div class="players" id="players"></div>
+      </div>
+      <div class="err" id="formErr"></div>
+      <button class="btn" id="saveBtn">⛳ Save Round</button>
+    </div>
+  </section>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+/* ╔══════════════════════════════════════════════════════════╗
+   ║  Firebase config — project: gnoming-around-scores         ║
+   ╚══════════════════════════════════════════════════════════╝ */
+const firebaseConfig = {
+  apiKey: "AIzaSyCL-OvpfKgPFn01nxVjYnsphLFYdhzjqQw",
+  authDomain: "gnoming-around-scores.firebaseapp.com",
+  databaseURL: "https://gnoming-around-scores-default-rtdb.firebaseio.com",
+  projectId: "gnoming-around-scores",
+  storageBucket: "gnoming-around-scores.firebasestorage.app",
+  messagingSenderId: "397931802092",
+  appId: "1:397931802092:web:f8a2d0fe5fceb16a6ae4c9"
+};
+
+let db=null, ready=false;
+try{ db=getDatabase(initializeApp(firebaseConfig)); ready=true; }catch(e){ console.warn(e); }
+
+/* ---------- helpers ---------- */
+const $=id=>document.getElementById(id);
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fmtDate(d){
+  // d is a YYYY-MM-DD string; render friendly
+  const [y,m,dd]=(d||'').split('-').map(Number);
+  if(!y) return '—';
+  return new Date(y,m-1,dd).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
+}
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);}
+
+/* ---------- tabs ---------- */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    $(t.dataset.view==='new'?'view-new':'view-board').classList.add('active');
+  });
+});
+
+/* ---------- new game form ---------- */
+let count=4;
+const MIN=2,MAX=7;
+function buildRows(prev=[]){
+  const box=$('players'); box.innerHTML='';
+  for(let i=0;i<count;i++){
+    const p=prev[i]||{name:'',score:''};
+    const row=document.createElement('div'); row.className='prow';
+    row.innerHTML=`<span class="pn">🧙</span>
+      <input class="name" type="text" maxlength="20" placeholder="Player ${i+1}" value="${esc(p.name)}">
+      <input class="score" type="number" step="1" inputmode="numbers" placeholder="0" value="${esc(p.score)}">`;
+    box.appendChild(row);
+  }
+}
+function readRows(){
+  return [...document.querySelectorAll('#players .prow')].map(r=>({
+    name:r.querySelector('.name').value, score:r.querySelector('.score').value
+  }));
+}
+$('minus').addEventListener('click',()=>{ if(count>MIN){const p=readRows();count--;buildRows(p);updateStepper();} });
+$('plus').addEventListener('click',()=>{ if(count<MAX){const p=readRows();count++;buildRows(p);updateStepper();} });
+function updateStepper(){ $('pcount').textContent=count; $('minus').disabled=count<=MIN; $('plus').disabled=count>=MAX; }
+$('gdate').value=new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD local
+buildRows(); updateStepper();
+
+$('saveBtn').addEventListener('click',async()=>{
+  const err=$('formErr'); err.textContent='';
+  if(!ready){err.textContent='Not connected to the database.';return;}
+  const rows=readRows();
+  // validate: every row needs a numeric score
+  const players=[];
+  for(let i=0;i<rows.length;i++){
+    const sRaw=rows[i].score.trim();
+    if(sRaw===''||isNaN(Number(sRaw))){ err.textContent=`Enter a score for every player (Player ${i+1} is missing).`; return; }
+    players.push({ name:rows[i].name.trim().slice(0,20), score:Math.round(Number(sRaw)) });
+  }
+  const date=$('gdate').value || new Date().toLocaleDateString('en-CA');
+  try{
+    await push(ref(db,'games'),{date,players,createdAt:Date.now()});
+    toast('⛳ Round saved!');
+    // reset scores, keep names & count for the next round of the same group
+    buildRows(players.map(p=>({name:p.name,score:''})));
+    document.querySelector('.tab[data-view="board"]').click();
+  }catch(e){ err.textContent='Could not save: '+e.message; }
+});
+
+/* ---------- delete a game (event delegation) ---------- */
+$('games').addEventListener('click',e=>{
+  const b=e.target.closest('.game-del'); if(!b)return;
+  if(!confirm('Delete this round? This removes it for everyone.')) return;
+  remove(ref(db,'games/'+b.dataset.key)).catch(err=>alert('Could not delete: '+err.message));
+});
+
+/* ---------- render leaderboard + stats ---------- */
+function winnersOf(g){ const m=Math.min(...g.players.map(p=>p.score)); return m; }
+
+function render(games){
+  // games: array of {key,date,players,createdAt} sorted newest first
+  renderGames(games);
+  renderStats(games);
+}
+
+function renderGames(games){
+  const box=$('games');
+  if(!games.length){
+    box.innerHTML=`<div class="empty"><div class="big">🏌️</div>No rounds yet. Tap <b>➕ New Game</b> to record your first round!</div>`;
+    return;
+  }
+  box.innerHTML=games.map(g=>{
+    const min=winnersOf(g);
+    const sorted=[...g.players].sort((a,b)=>a.score-b.score);
+    const rows=sorted.map((p,i)=>{
+      const win=p.score===min;
+      const nm=p.name?esc(p.name):`<span style="color:#aab0a0">Player ${g.players.indexOf(p)+1}</span>`;
+      return `<div class="row${win?' winner':''}"><span class="rank">${i+1}</span><span class="pname">${nm}</span><span class="pscore">${p.score}</span></div>`;
+    }).join('');
+    return `<div class="game">
+      <div class="game-head">
+        <span class="game-date">⛳ ${fmtDate(g.date)}</span>
+        <button class="game-del" data-key="${g.key}" title="Delete round">✕</button>
+      </div>${rows}</div>`;
+  }).join('');
+}
+
+function renderStats(games){
+  const box=$('stats');
+  const named={};   // name -> {wins, last, scores:[]}
+  let bestRound=null;   // {score,name,date}
+  games.forEach(g=>{
+    const min=Math.min(...g.players.map(p=>p.score));
+    const max=Math.max(...g.players.map(p=>p.score));
+    g.players.forEach(p=>{
+      if(p.name){
+        const n=named[p.name]||(named[p.name]={wins:0,last:0,scores:[]});
+        n.scores.push(p.score);
+        if(p.score===min) n.wins++;
+        if(p.score===max && g.players.length>1) n.last++;
+      }
+      if(bestRound===null || p.score<bestRound.score) bestRound={score:p.score,name:p.name||'a gnome',date:g.date};
+    });
+  });
+  const names=Object.keys(named);
+  const champ=names.slice().sort((a,b)=>named[b].wins-named[a].wins)[0];
+  const avgEligible=names.filter(n=>named[n].scores.length>=2);
+  const lowAvg=avgEligible.slice().sort((a,b)=>avg(named[a].scores)-avg(named[b].scores))[0];
+  const spoon=names.filter(n=>named[n].last>0).sort((a,b)=>named[b].last-named[a].last)[0];
+
+  const tiles=[
+    {ico:'⛳',lbl:'Rounds Played',val:games.length||'0'},
+    {ico:'🧙',lbl:'Gnomes',val:names.length||'0'},
+    {ico:'🏆',lbl:'Clubhouse Champ',val: champ?`${esc(champ)}<small>${named[champ].wins} win${named[champ].wins>1?'s':''}</small>`:'—'},
+    {ico:'🎯',lbl:'Best Round',val: bestRound?`${bestRound.score}<small>${esc(bestRound.name)}</small>`:'—'},
+    {ico:'📉',lbl:'Lowest Average',val: lowAvg?`${avg(named[lowAvg].scores).toFixed(1)}<small>${esc(lowAvg)}</small>`:'—'},
+    {ico:'🪵',lbl:'Wooden Spoon',val: spoon?`${esc(spoon)}<small>${named[spoon].last} last place${named[spoon].last>1?'s':''}</small>`:'—'},
+  ];
+  box.innerHTML=tiles.map(t=>`<div class="stat"><div class="ico">${t.ico}</div><div class="lbl">${t.lbl}</div><div class="val">${t.val}</div></div>`).join('');
+}
+function avg(a){return a.reduce((x,y)=>x+y,0)/a.length;}
+
+/* ---------- live data ---------- */
+if(!ready){
+  $('view-board').innerHTML='<div class="setup-warn">⚙️ Not connected to Firebase. Check the config in index.html.</div>';
+}else{
+  onValue(ref(db,'games'),snap=>{
+    const data=snap.val()||{};
+    const games=Object.entries(data)
+      .map(([key,v])=>({key, date:v.date||'', createdAt:v.createdAt||0,
+        players:Array.isArray(v.players)?v.players.filter(p=>p&&typeof p.score==='number'):[]}))
+      .filter(g=>g.players.length>=1)
+      .sort((a,b)=> (a.date<b.date?1:a.date>b.date?-1:0) || (b.createdAt-a.createdAt));
+    render(games);
+  });
+}
+</script>
+</body>
+</html>
