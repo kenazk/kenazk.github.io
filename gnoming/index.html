@@ -45,7 +45,10 @@
 
   .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;}
   @media (max-width:560px){.stats{grid-template-columns:repeat(2,1fr);}}
-  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 12px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.04);}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 12px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.04);cursor:pointer;transition:transform .12s,box-shadow .12s,border-color .12s;position:relative;}
+  .stat:hover,.stat:active{transform:translateY(-2px);box-shadow:0 7px 16px rgba(47,125,79,.18);border-color:var(--green-lt);}
+  .stat::after{content:"›";position:absolute;top:7px;right:10px;color:#cfd6c7;font-family:var(--font-head);font-weight:700;}
+  .stats-hint{text-align:center;font-size:13px;color:#9aa08f;font-style:italic;margin:-4px 0 12px;}
   .stat .ico{font-size:22px;line-height:1;}
   .stat .lbl{font-family:var(--font-head);font-weight:600;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#8a937f;margin:6px 0 3px;}
   .stat .val{font-family:var(--font-head);font-weight:700;font-size:19px;color:var(--green-dk);line-height:1.15;word-break:break-word;}
@@ -58,8 +61,8 @@
   .game-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
   .game-date{font-family:var(--font-head);font-weight:600;color:var(--wood);font-size:14px;}
   .live-badge{font-family:var(--font-head);font-weight:700;font-size:12px;color:#fff;background:var(--green);padding:3px 9px;border-radius:99px;letter-spacing:.5px;}
-  .game-del{background:transparent;border:none;color:#c9c2ad;font-size:16px;cursor:pointer;padding:2px 6px;border-radius:6px;transition:color .15s;}
-  .game-del:hover{color:var(--red);}
+  .game-del{background:var(--cream);border:1px solid var(--line);color:#9aa08f;font-size:15px;cursor:pointer;padding:5px 9px;border-radius:9px;transition:all .15s;line-height:1;}
+  .game-del:hover,.game-del:active{color:#fff;background:var(--red);border-color:var(--red);}
   .row{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px dashed var(--line);}
   .row:first-of-type{border-top:none;}
   .row .rank{flex:0 0 24px;font-family:var(--font-head);font-weight:700;color:#b9bfa9;font-size:14px;text-align:center;}
@@ -106,6 +109,32 @@
   .roundtitle{font-family:var(--font-head);font-weight:700;font-size:20px;color:var(--green-dk);text-align:center;margin-bottom:4px;}
   .roundsub{text-align:center;color:#8a937f;font-size:13px;margin-bottom:16px;}
 
+  /* stat detail modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(25,40,28,.5);display:none;align-items:flex-start;justify-content:center;padding:24px 14px;z-index:100;overflow-y:auto;}
+  .modal-overlay.show{display:flex;}
+  .modal{background:var(--cream);border-radius:18px;max-width:520px;width:100%;padding:22px 20px 24px;box-shadow:0 24px 60px rgba(0,0,0,.45);position:relative;animation:pop .25s ease;}
+  @keyframes pop{from{opacity:0;transform:translateY(12px) scale(.98);}to{opacity:1;transform:none;}}
+  .modal-close{position:absolute;top:12px;right:12px;width:34px;height:34px;border:none;background:var(--cream-dk);border-radius:50%;font-size:15px;color:#6b7568;cursor:pointer;}
+  .modal-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;padding-right:34px;}
+  .modal-head .mico{font-size:30px;line-height:1;}
+  .modal-head .mtitle{font-family:var(--font-head);font-weight:700;font-size:23px;color:var(--green-dk);}
+  .modal-explain{color:#6b7568;font-size:14px;line-height:1.5;margin-bottom:14px;}
+  .drow{display:flex;align-items:center;gap:12px;padding:9px 4px;border-top:1px solid var(--line);}
+  .drow:first-child{border-top:none;}
+  .drow .drank{flex:0 0 26px;font-family:var(--font-head);font-weight:700;color:#b9bfa9;text-align:center;}
+  .drow.top .drank{color:var(--gold);}
+  .drow .dmain{flex:1;min-width:0;}
+  .drow .dname{font-weight:700;}
+  .drow .dsub{font-size:12px;color:#9aa08f;margin-top:1px;line-height:1.35;}
+  .drow .dval{font-family:var(--font-head);font-weight:700;font-size:20px;color:var(--green-dk);}
+  .drow.top .dval{color:var(--gold);}
+  .logitem{border-top:1px solid var(--line);padding:9px 2px;}
+  .logitem:first-child{border-top:none;}
+  .logdate{font-family:var(--font-head);font-weight:600;color:var(--wood);font-size:14px;margin-bottom:4px;}
+  .lrow{display:flex;justify-content:space-between;padding:3px 8px;border-radius:6px;}
+  .lrow.win{background:rgba(226,169,59,.16);font-weight:700;}
+  .lrow .lv{font-family:var(--font-head);font-weight:700;}
+
   .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(16px);background:var(--green-dk);color:#fff;font-family:var(--font-head);font-weight:600;padding:13px 22px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.3);transition:transform .35s cubic-bezier(.2,1.3,.4,1),opacity .25s,visibility .25s;z-index:50;opacity:0;visibility:hidden;pointer-events:none;}
   .toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible;}
   .setup-warn{background:#fff;border:1px solid var(--gold);border-radius:14px;padding:22px;text-align:center;color:#7a6a3a;line-height:1.6;}
@@ -125,6 +154,7 @@
   </div>
 
   <section class="view active" id="view-board">
+    <div class="stats-hint">Tap any stat for the full breakdown ›</div>
     <div class="stats" id="stats"></div>
     <div id="live"></div>
     <div class="section-title">📋 Past Games</div>
@@ -132,6 +162,15 @@
   </section>
 
   <section class="view" id="view-new"></section>
+</div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-head"><span class="mico" id="mico"></span><span class="mtitle" id="mtitle"></span></div>
+    <div class="modal-explain" id="mexplain"></div>
+    <div class="modal-body" id="mbody"></div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -338,34 +377,89 @@ function renderBoard(){
   renderStats(finals);
 }
 
+let detailData=null;
 function renderStats(finals){
-  const named={}; let bestRound=null, bestGame=null;
+  const named={}; const allRounds=[]; const allTotals=[]; const log=[];
   finals.forEach(g=>{
     const tot=totals(g); const min=Math.min(...tot), max=Math.max(...tot);
+    log.push({date:g.date, min, rows:g.players.map((p,i)=>({name:p.name||('Player '+(i+1)),total:tot[i]})).sort((a,b)=>a.total-b.total)});
     g.players.forEach((p,i)=>{
       if(p.name){
-        const n=named[p.name]||(named[p.name]={wins:0,last:0,totals:[]});
-        n.totals.push(tot[i]);
-        if(tot[i]===min) n.wins++;
-        if(tot[i]===max && g.players.length>1) n.last++;
+        const n=named[p.name]||(named[p.name]={wins:[],lasts:[],totals:[],games:0});
+        n.games++; n.totals.push(tot[i]);
+        if(tot[i]===min) n.wins.push(g.date);
+        if(tot[i]===max && g.players.length>1) n.lasts.push(g.date);
+        allTotals.push({v:tot[i],name:p.name,date:g.date});
+        g.rounds.forEach((r,ri)=>{ if(typeof r[i]==='number') allRounds.push({v:r[i],name:p.name,date:g.date,round:ri+1}); });
       }
-      if(bestGame===null||tot[i]<bestGame.v) bestGame={v:tot[i],name:p.name||'a gnome'};
-      g.rounds.forEach(r=>{ if(typeof r[i]==='number' && (bestRound===null||r[i]<bestRound.v)) bestRound={v:r[i],name:p.name||'a gnome'}; });
     });
   });
   const names=Object.keys(named);
-  const champ=names.slice().sort((a,b)=>named[b].wins-named[a].wins)[0];
-  const spoon=names.filter(n=>named[n].last>0).sort((a,b)=>named[b].last-named[a].last)[0];
+  detailData={named,names,allRounds,allTotals,log,gamesPlayed:finals.length};
+  const champ=names.slice().sort((a,b)=>named[b].wins.length-named[a].wins.length)[0];
+  const spoon=names.filter(n=>named[n].lasts.length>0).sort((a,b)=>named[b].lasts.length-named[a].lasts.length)[0];
+  const bestRound=allRounds.slice().sort((a,b)=>a.v-b.v)[0];
+  const bestGame=allTotals.slice().sort((a,b)=>a.v-b.v)[0];
   const tiles=[
-    {ico:'⛳',lbl:'Games Played',val:finals.length||'0'},
-    {ico:'🧙',lbl:'Gnomes',val:names.length||'0'},
-    {ico:'🏆',lbl:'Clubhouse Champ',val:champ?`${esc(champ)}<small>${named[champ].wins} win${named[champ].wins>1?'s':''}</small>`:'—'},
-    {ico:'🎯',lbl:'Best Round',val:bestRound?`${bestRound.v}<small>${esc(bestRound.name)}</small>`:'—'},
-    {ico:'🏅',lbl:'Best Game',val:bestGame?`${bestGame.v}<small>${esc(bestGame.name)}</small>`:'—'},
-    {ico:'🪵',lbl:'Wooden Spoon',val:spoon?`${esc(spoon)}<small>${named[spoon].last} last</small>`:'—'},
+    {s:'games',ico:'⛳',lbl:'Games Played',val:finals.length||'0'},
+    {s:'gnomes',ico:'🧙',lbl:'Gnomes',val:names.length||'0'},
+    {s:'champ',ico:'🏆',lbl:'Clubhouse Champ',val:champ&&named[champ].wins.length?`${esc(champ)}<small>${named[champ].wins.length} win${named[champ].wins.length>1?'s':''}</small>`:'—'},
+    {s:'bestRound',ico:'🎯',lbl:'Best Round',val:bestRound?`${bestRound.v}<small>${esc(bestRound.name)}</small>`:'—'},
+    {s:'bestGame',ico:'🏅',lbl:'Best Game',val:bestGame?`${bestGame.v}<small>${esc(bestGame.name)}</small>`:'—'},
+    {s:'spoon',ico:'🪵',lbl:'Wooden Spoon',val:spoon?`${esc(spoon)}<small>${named[spoon].lasts.length} last</small>`:'—'},
   ];
-  $('stats').innerHTML=tiles.map(t=>`<div class="stat"><div class="ico">${t.ico}</div><div class="lbl">${t.lbl}</div><div class="val">${t.val}</div></div>`).join('');
+  $('stats').innerHTML=tiles.map(t=>`<div class="stat" data-stat="${t.s}"><div class="ico">${t.ico}</div><div class="lbl">${t.lbl}</div><div class="val">${t.val}</div></div>`).join('');
 }
+
+/* ---- stat detail modal ---- */
+function emptyMsg(){return '<div class="empty" style="padding:24px 0">No data yet.</div>';}
+function fmtDates(ds){return ds.map(d=>fmtDate(d)).join(', ');}
+function rankRows(arr,fmt){
+  return arr.map((it,i)=>{const r=fmt(it,i);
+    return `<div class="drow${i===0?' top':''}"><span class="drank">${i+1}</span><span class="dmain"><div class="dname">${r.label}</div>${r.sub?`<div class="dsub">${r.sub}</div>`:''}</span><span class="dval">${r.val}</span></div>`;}).join('');
+}
+function openStat(stat){
+  if(!detailData)return;
+  const {named,names,allRounds,allTotals,log}=detailData;
+  let ico='',title='',explain='',body='';
+  if(stat==='games'){
+    ico='⛳';title='Games Played';
+    explain='Every finished game on record — your full season log, newest first. The 🏆 marks the lowest total (the winner) in each game.';
+    body=log.length?log.map(L=>`<div class="logitem"><div class="logdate">⛳ ${esc(fmtDate(L.date))}</div>${L.rows.map(r=>`<div class="lrow${r.total===L.min?' win':''}"><span>${esc(r.name)}${r.total===L.min?' 🏆':''}</span><span class="lv">${r.total}</span></div>`).join('')}</div>`).join(''):emptyMsg();
+  }else if(stat==='gnomes'){
+    ico='🧙';title='Gnomes';
+    explain='Every named gnome who has played (players left unnamed are not tracked across games). Sorted by games played, with wins and last-place finishes.';
+    const arr=names.slice().sort((a,b)=>named[b].games-named[a].games);
+    body=arr.length?rankRows(arr,n=>({label:esc(n),sub:`${named[n].wins.length} win${named[n].wins.length===1?'':'s'} · ${named[n].lasts.length} last`,val:named[n].games})):emptyMsg();
+  }else if(stat==='champ'){
+    ico='🏆';title='Clubhouse Champ';
+    explain='A win means finishing a game with the lowest total score (if there is a tie, everyone tied gets the win). Ranked by total wins — the dates won are listed so you can see it over time.';
+    const arr=names.filter(n=>named[n].wins.length>0).sort((a,b)=>named[b].wins.length-named[a].wins.length);
+    body=arr.length?rankRows(arr,n=>({label:esc(n),sub:fmtDates(named[n].wins),val:named[n].wins.length})):emptyMsg();
+  }else if(stat==='bestRound'){
+    ico='🎯';title='Best Round';
+    explain='The lowest score anyone posted in a single round. Rounds go negative when you match rows or columns, so lower is better. Top 12 single rounds of all time.';
+    const arr=allRounds.slice().sort((a,b)=>a.v-b.v).slice(0,12);
+    body=arr.length?rankRows(arr,it=>({label:esc(it.name),sub:`${esc(fmtDate(it.date))} · Round ${it.round}`,val:it.v})):emptyMsg();
+  }else if(stat==='bestGame'){
+    ico='🏅';title='Best Game';
+    explain='The lowest game total ever posted (sum of all rounds). Lower is better. Top 12 games of all time.';
+    const arr=allTotals.slice().sort((a,b)=>a.v-b.v).slice(0,12);
+    body=arr.length?rankRows(arr,it=>({label:esc(it.name),sub:esc(fmtDate(it.date)),val:it.v})):emptyMsg();
+  }else if(stat==='spoon'){
+    ico='🪵';title='Wooden Spoon';
+    explain='Last place = the highest total in a game. This counts how often each gnome finished dead last. Worn with shame.';
+    const arr=names.filter(n=>named[n].lasts.length>0).sort((a,b)=>named[b].lasts.length-named[a].lasts.length);
+    body=arr.length?rankRows(arr,n=>({label:esc(n),sub:fmtDates(named[n].lasts),val:named[n].lasts.length})):emptyMsg();
+  }
+  $('mico').textContent=ico; $('mtitle').textContent=title; $('mexplain').textContent=explain; $('mbody').innerHTML=body;
+  $('modal').classList.add('show');
+}
+function closeModal(){$('modal').classList.remove('show');}
+$('stats').addEventListener('click',e=>{const t=e.target.closest('.stat');if(t&&t.dataset.stat)openStat(t.dataset.stat);});
+$('modalClose').addEventListener('click',closeModal);
+$('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
 /* ===== live data ===== */
 if(!ready){
