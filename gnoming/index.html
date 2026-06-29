@@ -29,14 +29,12 @@
   }
   .wrap{max-width:760px;margin:0 auto;padding:22px 16px 60px;}
 
-  /* header */
   header{text-align:center;margin-bottom:18px;}
   .eyebrow{font-family:var(--font-head);font-weight:600;color:var(--green);letter-spacing:2px;text-transform:uppercase;font-size:12px;}
   h1{font-family:var(--font-head);font-weight:700;font-size:clamp(30px,7vw,46px);color:var(--green-dk);line-height:1.05;margin:4px 0 2px;}
   h1 .emoji{filter:drop-shadow(0 2px 2px rgba(0,0,0,.15));}
   .sub{color:#6b7568;font-size:15px;}
 
-  /* tabs */
   .tabs{display:flex;gap:8px;background:var(--cream-dk);padding:5px;border-radius:14px;margin:18px auto 22px;max-width:380px;}
   .tab{flex:1;font-family:var(--font-head);font-weight:600;font-size:15px;color:#6b7568;background:transparent;border:none;padding:11px;border-radius:10px;cursor:pointer;transition:all .15s;}
   .tab.active{background:var(--green);color:#fff;box-shadow:0 3px 8px rgba(47,125,79,.35);}
@@ -45,7 +43,6 @@
   .view.active{display:block;animation:fade .3s ease;}
   @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 
-  /* stats */
   .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;}
   @media (max-width:560px){.stats{grid-template-columns:repeat(2,1fr);}}
   .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 12px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.04);}
@@ -56,25 +53,27 @@
 
   .section-title{font-family:var(--font-head);font-weight:600;font-size:16px;color:var(--green-dk);margin:0 2px 12px;display:flex;align-items:center;gap:8px;}
 
-  /* game cards */
   .game{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.04);}
+  .game.live{border:2px solid var(--green-lt);background:linear-gradient(180deg,#f3fbf5,#fff);}
   .game-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
   .game-date{font-family:var(--font-head);font-weight:600;color:var(--wood);font-size:14px;}
+  .live-badge{font-family:var(--font-head);font-weight:700;font-size:12px;color:#fff;background:var(--green);padding:3px 9px;border-radius:99px;letter-spacing:.5px;}
   .game-del{background:transparent;border:none;color:#c9c2ad;font-size:16px;cursor:pointer;padding:2px 6px;border-radius:6px;transition:color .15s;}
   .game-del:hover{color:var(--red);}
   .row{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px dashed var(--line);}
   .row:first-of-type{border-top:none;}
-  .row .rank{flex:0 0 26px;font-family:var(--font-head);font-weight:700;color:#b9bfa9;font-size:14px;text-align:center;}
-  .row .pname{flex:1;font-weight:600;}
-  .row .pscore{font-family:var(--font-head);font-weight:700;font-size:18px;color:var(--ink);}
+  .row .rank{flex:0 0 24px;font-family:var(--font-head);font-weight:700;color:#b9bfa9;font-size:14px;text-align:center;}
+  .row .pname{flex:1;font-weight:600;min-width:0;}
+  .row .rounds{font-family:var(--font-head);font-size:12px;color:#aab0a0;margin-right:4px;white-space:nowrap;}
+  .row .pscore{font-family:var(--font-head);font-weight:700;font-size:18px;color:var(--ink);min-width:34px;text-align:right;}
   .row.winner{background:linear-gradient(90deg,rgba(226,169,59,.16),transparent);border-radius:8px;margin:0 -6px;padding-left:6px;padding-right:6px;}
   .row.winner .rank{color:var(--gold);}
   .row.winner .pname:after{content:" 🏆";}
+  .row.leader .pname:after{content:" ⛳";}
 
   .empty{text-align:center;color:#9aa08f;padding:40px 20px;font-style:italic;}
   .empty .big{font-size:40px;margin-bottom:10px;font-style:normal;}
 
-  /* form */
   .form-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
   .field{margin-bottom:18px;}
   .field > label{display:block;font-family:var(--font-head);font-weight:600;font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:#8a937f;margin-bottom:8px;}
@@ -88,17 +87,27 @@
 
   .players{display:flex;flex-direction:column;gap:10px;}
   .prow{display:flex;gap:10px;align-items:center;}
-  .prow .pn{flex:0 0 30px;text-align:center;font-size:20px;}
+  .prow .pn{flex:0 0 26px;text-align:center;font-size:20px;}
   .prow input.name{flex:1;font-family:var(--font-body);font-size:16px;padding:12px 14px;border:2px solid var(--line);border-radius:11px;background:#fcfaf3;color:var(--ink);min-width:0;}
-  .prow input.score{flex:0 0 92px;font-family:var(--font-head);font-weight:700;font-size:18px;text-align:center;padding:12px 8px;border:2px solid var(--line);border-radius:11px;background:#fcfaf3;color:var(--ink);}
+  .prow input.score{flex:0 0 84px;font-family:var(--font-head);font-weight:700;font-size:18px;text-align:center;padding:12px 8px;border:2px solid var(--line);border-radius:11px;background:#fcfaf3;color:var(--ink);}
+  .prow .rname{flex:1;font-weight:700;min-width:0;}
+  .prow .rprev{flex:0 0 auto;font-family:var(--font-head);font-size:12px;color:#9aa08f;text-align:right;}
+  .prow .rprev b{color:var(--green-dk);font-size:15px;}
   .hint{font-size:13px;color:#9aa08f;margin-top:7px;}
   .err{color:var(--red);font-size:14px;font-weight:600;min-height:20px;margin:10px 0 4px;text-align:center;}
   .btn{width:100%;font-family:var(--font-head);font-weight:700;font-size:17px;color:#fff;background:linear-gradient(180deg,var(--green-lt),var(--green));border:none;border-radius:13px;padding:15px;cursor:pointer;box-shadow:0 5px 0 var(--green-dk);transition:transform .08s,box-shadow .08s;letter-spacing:.5px;}
   .btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--green-dk);}
+  .btn.secondary{background:none;color:#9aa08f;box-shadow:none;font-size:14px;padding:10px;margin-top:4px;}
+  .btn.secondary:active{transform:none;}
+  .progress{display:flex;gap:6px;justify-content:center;margin:2px 0 16px;}
+  .pip{width:38px;height:7px;border-radius:99px;background:var(--cream-dk);}
+  .pip.done{background:var(--green-lt);}
+  .pip.cur{background:var(--gold);}
+  .roundtitle{font-family:var(--font-head);font-weight:700;font-size:20px;color:var(--green-dk);text-align:center;margin-bottom:4px;}
+  .roundsub{text-align:center;color:#8a937f;font-size:13px;margin-bottom:16px;}
 
   .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(140%);background:var(--green-dk);color:#fff;font-family:var(--font-head);font-weight:600;padding:13px 22px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.3);transition:transform .4s cubic-bezier(.2,1.3,.4,1);z-index:50;}
   .toast.show{transform:translateX(-50%) translateY(0);}
-
   .setup-warn{background:#fff;border:1px solid var(--gold);border-radius:14px;padding:22px;text-align:center;color:#7a6a3a;line-height:1.6;}
 </style>
 </head>
@@ -107,56 +116,31 @@
   <header>
     <div class="eyebrow">Grandpa Beck's · Gnome Mini-Golf</div>
     <h1><span class="emoji">🧙‍♂️</span> Gnoming Around <span class="emoji">⛳</span></h1>
-    <div class="sub">Clubhouse Leaderboard — lowest score wins!</div>
+    <div class="sub">Clubhouse Leaderboard — 3 rounds, lowest total wins!</div>
   </header>
 
   <div class="tabs">
     <button class="tab active" data-view="board">🏆 Leaderboard</button>
-    <button class="tab" data-view="new">➕ New Game</button>
+    <button class="tab" data-view="new">➕ New / Continue</button>
   </div>
 
-  <!-- LEADERBOARD -->
   <section class="view active" id="view-board">
     <div class="stats" id="stats"></div>
-    <div class="section-title">📋 Past Rounds</div>
+    <div id="live"></div>
+    <div class="section-title">📋 Past Games</div>
     <div id="games"></div>
   </section>
 
-  <!-- NEW GAME -->
-  <section class="view" id="view-new">
-    <div class="form-card">
-      <div class="field">
-        <label>Number of players</label>
-        <div class="stepper">
-          <button type="button" id="minus">−</button>
-          <span class="count" id="pcount">4</span>
-          <button type="button" id="plus">＋</button>
-        </div>
-        <div class="hint">2–7 players. Tip: name your gnomes so they show up on the leaderboard stats.</div>
-      </div>
-      <div class="field">
-        <label>Date played</label>
-        <input type="date" id="gdate">
-      </div>
-      <div class="field">
-        <label>Scores <span style="text-transform:none;font-weight:400;color:#b3b8a6;">(lowest wins — negatives allowed)</span></label>
-        <div class="players" id="players"></div>
-      </div>
-      <div class="err" id="formErr"></div>
-      <button class="btn" id="saveBtn">⛳ Save Round</button>
-    </div>
-  </section>
+  <section class="view" id="view-new"></section>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, push, update, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-/* ╔══════════════════════════════════════════════════════════╗
-   ║  Firebase config — project: gnoming-around-scores         ║
-   ╚══════════════════════════════════════════════════════════╝ */
+/* Firebase config — project: gnoming-around-scores */
 const firebaseConfig = {
   apiKey: "AIzaSyCL-OvpfKgPFn01nxVjYnsphLFYdhzjqQw",
   authDomain: "gnoming-around-scores.firebaseapp.com",
@@ -166,162 +150,235 @@ const firebaseConfig = {
   messagingSenderId: "397931802092",
   appId: "1:397931802092:web:f8a2d0fe5fceb16a6ae4c9"
 };
-
 let db=null, ready=false;
 try{ db=getDatabase(initializeApp(firebaseConfig)); ready=true; }catch(e){ console.warn(e); }
 
-/* ---------- helpers ---------- */
+const ROUNDS=3, MIN=2, MAX=7;
 const $=id=>document.getElementById(id);
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function fmtDate(d){
-  // d is a YYYY-MM-DD string; render friendly
-  const [y,m,dd]=(d||'').split('-').map(Number);
-  if(!y) return '—';
-  return new Date(y,m-1,dd).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
-}
+function avg(a){return a.reduce((x,y)=>x+y,0)/a.length;}
+function fmtDate(d){const [y,m,dd]=(d||'').split('-').map(Number);if(!y)return '—';return new Date(y,m-1,dd).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});}
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);}
+function pname(g,i){return g.players[i]&&g.players[i].name ? esc(g.players[i].name) : `<span style="color:#aab0a0">Player ${i+1}</span>`;}
 
-/* ---------- tabs ---------- */
+/* normalize a raw game record from RTDB */
+function normGame(key,v){
+  const raw=(Array.isArray(v.players)?v.players:Object.values(v.players||{}));
+  const players=raw.map(p=>({name:(p&&p.name)||''}));
+  let rounds=v.rounds?(Array.isArray(v.rounds)?v.rounds:Object.values(v.rounds)):[];
+  rounds=rounds.map(r=>(Array.isArray(r)?r:Object.values(r||{})).map(Number));
+  let status=v.status||'in_progress';
+  // legacy single-score games (from the old form): treat the score as a one-round final total
+  if(rounds.length===0 && raw.some(p=>p&&typeof p.score==='number')){
+    rounds=[raw.map(p=>Number((p&&p.score)||0))];
+    status='final';
+  }
+  return {key,date:v.date||'',createdAt:v.createdAt||0,status,players,rounds};
+}
+function totals(g){return g.players.map((_,i)=>g.rounds.reduce((s,r)=>s+(typeof r[i]==='number'?r[i]:0),0));}
+
+let games=[];
+let activeKey=localStorage.getItem('gnome_active_game')||null;
+
+/* ===== tabs ===== */
 document.querySelectorAll('.tab').forEach(t=>{
   t.addEventListener('click',()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
-    $(t.dataset.view==='new'?'view-new':'view-board').classList.add('active');
+    if(t.dataset.view==='new'){ $('view-new').classList.add('active'); renderNewTab(); }
+    else $('view-board').classList.add('active');
   });
 });
 
-/* ---------- new game form ---------- */
-let count=4;
-const MIN=2,MAX=7;
-function buildRows(prev=[]){
-  const box=$('players'); box.innerHTML='';
-  for(let i=0;i<count;i++){
-    const p=prev[i]||{name:'',score:''};
-    const row=document.createElement('div'); row.className='prow';
-    row.innerHTML=`<span class="pn">🧙</span>
-      <input class="name" type="text" maxlength="20" placeholder="Player ${i+1}" value="${esc(p.name)}">
-      <input class="score" type="number" step="1" inputmode="numbers" placeholder="0" value="${esc(p.score)}">`;
-    box.appendChild(row);
-  }
+/* ===== New / Continue tab ===== */
+let startCount=4;
+function renderNewTab(){
+  if(!ready){ $('view-new').innerHTML='<div class="setup-warn">Not connected to Firebase.</div>'; return; }
+  const active=activeKey?games.find(g=>g.key===activeKey&&g.status==='in_progress'):null;
+  if(active) renderRoundEntry(active); else { activeKey=null; localStorage.removeItem('gnome_active_game'); renderStartForm(); }
 }
-function readRows(){
-  return [...document.querySelectorAll('#players .prow')].map(r=>({
-    name:r.querySelector('.name').value, score:r.querySelector('.score').value
-  }));
-}
-$('minus').addEventListener('click',()=>{ if(count>MIN){const p=readRows();count--;buildRows(p);updateStepper();} });
-$('plus').addEventListener('click',()=>{ if(count<MAX){const p=readRows();count++;buildRows(p);updateStepper();} });
-function updateStepper(){ $('pcount').textContent=count; $('minus').disabled=count<=MIN; $('plus').disabled=count>=MAX; }
-$('gdate').value=new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD local
-buildRows(); updateStepper();
 
-$('saveBtn').addEventListener('click',async()=>{
-  const err=$('formErr'); err.textContent='';
-  if(!ready){err.textContent='Not connected to the database.';return;}
-  const rows=readRows();
-  // validate: every row needs a numeric score
-  const players=[];
-  for(let i=0;i<rows.length;i++){
-    const sRaw=rows[i].score.trim();
-    if(sRaw===''||isNaN(Number(sRaw))){ err.textContent=`Enter a score for every player (Player ${i+1} is missing).`; return; }
-    players.push({ name:rows[i].name.trim().slice(0,20), score:Math.round(Number(sRaw)) });
+function renderStartForm(prev){
+  const rows=[];
+  for(let i=0;i<startCount;i++){
+    const nm=prev&&prev[i]!=null?prev[i]:'';
+    rows.push(`<div class="prow"><span class="pn">🧙</span><input class="name" data-i="${i}" type="text" maxlength="20" placeholder="Player ${i+1}" value="${esc(nm)}"></div>`);
   }
-  const date=$('gdate').value || new Date().toLocaleDateString('en-CA');
-  try{
-    await push(ref(db,'games'),{date,players,createdAt:Date.now()});
-    toast('⛳ Round saved!');
-    // reset scores, keep names & count for the next round of the same group
-    buildRows(players.map(p=>({name:p.name,score:''})));
-    document.querySelector('.tab[data-view="board"]').click();
-  }catch(e){ err.textContent='Could not save: '+e.message; }
-});
+  $('view-new').innerHTML=`
+    <div class="form-card">
+      <div class="field">
+        <label>How many gnomes?</label>
+        <div class="stepper">
+          <button type="button" id="minus">−</button>
+          <span class="count" id="pcount">${startCount}</span>
+          <button type="button" id="plus">＋</button>
+        </div>
+        <div class="hint">2–7 players. Name them to track stats on the leaderboard.</div>
+      </div>
+      <div class="field"><label>Date</label><input type="date" id="gdate"></div>
+      <div class="field"><label>Players</label><div class="players">${rows.join('')}</div></div>
+      <div class="err" id="formErr"></div>
+      <button class="btn" id="startBtn">🎴 Start Game (Round 1)</button>
+    </div>`;
+  $('gdate').value=new Date().toLocaleDateString('en-CA');
+  const readNames=()=>[...document.querySelectorAll('#view-new .name')].map(n=>n.value);
+  $('minus').onclick=()=>{ if(startCount>MIN){const p=readNames();startCount--;renderStartForm(p);} };
+  $('plus').onclick=()=>{ if(startCount<MAX){const p=readNames();startCount++;renderStartForm(p);} };
+  $('minus').disabled=startCount<=MIN; $('plus').disabled=startCount>=MAX;
+  $('startBtn').onclick=async()=>{
+    const names=readNames().map(n=>n.trim().slice(0,20));
+    const date=$('gdate').value||new Date().toLocaleDateString('en-CA');
+    try{
+      const r=await push(ref(db,'games'),{date,createdAt:Date.now(),status:'in_progress',
+        players:names.map(n=>({name:n})), rounds:[]});
+      activeKey=r.key; localStorage.setItem('gnome_active_game',r.key);
+      toast('🎴 Game started — enter Round 1!');
+      renderNewTab();
+    }catch(e){ $('formErr').textContent='Could not start: '+e.message; }
+  };
+}
 
-/* ---------- delete a game (event delegation) ---------- */
+function renderRoundEntry(g){
+  const done=g.rounds.length;          // rounds already entered
+  const cur=done+1;                    // round we're entering now
+  const tot=totals(g);
+  const pips=[];
+  for(let i=1;i<=ROUNDS;i++) pips.push(`<div class="pip ${i<=done?'done':i===cur?'cur':''}"></div>`);
+  const rows=g.players.map((p,i)=>{
+    const prior=done?`<span class="rprev">so far <b>${tot[i]}</b></span>`:'';
+    return `<div class="prow">
+      <span class="pn">🧙</span>
+      <span class="rname">${p.name?esc(p.name):`Player ${i+1}`}</span>
+      ${prior}
+      <input class="score" type="number" step="1" inputmode="numbers" placeholder="0" data-i="${i}">
+    </div>`;
+  }).join('');
+  $('view-new').innerHTML=`
+    <div class="form-card">
+      <div class="progress">${pips.join('')}</div>
+      <div class="roundtitle">⛳ Round ${cur} of ${ROUNDS}</div>
+      <div class="roundsub">${esc(fmtDate(g.date))} · ${g.players.length} players · lowest total wins</div>
+      <div class="players">${rows}</div>
+      <div class="err" id="formErr"></div>
+      <button class="btn" id="submitRound">${cur===ROUNDS?'🏁 Submit Final Round':'Submit Round '+cur+' →'}</button>
+      <button class="btn secondary" id="abandon">✕ Abandon this game</button>
+    </div>`;
+  $('submitRound').onclick=async()=>{
+    const inputs=[...document.querySelectorAll('#view-new .score')];
+    const scores=[];
+    for(let i=0;i<inputs.length;i++){
+      const v=inputs[i].value.trim();
+      if(v===''||isNaN(Number(v))){ $('formErr').textContent=`Enter a score for every player (row ${i+1} missing).`; return; }
+      scores.push(Math.round(Number(v)));
+    }
+    const idx=g.rounds.length;
+    const upd={}; upd['rounds/'+idx]=scores;
+    const isFinal=(idx+1>=ROUNDS);
+    if(isFinal) upd['status']='final';
+    try{
+      await update(ref(db,'games/'+g.key),upd);
+      if(isFinal){ activeKey=null; localStorage.removeItem('gnome_active_game'); toast('🏆 Game complete!'); document.querySelector('.tab[data-view="board"]').click(); }
+      else { toast('✅ Round '+(idx+1)+' saved!'); renderNewTab(); }
+    }catch(e){ $('formErr').textContent='Could not save: '+e.message; }
+  };
+  $('abandon').onclick=()=>{
+    if(!confirm('Abandon and delete this in-progress game?')) return;
+    remove(ref(db,'games/'+g.key)).then(()=>{ activeKey=null; localStorage.removeItem('gnome_active_game'); renderNewTab(); toast('Game abandoned.'); });
+  };
+}
+
+/* ===== Leaderboard ===== */
 $('games').addEventListener('click',e=>{
   const b=e.target.closest('.game-del'); if(!b)return;
-  if(!confirm('Delete this round? This removes it for everyone.')) return;
+  if(!confirm('Delete this game? Removes it for everyone.')) return;
+  remove(ref(db,'games/'+b.dataset.key)).catch(err=>alert('Could not delete: '+err.message));
+});
+$('live').addEventListener('click',e=>{
+  const b=e.target.closest('.game-del'); if(!b)return;
+  if(!confirm('Delete this in-progress game?')) return;
+  if(b.dataset.key===activeKey){ activeKey=null; localStorage.removeItem('gnome_active_game'); }
   remove(ref(db,'games/'+b.dataset.key)).catch(err=>alert('Could not delete: '+err.message));
 });
 
-/* ---------- render leaderboard + stats ---------- */
-function winnersOf(g){ const m=Math.min(...g.players.map(p=>p.score)); return m; }
-
-function render(games){
-  // games: array of {key,date,players,createdAt} sorted newest first
-  renderGames(games);
-  renderStats(games);
-}
-
-function renderGames(games){
-  const box=$('games');
-  if(!games.length){
-    box.innerHTML=`<div class="empty"><div class="big">🏌️</div>No rounds yet. Tap <b>➕ New Game</b> to record your first round!</div>`;
-    return;
-  }
-  box.innerHTML=games.map(g=>{
-    const min=winnersOf(g);
-    const sorted=[...g.players].sort((a,b)=>a.score-b.score);
-    const rows=sorted.map((p,i)=>{
-      const win=p.score===min;
-      const nm=p.name?esc(p.name):`<span style="color:#aab0a0">Player ${g.players.indexOf(p)+1}</span>`;
-      return `<div class="row${win?' winner':''}"><span class="rank">${i+1}</span><span class="pname">${nm}</span><span class="pscore">${p.score}</span></div>`;
-    }).join('');
-    return `<div class="game">
-      <div class="game-head">
-        <span class="game-date">⛳ ${fmtDate(g.date)}</span>
-        <button class="game-del" data-key="${g.key}" title="Delete round">✕</button>
-      </div>${rows}</div>`;
+function gameRows(g,{live}={}){
+  const tot=totals(g);
+  const best=Math.min(...tot);
+  const order=g.players.map((_,i)=>i).sort((a,b)=>tot[a]-tot[b]);
+  return order.map((i,rank)=>{
+    const isBest=tot[i]===best;
+    const cls=isBest?(live?' leader':' winner'):'';
+    const rstr=g.rounds.length?`<span class="rounds">${g.rounds.map(r=>r[i]).join(' · ')}</span>`:'';
+    return `<div class="row${cls}"><span class="rank">${rank+1}</span><span class="pname">${pname(g,i)}</span>${rstr}<span class="pscore">${tot[i]}</span></div>`;
   }).join('');
 }
 
-function renderStats(games){
-  const box=$('stats');
-  const named={};   // name -> {wins, last, scores:[]}
-  let bestRound=null;   // {score,name,date}
-  games.forEach(g=>{
-    const min=Math.min(...g.players.map(p=>p.score));
-    const max=Math.max(...g.players.map(p=>p.score));
-    g.players.forEach(p=>{
+function renderBoard(){
+  const live=games.filter(g=>g.status==='in_progress');
+  const finals=games.filter(g=>g.status==='final');
+
+  $('live').innerHTML = live.length ? live.map(g=>`
+    <div class="game live">
+      <div class="game-head">
+        <span class="game-date">🎴 ${esc(fmtDate(g.date))}</span>
+        <span><span class="live-badge">LIVE · Round ${Math.min(g.rounds.length+ (g.rounds.length<ROUNDS?1:0),ROUNDS)}/${ROUNDS}</span>
+        <button class="game-del" data-key="${g.key}" title="Delete">✕</button></span>
+      </div>${gameRows(g,{live:true})}</div>`).join('') : '';
+
+  const box=$('games');
+  if(!finals.length){
+    box.innerHTML=`<div class="empty"><div class="big">🏌️</div>No finished games yet. Tap <b>➕ New / Continue</b> to start one!</div>`;
+  }else{
+    box.innerHTML=finals.map(g=>`
+      <div class="game">
+        <div class="game-head"><span class="game-date">⛳ ${esc(fmtDate(g.date))}</span>
+        <button class="game-del" data-key="${g.key}" title="Delete">✕</button></div>
+        ${gameRows(g)}</div>`).join('');
+  }
+  renderStats(finals);
+}
+
+function renderStats(finals){
+  const named={}; let bestRound=null, bestGame=null;
+  finals.forEach(g=>{
+    const tot=totals(g); const min=Math.min(...tot), max=Math.max(...tot);
+    g.players.forEach((p,i)=>{
       if(p.name){
-        const n=named[p.name]||(named[p.name]={wins:0,last:0,scores:[]});
-        n.scores.push(p.score);
-        if(p.score===min) n.wins++;
-        if(p.score===max && g.players.length>1) n.last++;
+        const n=named[p.name]||(named[p.name]={wins:0,last:0,totals:[]});
+        n.totals.push(tot[i]);
+        if(tot[i]===min) n.wins++;
+        if(tot[i]===max && g.players.length>1) n.last++;
       }
-      if(bestRound===null || p.score<bestRound.score) bestRound={score:p.score,name:p.name||'a gnome',date:g.date};
+      if(bestGame===null||tot[i]<bestGame.v) bestGame={v:tot[i],name:p.name||'a gnome'};
+      g.rounds.forEach(r=>{ if(typeof r[i]==='number' && (bestRound===null||r[i]<bestRound.v)) bestRound={v:r[i],name:p.name||'a gnome'}; });
     });
   });
   const names=Object.keys(named);
   const champ=names.slice().sort((a,b)=>named[b].wins-named[a].wins)[0];
-  const avgEligible=names.filter(n=>named[n].scores.length>=2);
-  const lowAvg=avgEligible.slice().sort((a,b)=>avg(named[a].scores)-avg(named[b].scores))[0];
   const spoon=names.filter(n=>named[n].last>0).sort((a,b)=>named[b].last-named[a].last)[0];
-
   const tiles=[
-    {ico:'⛳',lbl:'Rounds Played',val:games.length||'0'},
+    {ico:'⛳',lbl:'Games Played',val:finals.length||'0'},
     {ico:'🧙',lbl:'Gnomes',val:names.length||'0'},
-    {ico:'🏆',lbl:'Clubhouse Champ',val: champ?`${esc(champ)}<small>${named[champ].wins} win${named[champ].wins>1?'s':''}</small>`:'—'},
-    {ico:'🎯',lbl:'Best Round',val: bestRound?`${bestRound.score}<small>${esc(bestRound.name)}</small>`:'—'},
-    {ico:'📉',lbl:'Lowest Average',val: lowAvg?`${avg(named[lowAvg].scores).toFixed(1)}<small>${esc(lowAvg)}</small>`:'—'},
-    {ico:'🪵',lbl:'Wooden Spoon',val: spoon?`${esc(spoon)}<small>${named[spoon].last} last place${named[spoon].last>1?'s':''}</small>`:'—'},
+    {ico:'🏆',lbl:'Clubhouse Champ',val:champ?`${esc(champ)}<small>${named[champ].wins} win${named[champ].wins>1?'s':''}</small>`:'—'},
+    {ico:'🎯',lbl:'Best Round',val:bestRound?`${bestRound.v}<small>${esc(bestRound.name)}</small>`:'—'},
+    {ico:'🏅',lbl:'Best Game',val:bestGame?`${bestGame.v}<small>${esc(bestGame.name)}</small>`:'—'},
+    {ico:'🪵',lbl:'Wooden Spoon',val:spoon?`${esc(spoon)}<small>${named[spoon].last} last</small>`:'—'},
   ];
-  box.innerHTML=tiles.map(t=>`<div class="stat"><div class="ico">${t.ico}</div><div class="lbl">${t.lbl}</div><div class="val">${t.val}</div></div>`).join('');
+  $('stats').innerHTML=tiles.map(t=>`<div class="stat"><div class="ico">${t.ico}</div><div class="lbl">${t.lbl}</div><div class="val">${t.val}</div></div>`).join('');
 }
-function avg(a){return a.reduce((x,y)=>x+y,0)/a.length;}
 
-/* ---------- live data ---------- */
+/* ===== live data ===== */
 if(!ready){
   $('view-board').innerHTML='<div class="setup-warn">⚙️ Not connected to Firebase. Check the config in index.html.</div>';
 }else{
   onValue(ref(db,'games'),snap=>{
     const data=snap.val()||{};
-    const games=Object.entries(data)
-      .map(([key,v])=>({key, date:v.date||'', createdAt:v.createdAt||0,
-        players:Array.isArray(v.players)?v.players.filter(p=>p&&typeof p.score==='number'):[]}))
+    games=Object.entries(data).map(([k,v])=>normGame(k,v))
       .filter(g=>g.players.length>=1)
-      .sort((a,b)=> (a.date<b.date?1:a.date>b.date?-1:0) || (b.createdAt-a.createdAt));
-    render(games);
+      .sort((a,b)=>(a.date<b.date?1:a.date>b.date?-1:0)||(b.createdAt-a.createdAt));
+    renderBoard();
+    // if the New tab is showing, keep it in sync (but only when not mid-typing a start form)
+    if($('view-new').classList.contains('active') && activeKey) renderNewTab();
   });
 }
 </script>
