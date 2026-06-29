@@ -232,6 +232,7 @@ document.querySelectorAll('.tab').forEach(t=>{
 
 /* ===== New / Continue ===== */
 let startCount=4;
+const DEFAULT_NAMES=['Kenaz','Kaleb','Ann','Aden'];
 function renderNewTab(){
   if(!ready){ $('view-new').innerHTML='<div class="setup-warn">Not connected to Firebase.</div>'; return; }
   const active=activeKey?games.find(g=>g.key===activeKey&&g.status==='in_progress'):null;
@@ -240,7 +241,7 @@ function renderNewTab(){
 function renderStartForm(prev){
   const rows=[];
   for(let i=0;i<startCount;i++){
-    const nm=prev&&prev[i]!=null?prev[i]:'';
+    const nm=prev&&prev[i]!=null?prev[i]:(DEFAULT_NAMES[i]||'');
     rows.push(`<div class="prow"><span class="pn">👤</span><input class="name" type="text" maxlength="20" placeholder="Player ${i+1}" value="${esc(nm)}"></div>`);
   }
   $('view-new').innerHTML=`
