@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Five Crowns — Royal Leaderboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Mulish:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --purple:#3a2266; --purple-dk:#241241; --purple-lt:#6b4aa0;
+    --gold:#e8b94a; --gold-dk:#b8860b; --gold-br:#f5d27a;
+    --red:#b3243a; --red-dk:#7d1828;
+    --cream:#f6f1e3; --cream-dk:#ece3cd;
+    --ink:#2a1f3d; --card:#fffdf8; --line:#e3dcc8;
+    --font-head:'Cinzel',Georgia,serif;
+    --font-body:'Mulish',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{min-height:100%;}
+  body{
+    font-family:var(--font-body);font-size:16px;color:var(--ink);
+    background:
+      radial-gradient(circle at 14% 0%, rgba(232,185,74,.13), transparent 42%),
+      radial-gradient(circle at 86% 8%, rgba(179,36,58,.20), transparent 46%),
+      linear-gradient(180deg,#3a2266,#241241);
+    background-attachment:fixed;min-height:100vh;
+  }
+  .wrap{max-width:780px;margin:0 auto;padding:22px 16px 64px;}
+
+  /* header */
+  header{text-align:center;margin-bottom:18px;color:#f3ebff;}
+  .suits{font-size:16px;letter-spacing:8px;margin-bottom:10px;}
+  .suits .s1{color:#e8b94a;}.suits .s2{color:#e89aa9;}.suits .s3{color:#9ec7f0;}.suits .s4{color:#cdbce8;}.suits .s5{color:#fff;}
+  .crown-banner{display:inline-block;background:linear-gradient(180deg,var(--red),var(--red-dk));border:3px solid var(--gold);border-radius:16px;padding:10px 26px 12px;box-shadow:0 6px 22px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.15);}
+  h1{font-family:var(--font-head);font-weight:900;font-size:clamp(30px,7vw,50px);color:#fff;letter-spacing:3px;line-height:1;text-shadow:0 2px 0 var(--gold-dk),0 3px 6px rgba(0,0,0,.4);}
+  .tagline{font-family:var(--font-head);font-style:italic;color:var(--gold-br);font-size:14px;letter-spacing:1px;margin-top:12px;}
+  .subtitle{color:#c9b8e8;font-size:14px;margin-top:4px;}
+
+  /* tabs */
+  .tabs{display:flex;gap:8px;background:rgba(255,255,255,.1);padding:5px;border-radius:14px;margin:20px auto 22px;max-width:400px;border:1px solid rgba(232,185,74,.3);}
+  .tab{flex:1;font-family:var(--font-head);font-weight:600;font-size:14px;color:#d8caf0;background:transparent;border:none;padding:11px;border-radius:10px;cursor:pointer;transition:all .15s;letter-spacing:.5px;}
+  .tab.active{background:linear-gradient(180deg,var(--gold-br),var(--gold));color:#3a2266;box-shadow:0 3px 10px rgba(232,185,74,.4);}
+
+  .view{display:none;}
+  .view.active{display:block;animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  /* stats */
+  .stats-hint{text-align:center;font-size:13px;color:#c9b8e8;font-style:italic;margin:0 0 12px;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
+  @media (max-width:640px){.stats{grid-template-columns:repeat(2,1fr);}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 10px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,.18);cursor:pointer;transition:transform .12s,box-shadow .12s,border-color .12s;position:relative;}
+  .stat:hover,.stat:active{transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.28);border-color:var(--gold);}
+  .stat::after{content:"›";position:absolute;top:6px;right:9px;color:#d8cfb8;font-family:var(--font-head);font-weight:700;}
+  .stat .ico{font-size:21px;line-height:1;}
+  .stat .lbl{font-family:var(--font-head);font-weight:600;font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;color:#8a7fa0;margin:6px 0 3px;}
+  .stat .val{font-family:var(--font-head);font-weight:700;font-size:18px;color:var(--purple);line-height:1.15;word-break:break-word;}
+  .stat .val small{display:block;font-family:var(--font-body);font-weight:600;font-size:12px;color:#9a8fb0;margin-top:2px;}
+
+  .section-title{font-family:var(--font-head);font-weight:600;font-size:16px;color:var(--gold-br);margin:0 2px 12px;display:flex;align-items:center;gap:8px;}
+
+  /* game cards */
+  .game{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:12px;box-shadow:0 3px 10px rgba(0,0,0,.18);}
+  .game.live{border:2px solid var(--gold);}
+  .game-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .game-date{font-family:var(--font-head);font-weight:600;color:var(--purple-lt);font-size:14px;}
+  .live-badge{font-family:var(--font-head);font-weight:700;font-size:11px;color:#3a2266;background:var(--gold);padding:3px 9px;border-radius:99px;letter-spacing:.5px;}
+  .game-del{background:var(--cream);border:1px solid var(--line);color:#9a8fb0;font-size:15px;cursor:pointer;padding:5px 9px;border-radius:9px;transition:all .15s;line-height:1;}
+  .game-del:hover,.game-del:active{color:#fff;background:var(--red);border-color:var(--red);}
+  .row{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px dashed var(--line);}
+  .row:first-of-type{border-top:none;}
+  .row .rank{flex:0 0 24px;font-family:var(--font-head);font-weight:700;color:#bcb2cf;font-size:14px;text-align:center;}
+  .row .pname{flex:1;font-weight:700;min-width:0;}
+  .row .pscore{font-family:var(--font-head);font-weight:700;font-size:18px;color:var(--ink);min-width:34px;text-align:right;}
+  .row.winner{background:linear-gradient(90deg,rgba(232,185,74,.22),transparent);border-radius:8px;margin:0 -6px;padding:7px 6px;}
+  .row.winner .rank{color:var(--gold-dk);}
+  .row.winner .pname:after{content:" 👑";}
+  .row.leader .pname:after{content:" ♛";color:var(--gold-dk);}
+
+  .empty{text-align:center;color:#b6a8d2;padding:40px 20px;font-style:italic;}
+  .empty .big{font-size:40px;margin-bottom:10px;font-style:normal;}
+
+  /* form */
+  .form-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;box-shadow:0 4px 16px rgba(0,0,0,.22);}
+  .field{margin-bottom:18px;}
+  .field > label{display:block;font-family:var(--font-head);font-weight:600;font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#8a7fa0;margin-bottom:8px;}
+  .stepper{display:flex;align-items:center;gap:14px;}
+  .stepper button{width:42px;height:42px;border-radius:11px;border:none;background:var(--purple-lt);color:#fff;font-size:24px;font-family:var(--font-head);cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;transition:transform .08s;}
+  .stepper button:active{transform:scale(.92);}
+  .stepper button:disabled{background:#cdc4dd;cursor:not-allowed;}
+  .stepper .count{font-family:var(--font-head);font-weight:700;font-size:26px;color:var(--purple);min-width:34px;text-align:center;}
+  input[type=date]{font-family:var(--font-body);font-size:16px;padding:12px 14px;border:2px solid var(--line);border-radius:11px;background:#fdfbf5;color:var(--ink);width:100%;}
+  input:focus{outline:none;border-color:var(--gold);}
+  .players{display:flex;flex-direction:column;gap:10px;}
+  .prow{display:flex;gap:10px;align-items:center;}
+  .prow .pn{flex:0 0 24px;text-align:center;font-size:18px;}
+  .prow input.name{flex:1;font-family:var(--font-body);font-size:16px;padding:12px 14px;border:2px solid var(--line);border-radius:11px;background:#fdfbf5;color:var(--ink);min-width:0;}
+  .prow input.score{flex:0 0 84px;font-family:var(--font-head);font-weight:700;font-size:18px;text-align:center;padding:12px 8px;border:2px solid var(--line);border-radius:11px;background:#fdfbf5;color:var(--ink);}
+  .prow .rname{flex:1;font-weight:700;min-width:0;}
+  .prow .rprev{flex:0 0 auto;font-family:var(--font-head);font-size:12px;color:#9a8fb0;text-align:right;}
+  .prow .rprev b{color:var(--purple);font-size:15px;}
+  .hint{font-size:13px;color:#9a8fb0;margin-top:7px;}
+  .err{color:var(--red);font-size:14px;font-weight:700;min-height:20px;margin:10px 0 4px;text-align:center;}
+  .btn{width:100%;font-family:var(--font-head);font-weight:700;font-size:17px;color:#3a2266;background:linear-gradient(180deg,var(--gold-br),var(--gold));border:none;border-radius:13px;padding:15px;cursor:pointer;box-shadow:0 5px 0 var(--gold-dk);transition:transform .08s,box-shadow .08s;letter-spacing:.5px;}
+  .btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--gold-dk);}
+  .btn.secondary{background:none;color:#9a8fb0;box-shadow:none;font-size:14px;padding:10px;margin-top:4px;}
+  .btn.secondary:active{transform:none;}
+  .progress{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin:2px 0 14px;}
+  .pip{width:20px;height:7px;border-radius:99px;background:var(--cream-dk);}
+  .pip.done{background:var(--gold);}
+  .pip.cur{background:var(--red);}
+  .roundtitle{font-family:var(--font-head);font-weight:700;font-size:20px;color:var(--purple);text-align:center;margin-bottom:2px;}
+  .wildtag{text-align:center;font-family:var(--font-head);font-weight:600;color:var(--red);font-size:15px;margin-bottom:3px;}
+  .roundsub{text-align:center;color:#8a7fa0;font-size:13px;margin-bottom:16px;}
+
+  /* modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(20,8,40,.62);display:none;align-items:flex-start;justify-content:center;padding:24px 14px;z-index:100;overflow-y:auto;}
+  .modal-overlay.show{display:flex;}
+  .modal{background:var(--cream);border-radius:18px;max-width:520px;width:100%;padding:22px 20px 24px;box-shadow:0 24px 60px rgba(0,0,0,.5);position:relative;animation:pop .25s ease;border:2px solid var(--gold);}
+  @keyframes pop{from{opacity:0;transform:translateY(12px) scale(.98);}to{opacity:1;transform:none;}}
+  .modal-close{position:absolute;top:12px;right:12px;width:34px;height:34px;border:none;background:var(--cream-dk);border-radius:50%;font-size:15px;color:#6b5f80;cursor:pointer;}
+  .modal-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;padding-right:34px;}
+  .modal-head .mico{font-size:30px;line-height:1;}
+  .modal-head .mtitle{font-family:var(--font-head);font-weight:700;font-size:23px;color:var(--purple);}
+  .modal-explain{color:#6b5f80;font-size:14px;line-height:1.5;margin-bottom:14px;}
+  .drow{display:flex;align-items:center;gap:12px;padding:9px 4px;border-top:1px solid var(--line);}
+  .drow:first-child{border-top:none;}
+  .drow .drank{flex:0 0 26px;font-family:var(--font-head);font-weight:700;color:#bcb2cf;text-align:center;}
+  .drow.top .drank{color:var(--gold-dk);}
+  .drow .dmain{flex:1;min-width:0;}
+  .drow .dname{font-weight:700;}
+  .drow .dsub{font-size:12px;color:#9a8fb0;margin-top:1px;line-height:1.35;}
+  .drow .dval{font-family:var(--font-head);font-weight:700;font-size:20px;color:var(--purple);}
+  .drow.top .dval{color:var(--gold-dk);}
+  .logitem{border-top:1px solid var(--line);padding:9px 2px;}
+  .logitem:first-child{border-top:none;}
+  .logdate{font-family:var(--font-head);font-weight:600;color:var(--purple-lt);font-size:14px;margin-bottom:4px;}
+  .lrow{display:flex;justify-content:space-between;padding:3px 8px;border-radius:6px;}
+  .lrow.win{background:rgba(232,185,74,.2);font-weight:700;}
+  .lrow .lv{font-family:var(--font-head);font-weight:700;}
+
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(16px);background:var(--purple);color:#fff;font-family:var(--font-head);font-weight:600;padding:13px 22px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.4);transition:transform .35s cubic-bezier(.2,1.3,.4,1),opacity .25s,visibility .25s;z-index:120;opacity:0;visibility:hidden;pointer-events:none;border:1px solid var(--gold);}
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible;}
+  .setup-warn{background:var(--card);border:1px solid var(--gold);border-radius:14px;padding:22px;text-align:center;color:#6b5f80;line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="suits"><span class="s1">★</span><span class="s2">♥</span><span class="s3">♦</span><span class="s4">♣</span><span class="s5">♠</span></div>
+    <div class="crown-banner"><h1>👑 Five Crowns</h1></div>
+    <div class="tagline">…the game isn't over 'til the Kings go wild!</div>
+    <div class="subtitle">Royal Leaderboard — 11 rounds, lowest total wins</div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-view="board">👑 Leaderboard</button>
+    <button class="tab" data-view="new">➕ New / Continue</button>
+  </div>
+
+  <section class="view active" id="view-board">
+    <div class="stats-hint">Tap any stat for the full breakdown ›</div>
+    <div class="stats" id="stats"></div>
+    <div id="live"></div>
+    <div class="section-title">📜 Past Games</div>
+    <div id="games"></div>
+  </section>
+
+  <section class="view" id="view-new"></section>
+</div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-head"><span class="mico" id="mico"></span><span class="mtitle" id="mtitle"></span></div>
+    <div class="modal-explain" id="mexplain"></div>
+    <div class="modal-body" id="mbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, push, update, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+/* Firebase config — project: five-crowns-scores */
+const firebaseConfig = {
+  apiKey: "AIzaSyAEVnsznr1-vKX8V5_N5eYRcOlQfjmatRM",
+  authDomain: "five-crowns-scores.firebaseapp.com",
+  databaseURL: "https://five-crowns-scores-default-rtdb.firebaseio.com",
+  projectId: "five-crowns-scores",
+  storageBucket: "five-crowns-scores.firebasestorage.app",
+  messagingSenderId: "107901952463",
+  appId: "1:107901952463:web:665fd626d9daaea66ff2ba"
+};
+let db=null, ready=false;
+try{ db=getDatabase(initializeApp(firebaseConfig)); ready=true; }catch(e){ console.warn(e); }
+
+const ROUNDS=11, MIN=2, MAX=7;            // 11 hands: 3 cards (3s wild) -> 13 cards (Kings wild)
+const $=id=>document.getElementById(id);
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fmtDate(d){const [y,m,dd]=(d||'').split('-').map(Number);if(!y)return '—';return new Date(y,m-1,dd).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});}
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);}
+function pname(g,i){return g.players[i]&&g.players[i].name?esc(g.players[i].name):`<span style="color:#b6a8d2">Player ${i+1}</span>`;}
+function wildName(rank){return rank<=10?rank+'s':({11:'Jacks',12:'Queens',13:'Kings'})[rank];}
+function wildSuit(rank){return ['♠','♥','♦','♣','★'][rank%5];}
+
+function normGame(key,v){
+  const raw=(Array.isArray(v.players)?v.players:Object.values(v.players||{}));
+  const players=raw.map(p=>({name:(p&&p.name)||''}));
+  let rounds=v.rounds?(Array.isArray(v.rounds)?v.rounds:Object.values(v.rounds)):[];
+  rounds=rounds.map(r=>(Array.isArray(r)?r:Object.values(r||{})).map(Number));
+  return {key,date:v.date||'',createdAt:v.createdAt||0,status:v.status||'in_progress',players,rounds};
+}
+function totals(g){return g.players.map((_,i)=>g.rounds.reduce((s,r)=>s+(typeof r[i]==='number'?r[i]:0),0));}
+
+let games=[];
+let activeKey=localStorage.getItem('fc_active_game')||null;
+
+/* tabs */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    if(t.dataset.view==='new'){ $('view-new').classList.add('active'); renderNewTab(); }
+    else $('view-board').classList.add('active');
+  });
+});
+
+/* ===== New / Continue ===== */
+let startCount=4;
+function renderNewTab(){
+  if(!ready){ $('view-new').innerHTML='<div class="setup-warn">Not connected to Firebase.</div>'; return; }
+  const active=activeKey?games.find(g=>g.key===activeKey&&g.status==='in_progress'):null;
+  if(active) renderRoundEntry(active); else { activeKey=null; localStorage.removeItem('fc_active_game'); renderStartForm(); }
+}
+function renderStartForm(prev){
+  const rows=[];
+  for(let i=0;i<startCount;i++){
+    const nm=prev&&prev[i]!=null?prev[i]:'';
+    rows.push(`<div class="prow"><span class="pn">👤</span><input class="name" type="text" maxlength="20" placeholder="Player ${i+1}" value="${esc(nm)}"></div>`);
+  }
+  $('view-new').innerHTML=`
+    <div class="form-card">
+      <div class="field"><label>How many players?</label>
+        <div class="stepper"><button type="button" id="minus">−</button><span class="count" id="pcount">${startCount}</span><button type="button" id="plus">＋</button></div>
+        <div class="hint">2–7 players. Name them to track stats on the leaderboard.</div>
+      </div>
+      <div class="field"><label>Date</label><input type="date" id="gdate"></div>
+      <div class="field"><label>Players</label><div class="players">${rows.join('')}</div></div>
+      <div class="err" id="formErr"></div>
+      <button class="btn" id="startBtn">👑 Start Game (3s wild)</button>
+    </div>`;
+  $('gdate').value=new Date().toLocaleDateString('en-CA');
+  const readNames=()=>[...document.querySelectorAll('#view-new .name')].map(n=>n.value);
+  $('minus').onclick=()=>{ if(startCount>MIN){const p=readNames();startCount--;renderStartForm(p);} };
+  $('plus').onclick=()=>{ if(startCount<MAX){const p=readNames();startCount++;renderStartForm(p);} };
+  $('minus').disabled=startCount<=MIN; $('plus').disabled=startCount>=MAX;
+  $('startBtn').onclick=async()=>{
+    const names=readNames().map(n=>n.trim().slice(0,20));
+    const date=$('gdate').value||new Date().toLocaleDateString('en-CA');
+    try{
+      const r=await push(ref(db,'games'),{date,createdAt:Date.now(),status:'in_progress',players:names.map(n=>({name:n})),rounds:[]});
+      activeKey=r.key; localStorage.setItem('fc_active_game',r.key);
+      toast('👑 Game started — 3s are wild!'); renderNewTab();
+    }catch(e){ $('formErr').textContent='Could not start: '+e.message; }
+  };
+}
+function renderRoundEntry(g){
+  const done=g.rounds.length, cur=done+1, rank=done+3, tot=totals(g);
+  const pips=[]; for(let i=1;i<=ROUNDS;i++) pips.push(`<div class="pip ${i<=done?'done':i===cur?'cur':''}"></div>`);
+  const rows=g.players.map((p,i)=>{
+    const prior=done?`<span class="rprev">so far <b>${tot[i]}</b></span>`:'';
+    return `<div class="prow"><span class="pn">👤</span><span class="rname">${p.name?esc(p.name):`Player ${i+1}`}</span>${prior}<input class="score" type="number" step="1" inputmode="numbers" placeholder="0" data-i="${i}"></div>`;
+  }).join('');
+  $('view-new').innerHTML=`
+    <div class="form-card">
+      <div class="progress">${pips.join('')}</div>
+      <div class="roundtitle">Round ${cur} of ${ROUNDS}</div>
+      <div class="wildtag">${wildSuit(rank)} ${wildName(rank)} are wild · ${rank} cards</div>
+      <div class="roundsub">${esc(fmtDate(g.date))} · ${g.players.length} players · lowest total wins</div>
+      <div class="players">${rows}</div>
+      <div class="err" id="formErr"></div>
+      <button class="btn" id="submitRound">${cur===ROUNDS?'🏁 Submit Final Round (Kings!)':'Submit Round '+cur+' →'}</button>
+      <button class="btn secondary" id="abandon">✕ Abandon this game</button>
+    </div>`;
+  $('submitRound').onclick=async()=>{
+    const inputs=[...document.querySelectorAll('#view-new .score')], scores=[];
+    for(let i=0;i<inputs.length;i++){ const v=inputs[i].value.trim();
+      if(v===''||isNaN(Number(v))){ $('formErr').textContent=`Enter a score for every player (row ${i+1} missing).`; return; }
+      scores.push(Math.round(Number(v))); }
+    const idx=g.rounds.length, upd={}; upd['rounds/'+idx]=scores;
+    const isFinal=(idx+1>=ROUNDS); if(isFinal) upd['status']='final';
+    try{
+      await update(ref(db,'games/'+g.key),upd);
+      if(isFinal){ activeKey=null; localStorage.removeItem('fc_active_game'); toast('👑 Game complete!'); document.querySelector('.tab[data-view="board"]').click(); }
+      else { toast('✅ Round '+(idx+1)+' saved!'); renderNewTab(); }
+    }catch(e){ $('formErr').textContent='Could not save: '+e.message; }
+  };
+  $('abandon').onclick=()=>{ if(!confirm('Abandon and delete this in-progress game?'))return;
+    remove(ref(db,'games/'+g.key)).then(()=>{ activeKey=null; localStorage.removeItem('fc_active_game'); renderNewTab(); toast('Game abandoned.'); }); };
+}
+
+/* ===== Leaderboard ===== */
+function delHandler(e){ const b=e.target.closest('.game-del'); if(!b)return;
+  if(!confirm('Delete this game? Removes it for everyone.'))return;
+  if(b.dataset.key===activeKey){ activeKey=null; localStorage.removeItem('fc_active_game'); }
+  remove(ref(db,'games/'+b.dataset.key)).catch(err=>alert('Could not delete: '+err.message)); }
+$('games').addEventListener('click',delHandler);
+$('live').addEventListener('click',delHandler);
+
+function gameRows(g,{live}={}){
+  const tot=totals(g), best=Math.min(...tot);
+  const order=g.players.map((_,i)=>i).sort((a,b)=>tot[a]-tot[b]);
+  return order.map((i,rank)=>{
+    const isBest=tot[i]===best, cls=isBest?(live?' leader':' winner'):'';
+    return `<div class="row${cls}"><span class="rank">${rank+1}</span><span class="pname">${pname(g,i)}</span><span class="pscore">${tot[i]}</span></div>`;
+  }).join('');
+}
+function renderBoard(){
+  const live=games.filter(g=>g.status==='in_progress'), finals=games.filter(g=>g.status==='final');
+  $('live').innerHTML=live.length?live.map(g=>`<div class="game live"><div class="game-head"><span class="game-date">🎴 ${esc(fmtDate(g.date))}</span><span><span class="live-badge">LIVE · Round ${Math.min(g.rounds.length+1,ROUNDS)}/${ROUNDS}</span> <button class="game-del" data-key="${g.key}">✕</button></span></div>${gameRows(g,{live:true})}</div>`).join(''):'';
+  const box=$('games');
+  if(!finals.length){ box.innerHTML=`<div class="empty"><div class="big">🃏</div>No finished games yet. Tap <b>➕ New / Continue</b> to start one!</div>`; }
+  else{ box.innerHTML=finals.map(g=>`<div class="game"><div class="game-head"><span class="game-date">📜 ${esc(fmtDate(g.date))}</span><button class="game-del" data-key="${g.key}">✕</button></div>${gameRows(g)}</div>`).join(''); }
+  renderStats(finals);
+}
+
+/* ===== stats ===== */
+let detailData=null;
+function renderStats(finals){
+  const named={}; const allRounds=[]; const allTotals=[]; const kings=[]; const log=[];
+  finals.forEach(g=>{
+    const tot=totals(g), min=Math.min(...tot), max=Math.max(...tot);
+    log.push({date:g.date,min,rows:g.players.map((p,i)=>({name:p.name||('Player '+(i+1)),total:tot[i]})).sort((a,b)=>a.total-b.total)});
+    g.players.forEach((p,i)=>{
+      if(p.name){
+        const n=named[p.name]||(named[p.name]={games:0,wins:[],lasts:[],totals:[],zeros:0,roundsPlayed:0});
+        n.games++; n.totals.push(tot[i]);
+        if(tot[i]===min) n.wins.push(g.date);
+        if(tot[i]===max && g.players.length>1) n.lasts.push(g.date);
+        allTotals.push({v:tot[i],name:p.name,date:g.date});
+        g.rounds.forEach((r,ri)=>{ if(typeof r[i]==='number'){ n.roundsPlayed++; if(r[i]===0)n.zeros++; allRounds.push({v:r[i],name:p.name,date:g.date,rank:ri+3}); } });
+        if(g.rounds.length>=ROUNDS && typeof g.rounds[ROUNDS-1][i]==='number') kings.push({v:g.rounds[ROUNDS-1][i],name:p.name,date:g.date});
+      }
+    });
+  });
+  const names=Object.keys(named);
+  detailData={named,names,allRounds,allTotals,kings,log};
+  const champ=names.slice().sort((a,b)=>b&&named[b].wins.length-named[a].wins.length)[0];
+  const byRate=names.filter(n=>named[n].games>=1).sort((a,b)=>(named[b].wins.length/named[b].games)-(named[a].wins.length/named[a].games))[0];
+  const goer=names.filter(n=>named[n].zeros>0).sort((a,b)=>named[b].zeros-named[a].zeros)[0];
+  const bigHand=allRounds.slice().sort((a,b)=>b.v-a.v)[0];
+  const bestGame=allTotals.slice().sort((a,b)=>a.v-b.v)[0];
+  const avgEl=names.filter(n=>named[n].games>=2);
+  const bestAvg=avgEl.slice().sort((a,b)=>avg(named[a].totals)-avg(named[b].totals))[0];
+  const bestKings=kings.slice().sort((a,b)=>a.v-b.v)[0];
+  const pct=n=>Math.round(100*named[n].wins.length/named[n].games);
+  const tiles=[
+    {s:'champ',ico:'👑',lbl:'Champion',val:champ&&named[champ].wins.length?`${esc(champ)}<small>${named[champ].wins.length} win${named[champ].wins.length>1?'s':''}</small>`:'—'},
+    {s:'record',ico:'⚔️',lbl:'Best Win Rate',val:byRate&&named[byRate].wins.length?`${pct(byRate)}%<small>${esc(byRate)}</small>`:'—'},
+    {s:'games',ico:'🎴',lbl:'Games Played',val:finals.length||'0'},
+    {s:'gnomes',ico:'👥',lbl:'Players',val:names.length||'0'},
+    {s:'goouts',ico:'🧹',lbl:'Most Go-Outs',val:goer?`${named[goer].zeros}<small>${esc(goer)}</small>`:'—'},
+    {s:'bighand',ico:'💥',lbl:'Biggest Hand',val:bigHand?`${bigHand.v}<small>${esc(bigHand.name)}</small>`:'—'},
+    {s:'bestgame',ico:'🎯',lbl:'Best Game',val:bestGame?`${bestGame.v}<small>${esc(bestGame.name)}</small>`:'—'},
+    {s:'kings',ico:'♛',lbl:"Kings' Round",val:bestKings?`${bestKings.v}<small>${esc(bestKings.name)}</small>`:'—'},
+  ];
+  $('stats').innerHTML=tiles.map(t=>`<div class="stat" data-stat="${t.s}"><div class="ico">${t.ico}</div><div class="lbl">${t.lbl}</div><div class="val">${t.val}</div></div>`).join('');
+}
+function avg(a){return a.reduce((x,y)=>x+y,0)/a.length;}
+
+/* ===== stat detail modal ===== */
+function emptyMsg(){return '<div class="empty" style="padding:24px 0">No data yet.</div>';}
+function fmtDates(ds){return ds.map(d=>fmtDate(d)).join(', ');}
+function rankRows(arr,fmt){return arr.map((it,i)=>{const r=fmt(it,i);
+  return `<div class="drow${i===0?' top':''}"><span class="drank">${i+1}</span><span class="dmain"><div class="dname">${r.label}</div>${r.sub?`<div class="dsub">${r.sub}</div>`:''}</span><span class="dval">${r.val}</span></div>`;}).join('');}
+function openStat(stat){
+  if(!detailData)return;
+  const {named,names,allRounds,allTotals,kings,log}=detailData;
+  let ico='',title='',explain='',body='';
+  if(stat==='champ'){ico='👑';title='Champion';explain='A win = finishing a game with the lowest total score (ties all count). Ranked by total wins, with the dates each player won.';
+    const arr=names.filter(n=>named[n].wins.length>0).sort((a,b)=>named[b].wins.length-named[a].wins.length);
+    body=arr.length?rankRows(arr,n=>({label:esc(n),sub:fmtDates(named[n].wins),val:named[n].wins.length})):emptyMsg();
+  }else if(stat==='record'){ico='⚔️';title='Win–Loss Record';explain='Wins (lowest total in a game) vs losses (every other finish). Win rate = wins ÷ games played. Ranked by win rate.';
+    const arr=names.slice().sort((a,b)=>(named[b].wins.length/named[b].games)-(named[a].wins.length/named[a].games));
+    body=arr.length?rankRows(arr,n=>{const w=named[n].wins.length,gp=named[n].games;return{label:esc(n),sub:`${w}–${gp-w} · ${gp} game${gp>1?'s':''}`,val:Math.round(100*w/gp)+'%'};}):emptyMsg();
+  }else if(stat==='games'){ico='🎴';title='Games Played';explain='Every finished game — your full season log, newest first. The 👑 marks the lowest total (the winner) of each game.';
+    body=log.length?log.map(L=>`<div class="logitem"><div class="logdate">📜 ${esc(fmtDate(L.date))}</div>${L.rows.map(r=>`<div class="lrow${r.total===L.min?' win':''}"><span>${esc(r.name)}${r.total===L.min?' 👑':''}</span><span class="lv">${r.total}</span></div>`).join('')}</div>`).join(''):emptyMsg();
+  }else if(stat==='gnomes'){ico='👥';title='Players';explain='Everyone who has played (named players are tracked across games). Sorted by games played, with wins and last-place finishes.';
+    const arr=names.slice().sort((a,b)=>named[b].games-named[a].games);
+    body=arr.length?rankRows(arr,n=>({label:esc(n),sub:`${named[n].wins.length} win${named[n].wins.length===1?'':'s'} · ${named[n].lasts.length} last`,val:named[n].games})):emptyMsg();
+  }else if(stat==='goouts'){ico='🧹';title='Go-Outs (Clean Rounds)';explain='A round scored 0 means you emptied your hand or melded everything — a perfect round. This counts each player’s zero-point rounds (and their rate across all rounds played).';
+    const arr=names.filter(n=>named[n].zeros>0).sort((a,b)=>named[b].zeros-named[a].zeros);
+    body=arr.length?rankRows(arr,n=>({label:esc(n),sub:`${named[n].zeros} of ${named[n].roundsPlayed} rounds (${Math.round(100*named[n].zeros/named[n].roundsPlayed)}%)`,val:named[n].zeros})):emptyMsg();
+  }else if(stat==='bighand'){ico='💥';title='Biggest Hand';explain='The most points anyone got caught holding at the end of a single round. Wild cards are worth 20 and Jokers 50, so these hurt! Top 12 of all time.';
+    const arr=allRounds.slice().sort((a,b)=>b.v-a.v).slice(0,12);
+    body=arr.length?rankRows(arr,it=>({label:esc(it.name),sub:`${esc(fmtDate(it.date))} · ${wildName(it.rank)} wild`,val:it.v})):emptyMsg();
+  }else if(stat==='bestgame'){ico='🎯';title='Best Game';explain='The lowest 11-round total ever posted. Lower is better. Top 12 of all time.';
+    const arr=allTotals.slice().sort((a,b)=>a.v-b.v).slice(0,12);
+    body=arr.length?rankRows(arr,it=>({label:esc(it.name),sub:esc(fmtDate(it.date)),val:it.v})):emptyMsg();
+  }else if(stat==='kings'){ico='♛';title="Kings' Round";explain='The final round is 13 cards with Kings wild — the dramatic finale where games are won or lost. These are the lowest scores anyone posted in that Kings round. Top 12.';
+    const arr=kings.slice().sort((a,b)=>a.v-b.v).slice(0,12);
+    body=arr.length?rankRows(arr,it=>({label:esc(it.name),sub:esc(fmtDate(it.date)),val:it.v})):emptyMsg();
+  }
+  $('mico').textContent=ico; $('mtitle').textContent=title; $('mexplain').textContent=explain; $('mbody').innerHTML=body;
+  $('modal').classList.add('show');
+}
+function closeModal(){$('modal').classList.remove('show');}
+$('stats').addEventListener('click',e=>{const t=e.target.closest('.stat');if(t&&t.dataset.stat)openStat(t.dataset.stat);});
+$('modalClose').addEventListener('click',closeModal);
+$('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+/* ===== live data ===== */
+if(!ready){ $('view-board').innerHTML='<div class="setup-warn">⚙️ Not connected to Firebase. Check the config in index.html.</div>'; }
+else{
+  onValue(ref(db,'games'),snap=>{
+    const data=snap.val()||{};
+    games=Object.entries(data).map(([k,v])=>normGame(k,v)).filter(g=>g.players.length>=1)
+      .sort((a,b)=>(a.date<b.date?1:a.date>b.date?-1:0)||(b.createdAt-a.createdAt));
+    renderBoard();
+    if($('view-new').classList.contains('active') && activeKey) renderNewTab();
+  });
+}
+</script>
+</body>
+</html>
