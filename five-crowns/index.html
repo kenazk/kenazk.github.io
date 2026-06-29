@@ -365,7 +365,7 @@ function renderStats(finals){
     {s:'record',ico:'⚔️',lbl:'Best Win Rate',val:byRate&&named[byRate].wins.length?`${pct(byRate)}%<small>${esc(byRate)}</small>`:'—'},
     {s:'games',ico:'🎴',lbl:'Games Played',val:finals.length||'0'},
     {s:'gnomes',ico:'👥',lbl:'Players',val:names.length||'0'},
-    {s:'goouts',ico:'🧹',lbl:'Most Go-Outs',val:goer?`${named[goer].zeros}<small>${esc(goer)}</small>`:'—'},
+    {s:'goouts',ico:'🧹',lbl:'Most Zero Hands',val:goer?`${named[goer].zeros}<small>${esc(goer)}</small>`:'—'},
     {s:'bighand',ico:'💥',lbl:'Biggest Hand',val:bigHand?`${bigHand.v}<small>${esc(bigHand.name)}</small>`:'—'},
     {s:'bestgame',ico:'🎯',lbl:'Best Game',val:bestGame?`${bestGame.v}<small>${esc(bestGame.name)}</small>`:'—'},
     {s:'kings',ico:'♛',lbl:"Kings' Round",val:bestKings?`${bestKings.v}<small>${esc(bestKings.name)}</small>`:'—'},
@@ -394,7 +394,7 @@ function openStat(stat){
   }else if(stat==='gnomes'){ico='👥';title='Players';explain='Everyone who has played (named players are tracked across games). Sorted by games played, with wins and last-place finishes.';
     const arr=names.slice().sort((a,b)=>named[b].games-named[a].games);
     body=arr.length?rankRows(arr,n=>({label:esc(n),sub:`${named[n].wins.length} win${named[n].wins.length===1?'':'s'} · ${named[n].lasts.length} last`,val:named[n].games})):emptyMsg();
-  }else if(stat==='goouts'){ico='🧹';title='Go-Outs (Clean Rounds)';explain='A round scored 0 means you emptied your hand or melded everything — a perfect round. This counts each player’s zero-point rounds (and their rate across all rounds played).';
+  }else if(stat==='goouts'){ico='🧹';title='Most Zero Hands';explain='A zero hand means you had no points left at the end of a round — you worked all your cards into runs and sets (you do not have to be the one who goes out). This counts each player’s zero-point rounds, and their rate across all rounds played.';
     const arr=names.filter(n=>named[n].zeros>0).sort((a,b)=>named[b].zeros-named[a].zeros);
     body=arr.length?rankRows(arr,n=>({label:esc(n),sub:`${named[n].zeros} of ${named[n].roundsPlayed} rounds (${Math.round(100*named[n].zeros/named[n].roundsPlayed)}%)`,val:named[n].zeros})):emptyMsg();
   }else if(stat==='bighand'){ico='💥';title='Biggest Hand';explain='The most points anyone got caught holding at the end of a single round. Wild cards are worth 20 and Jokers 50, so these hurt! Top 12 of all time.';
