@@ -250,6 +250,7 @@
 
 <nav>
   <div class="brand">✈ London Aug 2026</div>
+  <a href="#calendar-widget">Calendar</a>
   <a href="#flights">Flights</a>
   <a href="#transport">Getting Around</a>
   <a href="#accommodation">Stay</a>
@@ -265,12 +266,28 @@
   <div class="subtitle">August 10–18, 2026 · 2 adults · 2 kids (7 &amp; 9)</div>
   <div class="pills">
     <span class="pill">🎬 My Neighbour Totoro — Aug 11</span>
-    <span class="pill">🎭 Matilda the Musical — Aug 13</span>
+    <span class="pill">🎭 Hercules the Musical — Aug 13</span>
     <span class="pill">💍 Leeds Castle Wedding — Aug 15–16</span>
     <span class="pill">🏛 British Museum — Aug 11</span>
     <span class="pill">🏰 Tower of London — Aug 13</span>
     <span class="pill">🦖 Battersea &amp; Tate Modern — Aug 14</span>
   </div>
+</div>
+
+<!-- LIVE CALENDAR -->
+<div id="calendar-widget" class="section-bg">
+<div class="section">
+  <h2 class="section-title">📅 Live Calendar</h2>
+  <p style="font-family:sans-serif;font-size:0.85rem;color:var(--muted);margin-bottom:1rem;">Synced from the <strong>London 2026</strong> Google Calendar (London time). Anchors are the fixed plan; grey items are optional. Add it to your own Google Calendar with the <strong>＋ Google Calendar</strong> button in the bottom-right of the widget.</p>
+  <div style="position:relative;width:100%;overflow:hidden;border-radius:12px;border:1px solid #e5e7eb;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+    <iframe
+      src="https://calendar.google.com/calendar/embed?src=8a86f4b609c7df7778bb995e179ccfb26af5fdfefbec9ce53c5b24472ccb72fc%40group.calendar.google.com&ctz=Europe%2FLondon&mode=AGENDA&dates=20260809%2F20260819&wkst=2&showTitle=0&showPrint=0&showCalendars=0&showTz=0"
+      style="border:0;width:100%;height:600px;display:block;"
+      frameborder="0" scrolling="no"
+      title="London 2026 itinerary calendar"></iframe>
+  </div>
+  <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-top:0.6rem;">Opens on the trip dates in agenda view. Tap any event for full details (transport, booking notes, food picks).</p>
+</div>
 </div>
 
 <!-- FLIGHTS -->
@@ -351,11 +368,11 @@
   </div>
 
   <div class="transport-day">
-    <h3>Thu Aug 13 — Tower of London + West End (Hamleys, Matilda)</h3>
+    <h3>Thu Aug 13 — Tower of London + West End (Hamleys, Hercules)</h3>
     <div class="transport-leg"><span class="transport-badge badge-tube">TUBE</span> → Tower Hill (Circle/District line)</div>
     <div class="transport-leg"><span class="transport-badge badge-walk">WALK</span> Tower Bridge is steps from Tower of London · free to walk across · Old Spitalfields &amp; SEH Kelly ~15 min north on foot</div>
     <div class="transport-leg"><span class="transport-badge badge-tube">TUBE</span> Tower Hill → Piccadilly Circus (Hamleys) · Circle/District → change at Embankment to Bakerloo · ~20 min</div>
-    <div class="transport-leg"><span class="transport-badge badge-walk">WALK</span> Hamleys → Seven Dials (dinner + Cambridge Theatre for Matilda 7pm) · ~10 min</div>
+    <div class="transport-leg"><span class="transport-badge badge-walk">WALK</span> Hamleys → Seven Dials (dinner) → Theatre Royal Drury Lane for Hercules 7pm · ~10-12 min</div>
   </div>
 
   <div class="transport-day">
@@ -627,7 +644,7 @@
   <div class="day-card">
     <div class="day-header" onclick="toggleDay(this)">
       <span class="day-num">THU AUG 13</span>
-      <span class="day-title">Tower of London · Hamleys · Matilda 🎭</span>
+      <span class="day-title">Tower of London · Hamleys · Hercules 🎭</span>
       <span class="day-special">📌 BOOK AHEAD</span>
       <span class="day-toggle">▼</span>
     </div>
@@ -682,13 +699,13 @@
       <div class="day-activity">
         <div class="icon">🎭</div>
         <div class="content">
-          <h4>ANCHOR: Matilda the Musical, 7:00 PM</h4>
-          <p>Cambridge Theatre, Seven Dials. Thursday evening shows are 7pm (Tue–Fri schedule). Recommended ages 6+ — good fit for both kids. Runtime 2h35 incl. interval. <strong>Booking note:</strong> as of mid-2026 the booking window was only released through May — if Aug 13 isn't bookable yet, set a reminder to grab tickets the moment the next block opens. Family tickets (up to 4 kids half-price) exist on selected Tue–Fri shows but often exclude peak August weeks.</p>
-          <a href="https://uk.matildathemusical.com/tickets/" target="_blank" class="book-btn">📌 Book Matilda Tickets</a>
+          <h4>ANCHOR: Hercules the Musical, 7:00 PM</h4>
+          <p>Theatre Royal Drury Lane, Covent Garden. Disney's Hercules — a great fit for the kids. Confirm the exact Thu Aug 13 showtime and book your seats. The theatre is a short walk east of Seven Dials, so the Hamleys → dinner → show flow still works.</p>
+          <a href="https://www.lwtheatres.co.uk/theatres/theatre-royal-drury-lane/" target="_blank" class="book-btn">📌 Book Hercules Tickets</a>
         </div>
       </div>
       <div class="food-suggestion">
-        <strong>🍽 Dinner — Seven Dials / Chinatown (before Matilda, all &lt;10 min from the theatre):</strong>
+        <strong>🍽 Dinner — Seven Dials / Chinatown (before Hercules, all &lt;10 min from the theatre):</strong>
         <div class="food-item"><a href="https://www.google.com/maps/search/?api=1&query=Rosa%27s+Thai+Seven+Dials+London" target="_blank">Rosa's Thai Seven Dials</a> — Thai · reliable, kid-friendly, quick pre-theatre</div>
         <div class="food-item"><a href="https://www.google.com/maps/search/?api=1&query=Plum+Valley+20+Gerrard+Street+London" target="_blank">Plum Valley</a> — Dim sum · Chinatown (Gerrard St) · walk through Chinatown's gates and lanterns on the way — an attraction in itself</div>
         <div class="food-item"><a href="https://www.google.com/maps/search/?api=1&query=Seven+Dials+Market+London" target="_blank">Seven Dials Market</a> — Food hall, 2 min from the theatre · rotating vendors, everyone picks their own — lowest-friction option with kids</div>
@@ -934,7 +951,7 @@
     </div>
 
     <div class="food-cat">
-      <div class="food-cat-header">🎭 Thu Aug 13 — Seven Dials &amp; Chinatown (Dinner, pre-Matilda)</div>
+      <div class="food-cat-header">🎭 Thu Aug 13 — Seven Dials &amp; Chinatown (Dinner, pre-Hercules)</div>
       <div class="food-cat-body">
         <div class="food-entry">
           <a href="https://www.google.com/maps/search/?api=1&query=Rosa%27s+Thai+Seven+Dials+London" target="_blank">Rosa's Thai Seven Dials</a>
@@ -946,7 +963,7 @@
         </div>
         <div class="food-entry">
           <a href="https://www.google.com/maps/search/?api=1&query=Seven+Dials+Market+London" target="_blank">Seven Dials Market</a>
-          <div class="meta">2 min from Cambridge Theatre · Food hall, rotating vendors · everyone picks their own — lowest-friction with kids</div>
+          <div class="meta">~8 min from Theatre Royal Drury Lane · Food hall, rotating vendors · everyone picks their own — lowest-friction with kids</div>
         </div>
       </div>
     </div>
@@ -1050,7 +1067,7 @@
   <h2 class="section-title">📋 Booking Checklist</h2>
   <ul class="checklist" id="cl">
     <li><div class="cb" onclick="tick(this)"></div><div><span class="urgent">🔴 URGENT: </span> <a href="https://totoroshow.com/" target="_blank">My Neighbour Totoro tickets</a> — Gillian Lynne Theatre, Tue Aug 11 evening. Run ends Aug 30 — book now.</div></li>
-    <li><div class="cb" onclick="tick(this)"></div><div><span class="urgent">🔴 URGENT: </span> <a href="https://uk.matildathemusical.com/tickets/" target="_blank">Matilda the Musical tickets</a> — Cambridge Theatre, Thu Aug 13, 7pm. If Aug isn't released yet, set a reminder for the next booking block.</div></li>
+    <li><div class="cb" onclick="tick(this)"></div><div><span class="urgent">🔴 URGENT: </span> <a href="https://www.lwtheatres.co.uk/theatres/theatre-royal-drury-lane/" target="_blank">Hercules the Musical tickets</a> — Theatre Royal Drury Lane, Thu Aug 13, 7pm. Confirm showtime &amp; book.</div></li>
     <li><div class="cb" onclick="tick(this)"></div><div>British Museum — Tue Aug 11. Free; optional timed entry ticket can help skip the queue at peak times (britishmuseum.org).</div></li>
     <li><div class="cb" onclick="tick(this)"></div><div><span class="urgent">🔴 URGENT: </span> <a href="https://www.hrp.org.uk/tower-of-london/visit/tickets/" target="_blank">Tower of London tickets</a> — Aug 13. Sells out in August. Covered by Explorer Pass.</div></li>
     <li><div class="cb" onclick="tick(this)"></div><div><span class="urgent">🔴 URGENT: </span> <a href="https://gocity.com/en/london/passes/explorer" target="_blank">Go City Explorer Pass</a> — re-pick choice count now that LEGOLAND's out. Candidates: Tower of London, Tower Bridge, London Eye, City Cruises, Golden Hinde, Kensington Palace.</div></li>
@@ -1137,7 +1154,7 @@
   marker(51.5197, -0.0785, '#e32017', 'Old Spitalfields Market', 'Thu Aug 13 option · Covered market · Between Tower &amp; Shoreditch', null);
 
   // Events (purple)
-  marker(51.5145, -0.1283, '#9b59b6', 'Cambridge Theatre', 'Thu Aug 13 · Matilda the Musical 7pm', 'https://uk.matildathemusical.com/tickets/');
+  marker(51.5127, -0.1201, '#9b59b6', 'Theatre Royal Drury Lane', 'Thu Aug 13 · Hercules the Musical 7pm', 'https://www.lwtheatres.co.uk/theatres/theatre-royal-drury-lane/');
   marker(51.5146, -0.1210, '#9b59b6', 'Gillian Lynne Theatre', 'Tue Aug 11 · My Neighbour Totoro 7pm · Run ends Aug 30', 'https://totoroshow.com/');
 
   // Transport (gold)
