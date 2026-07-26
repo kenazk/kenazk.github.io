@@ -69,6 +69,9 @@
   .live-badge{font-family:var(--font-head);font-weight:700;font-size:11px;color:#3a2266;background:var(--gold);padding:3px 9px;border-radius:99px;letter-spacing:.5px;}
   .game-del{background:var(--cream);border:1px solid var(--line);color:#9a8fb0;font-size:15px;cursor:pointer;padding:5px 9px;border-radius:9px;transition:all .15s;line-height:1;}
   .game-del:hover,.game-del:active{color:#fff;background:var(--red);border-color:var(--red);}
+  .ghbtns{display:flex;align-items:center;gap:6px;}
+  .game-edit{background:var(--cream);border:1px solid var(--line);color:#9a8fb0;font-size:14px;cursor:pointer;padding:5px 9px;border-radius:9px;transition:all .15s;line-height:1;}
+  .game-edit:hover,.game-edit:active{color:#fff;background:var(--purple-lt);border-color:var(--purple-lt);}
   .row{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px dashed var(--line);}
   .row:first-of-type{border-top:none;}
   .row .rank{flex:0 0 24px;font-family:var(--font-head);font-weight:700;color:#bcb2cf;font-size:14px;text-align:center;}
@@ -91,14 +94,15 @@
   .stepper button:active{transform:scale(.92);}
   .stepper button:disabled{background:#cdc4dd;cursor:not-allowed;}
   .stepper .count{font-family:var(--font-head);font-weight:700;font-size:26px;color:var(--purple);min-width:34px;text-align:center;}
-  input[type=date]{font-family:var(--font-body);font-size:16px;padding:12px 14px;border:2px solid var(--line);border-radius:11px;background:#fdfbf5;color:var(--ink);width:100%;}
+  input[type=date]{font-family:var(--font-body);font-size:16px;padding:12px 14px;border:2px solid var(--line);border-radius:11px;background:#fdfbf5;color:var(--ink);width:100%;max-width:100%;min-width:0;-webkit-appearance:none;appearance:none;}
+  input[type=date]::-webkit-date-and-time-value{text-align:left;margin:0;}
   input:focus{outline:none;border-color:var(--gold);}
   .players{display:flex;flex-direction:column;gap:10px;}
   .prow{display:flex;gap:10px;align-items:center;}
   .prow .pn{flex:0 0 24px;text-align:center;font-size:18px;}
   .prow input.name{flex:1;font-family:var(--font-body);font-size:16px;padding:12px 14px;border:2px solid var(--line);border-radius:11px;background:#fdfbf5;color:var(--ink);min-width:0;}
-  .prow input.score{flex:0 0 84px;font-family:var(--font-head);font-weight:700;font-size:18px;text-align:center;padding:12px 8px;border:2px solid var(--line);border-radius:11px;background:#fdfbf5;color:var(--ink);}
-  .prow .rname{flex:1;font-weight:700;min-width:0;}
+  .prow input.score{flex:0 0 84px;min-width:0;font-family:var(--font-head);font-weight:700;font-size:18px;text-align:center;padding:12px 8px;border:2px solid var(--line);border-radius:11px;background:#fdfbf5;color:var(--ink);}
+  .prow .rname{flex:1;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .prow .rprev{flex:0 0 auto;font-family:var(--font-head);font-size:12px;color:#9a8fb0;text-align:right;}
   .prow .rprev b{color:var(--purple);font-size:15px;}
   .hint{font-size:13px;color:#9a8fb0;margin-top:7px;}
@@ -144,6 +148,19 @@
   .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(16px);background:var(--purple);color:#fff;font-family:var(--font-head);font-weight:600;padding:13px 22px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.4);transition:transform .35s cubic-bezier(.2,1.3,.4,1),opacity .25s,visibility .25s;z-index:120;opacity:0;visibility:hidden;pointer-events:none;border:1px solid var(--gold);}
   .toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible;}
   .setup-warn{background:var(--card);border:1px solid var(--gold);border-radius:14px;padding:22px;text-align:center;color:#6b5f80;line-height:1.6;}
+
+  /* edit-scores grid */
+  .edit-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:2px 0 6px;}
+  .egrid{border-collapse:collapse;width:100%;}
+  .egrid th,.egrid td{padding:5px 5px;text-align:center;}
+  .egrid thead th{font-family:var(--font-head);font-weight:700;font-size:12px;color:var(--purple-lt);border-bottom:2px solid var(--line);white-space:nowrap;max-width:78px;overflow:hidden;text-overflow:ellipsis;}
+  .egrid thead th:first-child,.egrid tbody td:first-child,.egrid tfoot td:first-child{position:sticky;left:0;background:var(--cream);text-align:left;z-index:1;}
+  .egrid .rlabel{font-family:var(--font-head);font-weight:700;font-size:12px;color:var(--purple);white-space:nowrap;padding-right:12px;}
+  .egrid .rlabel small{display:block;font-family:var(--font-body);font-weight:600;color:#9a8fb0;font-size:10px;}
+  .egrid input{width:54px;min-width:0;font-family:var(--font-head);font-weight:700;font-size:15px;text-align:center;padding:8px 4px;border:2px solid var(--line);border-radius:9px;background:#fdfbf5;color:var(--ink);-webkit-appearance:none;appearance:none;margin:0;}
+  .egrid input:focus{outline:none;border-color:var(--gold);}
+  .egrid tfoot td{border-top:2px solid var(--line);font-family:var(--font-head);font-weight:700;color:var(--purple);font-size:15px;padding-top:9px;}
+  .egrid tfoot .flabel{color:var(--purple-lt);font-size:12px;}
 </style>
 </head>
 <body>
@@ -177,6 +194,16 @@
     <div class="modal-head"><span class="mico" id="mico"></span><span class="mtitle" id="mtitle"></span></div>
     <div class="modal-explain" id="mexplain"></div>
     <div class="modal-body" id="mbody"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <button class="modal-close" id="editClose">✕</button>
+    <div class="modal-head"><span class="mico">✏️</span><span class="mtitle">Edit Scores</span></div>
+    <div class="modal-explain" id="editSub"></div>
+    <div class="modal-body" id="editBody"></div>
+    <div class="err" id="editErr"></div>
+    <button class="btn" id="editSave">💾 Save Changes</button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -313,6 +340,47 @@ function delHandler(e){ const b=e.target.closest('.game-del'); if(!b)return;
 $('games').addEventListener('click',delHandler);
 $('live').addEventListener('click',delHandler);
 
+/* ===== edit past scores ===== */
+let editKey=null;
+function openEdit(key){
+  const g=games.find(x=>x.key===key); if(!g||!g.rounds.length){ toast('No rounds to edit yet.'); return; }
+  editKey=key;
+  $('editSub').textContent=`${fmtDate(g.date)} · ${g.players.length} player${g.players.length>1?'s':''} · amend any score, then save`;
+  const head='<tr><th>Round</th>'+g.players.map((p,i)=>`<th>${p.name?esc(p.name):'P'+(i+1)}</th>`).join('')+'</tr>';
+  const body=g.rounds.map((r,ri)=>{
+    const cells=g.players.map((_,i)=>`<td><input type="number" step="1" inputmode="numeric" data-r="${ri}" data-i="${i}" value="${typeof r[i]==='number'?r[i]:''}"></td>`).join('');
+    return `<tr><td class="rlabel">R${ri+1}<small>${wildName(ri+3)} wild</small></td>${cells}</tr>`;
+  }).join('');
+  const foot='<tr><td class="flabel">Total</td>'+g.players.map((_,i)=>`<td data-tot="${i}"></td>`).join('')+'</tr>';
+  $('editBody').innerHTML=`<div class="edit-scroll"><table class="egrid"><thead>${head}</thead><tbody>${body}</tbody><tfoot>${foot}</tfoot></table></div>`;
+  $('editErr').textContent='';
+  const recalc=()=>{
+    const cols=g.players.map(()=>0);
+    document.querySelectorAll('#editBody input').forEach(inp=>{ const i=+inp.dataset.i,v=inp.value.trim(); if(v!==''&&!isNaN(Number(v))) cols[i]+=Math.round(Number(v)); });
+    g.players.forEach((_,i)=>{ const c=document.querySelector(`#editBody [data-tot="${i}"]`); if(c)c.textContent=cols[i]; });
+  };
+  document.querySelectorAll('#editBody input').forEach(inp=>inp.addEventListener('input',recalc));
+  recalc();
+  $('editModal').classList.add('show');
+}
+async function saveEdit(){
+  const g=games.find(x=>x.key===editKey); if(!g)return;
+  const rounds=g.rounds.map(r=>r.slice());
+  for(const inp of document.querySelectorAll('#editBody input')){
+    const r=+inp.dataset.r,i=+inp.dataset.i,v=inp.value.trim();
+    if(v===''||isNaN(Number(v))){ $('editErr').textContent=`Every score must be a number (R${r+1} is blank).`; return; }
+    rounds[r][i]=Math.round(Number(v));
+  }
+  try{ await update(ref(db,'games/'+editKey),{rounds}); $('editModal').classList.remove('show'); toast('✏️ Scores updated!'); }
+  catch(e){ $('editErr').textContent='Could not save: '+e.message; }
+}
+function editHandler(e){ const b=e.target.closest('.game-edit'); if(b) openEdit(b.dataset.key); }
+$('games').addEventListener('click',editHandler);
+$('live').addEventListener('click',editHandler);
+$('editSave').addEventListener('click',saveEdit);
+$('editClose').addEventListener('click',()=>$('editModal').classList.remove('show'));
+$('editModal').addEventListener('click',e=>{if(e.target.id==='editModal')$('editModal').classList.remove('show');});
+
 function gameRows(g,{live}={}){
   const tot=totals(g), best=Math.min(...tot);
   const order=g.players.map((_,i)=>i).sort((a,b)=>tot[a]-tot[b]);
@@ -323,10 +391,10 @@ function gameRows(g,{live}={}){
 }
 function renderBoard(){
   const live=games.filter(g=>g.status==='in_progress'), finals=games.filter(g=>g.status==='final');
-  $('live').innerHTML=live.length?live.map(g=>`<div class="game live"><div class="game-head"><span class="game-date">🎴 ${esc(fmtDate(g.date))}</span><span><span class="live-badge">LIVE · Round ${Math.min(g.rounds.length+1,ROUNDS)}/${ROUNDS}</span> <button class="game-del" data-key="${g.key}">✕</button></span></div>${gameRows(g,{live:true})}</div>`).join(''):'';
+  $('live').innerHTML=live.length?live.map(g=>`<div class="game live"><div class="game-head"><span class="game-date">🎴 ${esc(fmtDate(g.date))}</span><span class="ghbtns"><span class="live-badge">LIVE · Round ${Math.min(g.rounds.length+1,ROUNDS)}/${ROUNDS}</span>${g.rounds.length?`<button class="game-edit" data-key="${g.key}">✏️</button>`:''}<button class="game-del" data-key="${g.key}">✕</button></span></div>${gameRows(g,{live:true})}</div>`).join(''):'';
   const box=$('games');
   if(!finals.length){ box.innerHTML=`<div class="empty"><div class="big">🃏</div>No finished games yet. Tap <b>➕ New / Continue</b> to start one!</div>`; }
-  else{ box.innerHTML=finals.map(g=>`<div class="game"><div class="game-head"><span class="game-date">📜 ${esc(fmtDate(g.date))}</span><button class="game-del" data-key="${g.key}">✕</button></div>${gameRows(g)}</div>`).join(''); }
+  else{ box.innerHTML=finals.map(g=>`<div class="game"><div class="game-head"><span class="game-date">📜 ${esc(fmtDate(g.date))}</span><span class="ghbtns"><button class="game-edit" data-key="${g.key}">✏️</button><button class="game-del" data-key="${g.key}">✕</button></span></div>${gameRows(g)}</div>`).join(''); }
   renderStats(finals);
 }
 
@@ -414,7 +482,7 @@ function closeModal(){$('modal').classList.remove('show');}
 $('stats').addEventListener('click',e=>{const t=e.target.closest('.stat');if(t&&t.dataset.stat)openStat(t.dataset.stat);});
 $('modalClose').addEventListener('click',closeModal);
 $('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();$('editModal').classList.remove('show');}});
 
 /* ===== live data ===== */
 if(!ready){ $('view-board').innerHTML='<div class="setup-warn">⚙️ Not connected to Firebase. Check the config in index.html.</div>'; }
