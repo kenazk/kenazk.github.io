@@ -180,6 +180,11 @@
   .opt.good{border-color:#a9dcb5;background:#f3fbf5;}
   .opt.flagbtn.on{background:#fff4dd;border-color:#f6d590;}
   .opt.flagbtn.inj.on{background:#fdecea;border-color:#f4c4c0;}
+  .keepgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+  .keepgrid .opt{margin:0;padding:10px;}
+  .keepgrid .opt.on{background:#fff4dd;border-color:#e9b949;box-shadow:inset 0 0 0 1px #e9b949;}
+  .keepgrid .opt[disabled]{opacity:.55;}
+  .keepgrid .ck{font-size:16px;width:20px;text-align:center;}
 
   .toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:99px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:all .2s;z-index:30;white-space:nowrap;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -298,29 +303,31 @@ function seasonShare(exceptId){ // fraction of periods played in other games att
   });
   const r={};Object.keys(tot).forEach(id=>r[id]=cnt[id]/tot[id]);return r;
 }
+const OFF=-1000;                          // not an enabled position: only used if no lineup can avoid it
 function fit(id,k){
   const p=byId(id),g=SLOT[k].g; if(!p) return 0;
-  if(!p.pos.length) return g==='GK'?-2:1;
-  if(p.pos.includes(g)) return 3;
-  if(g==='GK') return -3;
-  return p.pos.length===1&&p.pos[0]==='GK'?-1:0;
+  if(!p.pos.length) return g==='GK'?OFF:1;   // no positions set: any outfield spot
+  return p.pos.includes(g)?3:OFF;
 }
-/* best assignment of players to slots (slots.length >= players.length), maximizing position fit */
-function assign(players,slots,prev={}){
-  const memo=new Map();
+/* choose who fills `slots` from `cands` and where. Priority: fill every slot, never use an unenabled
+   position if avoidable, then favour higher weight (play-time fairness), then fit / staying put. */
+function pickLineup(cands,slots,weight,prev={}){
+  const full=(1<<slots.length)-1, memo=new Map(), W=cands.map(weight);
+  const unfilled=mask=>{let n=0;for(let x=full^mask;x;x&=x-1)n++;return n;};
   function best(i,mask){
-    if(i===players.length) return [0,[]];
-    const key=i+'|'+mask; if(memo.has(key)) return memo.get(key);
-    let res=[-1e9,null];
+    if(mask===full) return [0,[]];
+    if(i===cands.length) return [-1e6*unfilled(mask),[]];
+    const key=i*1024+mask; if(memo.has(key)) return memo.get(key);
+    const [s0,r0]=best(i+1,mask); let res=[s0,[null,...r0]];   // leave cands[i] on the bench
     slots.forEach((k,j)=>{
       if(mask&(1<<j)) return;
-      const [s,rest]=best(i+1,mask|(1<<j)), v=s+fit(players[i],k)+(prev[players[i]]===k?.5:0);
+      const [s,rest]=best(i+1,mask|(1<<j)), v=s+W[i]+fit(cands[i],k)+(prev[cands[i]]===k?.5:0);
       if(v>res[0]) res=[v,[k,...rest]];
     });
     memo.set(key,res);return res;
   }
-  const order=best(0,0)[1]||[], out={};
-  players.forEach((id,i)=>out[order[i]]=id);
+  const order=best(0,0)[1], out={};
+  cands.forEach((id,i)=>{if(order[i])out[order[i]]=id;});
   return out;
 }
 
@@ -334,28 +341,22 @@ function genStart(g){
   const slots=SLOTS.map(s=>s.k).filter(k=>!(gk&&k==='GK'));
   const f=Object.fromEntries(SLOTS.map(s=>[s.k,null]));
   if(gk) f.GK=gk;
-  Object.assign(f,assign(rest.slice(0,slots.length),slots));
+  Object.assign(f,pickLineup(rest,slots,id=>10*(1-(share[id]??0))+Math.random()*.1));
   return {f,at:null};
 }
 function genNext(g){
   const last=g.rows[g.rows.length-1], f={...last.f};
   const P=played(g), streak=streaks(g), rest=rested(g);
-  const fieldSet=onField(last);
-  const bench=shuffle(g.present.filter(id=>byId(id)&&!fieldSet.has(id)&&!st(g,id).inj&&!st(g,id).hold))
-    .sort((a,b)=>P[a]-P[b]||rest[b]-rest[a]);
-  const movable=SLOTS.map(s=>s.k).filter(k=>f[k]&&(k!=='GK'||g.rotateGK)&&!st(g,f[k]).pin);
-  const forced=movable.filter(k=>st(g,f[k]).inj||!g.present.includes(f[k]));
-  const outs=shuffle(movable.filter(k=>!forced.includes(k))).sort((a,b)=>P[f[b]]-P[f[a]]||streak[f[b]]-streak[f[a]]);
-  const open=SLOTS.map(s=>s.k).filter(k=>!f[k]);
-  forced.forEach(k=>f[k]=null);
-  const vac=[...open,...forced], ins=bench.splice(0,Math.min(vac.length,bench.length));
-  let oi=0;
-  while(bench.length&&oi<outs.length&&P[bench[0]]<=P[f[outs[oi]]]){ vac.push(outs[oi]); f[outs[oi]]=null; oi++; ins.push(bench.shift()); }
-  // re-seat everyone who isn't pinned so incoming players land in their positions; small bonus for staying put
-  const prev={};movable.forEach(k=>{if(last.f[k])prev[last.f[k]]=k;});
-  const slots=[...open,...movable], seat=[...slots.map(k=>f[k]).filter(Boolean),...ins];
+  // everyone is up for grabs except the goalie (unless rotating) and pinned players
+  const slots=SLOTS.map(s=>s.k).filter(k=>!f[k]||!((k==='GK'&&!g.rotateGK)||st(g,f[k]).pin));
+  const fixed=new Set(SLOTS.map(s=>s.k).filter(k=>!slots.includes(k)).map(k=>f[k]));
+  const prev={};slots.forEach(k=>{if(f[k])prev[f[k]]=k;});
+  const cands=g.present.filter(id=>byId(id)&&!fixed.has(id)&&!st(g,id).inj&&!st(g,id).hold);
+  // fairness: each period behind outweighs position fit; rest/streak break ties so the line rotates
+  const maxP=Math.max(0,...cands.map(id=>P[id]||0));
+  const weight=id=>10*(maxP-(P[id]||0))+2*(rest[id]||0)-(streak[id]||0)+Math.random()*.1;
   slots.forEach(k=>f[k]=null);
-  Object.assign(f,assign(seat,slots,prev));
+  Object.assign(f,pickLineup(cands,slots,weight,prev));
   g.present.forEach(id=>{if(g.st[id]){delete g.st[id].hold;delete g.st[id].pin;}});
   return {f,at:Date.now()};
 }
@@ -490,7 +491,7 @@ function renderGame(){
     <div class="card" style="margin-top:14px;">
       <h2>Play time <small>periods on field</small></h2>
       <div class="tally">${g.present.filter(byId).sort((a,b)=>P[a]-P[b]||short(a).localeCompare(short(b))).map(id=>`<button data-r="${li}" data-id="${id}" class="${hi>lo&&P[id]===lo?'lo':hi>lo&&P[id]===hi?'hi':''}">${esc(short(id))}${flags(id)}<span class="n">${P[id]}</span></button>`).join('')}</div>
-      <div class="legend">Tap any player in the table to swap them, keep them on, sit them out, or mark injured. ▲ = just came on · ▼ = just came off · 📌 stays on · ⏸ sits out next sub · 🤕 injured</div>
+      <div class="legend">Tap any player in the table to swap them, sit them out, or mark injured. Substitute asks who stays on. ▲ = just came on · ▼ = just came off · 📌 stays on · ⏸ sits out next sub · 🤕 injured</div>
     </div>
     <div class="card">
       <h2>Game options</h2>
@@ -503,13 +504,13 @@ function renderGame(){
 
   v.querySelectorAll('[data-id],[data-slot]').forEach(b=>b.addEventListener('click',()=>openPlayer(g,+b.dataset.r,b.dataset.id||null,b.dataset.slot||null)));
   const tw=$('tableWrap'); tw.scrollTop=tw.scrollHeight;
-  if($('subBtn')) $('subBtn').onclick=()=>{
+  if($('subBtn')) $('subBtn').onclick=()=>openKeep(g,()=>{
     if(!last.at) last.at=Date.now();
     g.rows.push(genNext(g)); save(); renderGame();
     const r=g.rows[g.rows.length-1], pr=g.rows[g.rows.length-2], n=[...onField(r)].filter(id=>!onField(pr).has(id)).length;
     toast(n?`${n} sub${n>1?'s':''} — tap a player to adjust`:'No subs available');
     setTimeout(()=>window.scrollTo({top:$('tableWrap').offsetTop-10,behavior:'smooth'}),50);
-  };
+  });
   if($('kickBtn')) $('kickBtn').onclick=()=>{last.at=Date.now();save();renderGame();toast('Clock started ⏱');};
   if($('regenBtn')) $('regenBtn').onclick=()=>{g.rows[0]=genStart(g);save();renderGame();toast('New starting lineup');};
   $('undoBtn').onclick=()=>{if(g.rows.length>1&&confirm(`Remove period ${g.rows.length}?`)){g.rows.pop();save();renderGame();}};
@@ -572,6 +573,33 @@ function swapIn(row,a,b){        // a, b: player ids (either may be on bench)
   const ka=slotOf(row,a), kb=slotOf(row,b);
   if(ka) row.f[ka]=b; if(kb) row.f[kb]=a;
 }
+// before a sub: tap the players who should stay on the field (one tap each)
+function openKeep(g,go){
+  const last=g.rows[g.rows.length-1], P=played(g);
+  const keep=new Set(SLOTS.map(x=>last.f[x.k]).filter(id=>id&&st(g,id).pin));
+  const fixedGK=k=>k==='GK'&&!g.rotateGK;
+  const draw=()=>{
+    const n=keep.size+(last.f.GK&&!g.rotateGK?1:0);
+    openSheet(`<div class="sh-head"><div class="t"><div class="nm">Who stays on?</div><div class="st">Tap players to keep them on the field. Everyone else can be subbed.</div></div><button class="x" data-close>✕</button></div>
+      <div class="keepgrid">${SLOTS.filter(x=>last.f[x.k]).map(x=>{const id=last.f[x.k],on=keep.has(id)||fixedGK(x.k);
+        return `<button class="opt${on?' on':''}" data-keep="${id}" ${fixedGK(x.k)?'disabled':''}><span class="ck">${on?'📌':'○'}</span><span class="slot">${x.k}</span><span class="on">${esc(short(id))} <span class="meta">· ${P[id]}</span></span></button>`;}).join('')}</div>
+      ${last.f.GK&&!g.rotateGK?'<div class="hint" style="margin-top:6px;">Goalie stays (rotate goalie is off).</div>':''}
+      <div class="btnrow" style="margin-top:14px;">
+        <button class="btn ghost" id="keepClr" style="flex:0 0 auto;width:auto;background:#fff;" ${keep.size?'':'disabled'}>Clear</button>
+        <button class="btn" id="keepGo">⇄ Make subs${n?` · keep ${n}`:''}</button>
+      </div>`,
+    el=>{
+      el.querySelector('[data-close]').onclick=closeSheet;
+      el.querySelectorAll('[data-keep]').forEach(b=>b.onclick=()=>{const id=b.dataset.keep;keep.has(id)?keep.delete(id):keep.add(id);draw();});
+      $('keepClr').onclick=()=>{keep.clear();draw();};
+      $('keepGo').onclick=()=>{
+        SLOTS.forEach(x=>{const id=last.f[x.k];if(id)st(g,id).pin=keep.has(id);});
+        closeSheet();go();
+      };
+    });
+  };
+  draw();
+}
 function bestBench(g,row,k){
   const P=played(g);
   return benchOf(g,row).filter(id=>!st(g,id).inj).sort((a,b)=>fit(b,k)-fit(a,k)||P[a]-P[b])[0]||null;
@@ -581,7 +609,8 @@ function openPlayer(g,ri,id,emptySlot){
   const done=msg=>{save();closeSheet();renderGame();if(msg)toast(msg);};
   const k=id?slotOf(row,id):emptySlot;
   const bench=benchOf(g,row).filter(b=>b!==id);
-  const benchOpt=(b,slot)=>`<button class="opt${fit(b,slot)>=3?' good':''}" data-sw="${b}"><span class="on">${esc(short(b))} <span class="meta">· ${P[b]} played${g.st[b]&&g.st[b].inj?' · 🤕':''}${g.st[b]&&g.st[b].hold?' · ⏸':''}</span></span>${tags(b)}</button>`;
+  const warn=(...pairs)=>pairs.some(([p,sl])=>p&&fit(p,sl)===OFF)?' · <span style="color:var(--red)">⚠ off position</span>':'';
+  const benchOpt=(b,slot)=>`<button class="opt${fit(b,slot)>=3?' good':''}" data-sw="${b}"><span class="on">${esc(short(b))} <span class="meta">· ${P[b]} played${g.st[b]&&g.st[b].inj?' · 🤕':''}${g.st[b]&&g.st[b].hold?' · ⏸':''}${warn([b,slot])}</span></span>${tags(b)}</button>`;
 
   if(!id){ // empty slot
     openSheet(`<div class="sh-head"><div class="t"><div class="nm">${SLOT[k].name}</div><div class="st">Empty — pick someone to fill it</div></div><button class="x" data-close>✕</button></div>
@@ -597,10 +626,10 @@ function openPlayer(g,ri,id,emptySlot){
     if(isCur) body+=`<div class="sh-sec">Next substitution</div>
       <button class="opt flagbtn${s.pin?' on':''}" data-flag="pin">📌 <span class="on">Keep on the field next sub</span>${s.pin?'✓':''}</button>
       <button class="opt flagbtn inj" data-flag="injoff">🤕 <span class="on">Injured — take off now</span></button>`;
-    body+=`<div class="sh-sec">Switch positions with</div>${SLOTS.filter(x=>x.k!==k&&row.f[x.k]).map(x=>`<button class="opt" data-sw="${row.f[x.k]}"><span class="slot">${x.k}</span><span class="on">${esc(short(row.f[x.k]))}</span>${tags(row.f[x.k])}</button>`).join('')}`;
+    body+=`<div class="sh-sec">Switch positions with</div>${SLOTS.filter(x=>x.k!==k&&row.f[x.k]).map(x=>`<button class="opt" data-sw="${row.f[x.k]}"><span class="slot">${x.k}</span><span class="on">${esc(short(row.f[x.k]))}<span class="meta">${warn([id,x.k],[row.f[x.k],k])}</span></span>${tags(row.f[x.k])}</button>`).join('')}`;
   }else{ // on the bench
     const fs=SLOTS.filter(x=>row.f[x.k]).sort((a,b)=>P[row.f[b.k]]-P[row.f[a.k]]||fit(id,b.k)-fit(id,a.k));
-    body+=`<div class="sh-sec">Put on for</div>${fs.map(x=>`<button class="opt${fit(id,x.k)>=3?' good':''}" data-sw="${row.f[x.k]}"><span class="slot">${x.k}</span><span class="on">${esc(short(row.f[x.k]))} <span class="meta">· ${P[row.f[x.k]]} played</span></span>${tags(row.f[x.k])}</button>`).join('')}`;
+    body+=`<div class="sh-sec">Put on for</div>${fs.map(x=>`<button class="opt${fit(id,x.k)>=3?' good':''}" data-sw="${row.f[x.k]}"><span class="slot">${x.k}</span><span class="on">${esc(short(row.f[x.k]))} <span class="meta">· ${P[row.f[x.k]]} played${warn([id,x.k])}</span></span>${tags(row.f[x.k])}</button>`).join('')}`;
     if(isCur) body+=`<div class="sh-sec">Next substitution</div>
       <button class="opt flagbtn${s.hold?' on':''}" data-flag="hold">⏸ <span class="on">Stay out one more period</span>${s.hold?'✓':''}</button>
       <button class="opt flagbtn inj${s.inj?' on':''}" data-flag="inj">🤕 <span class="on">${s.inj?'Injured — tap when cleared to play':'Injured — keep out until cleared'}</span>${s.inj?'✓':''}</button>`;
